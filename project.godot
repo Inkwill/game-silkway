@@ -8,15 +8,30 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Object",
+"class": "Player",
+"language": "GDScript",
+"path": "res://script/baseclass/player.gd"
+} ]
 _global_script_class_icons={
-
+"Player": ""
 }
 
 [application]
 
 config/name="silkway"
+run/main_scene="res://scene/login.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Gamemanager="*res://script/gamemanager.gd"
+
+[display]
+
+window/size/width=480
+window/size/height=800
 
 [rendering]
 
