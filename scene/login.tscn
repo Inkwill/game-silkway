@@ -5,31 +5,37 @@
 [ext_resource path="res://art/ui-button/start_pressed.png" type="Texture" id=3]
 [ext_resource path="res://script/login.gd" type="Script" id=4]
 
-[node name="login" type="Node2D"]
+[node name="login" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="bg" type="TextureRect" parent="."]
 anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = 480.0
-margin_bottom = 1532.0
+anchor_bottom = 2.0
+margin_right = 3.05176e-05
+margin_bottom = 0.00012207
 texture = ExtResource( 1 )
-stretch_mode = 1
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="start" type="TextureButton" parent="bg"]
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
+anchor_bottom = 0.5
 margin_left = -74.5
-margin_top = -832.0
+margin_top = -100.0
 margin_right = 74.5
-margin_bottom = -758.0
+margin_bottom = -25.0
 texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 3 )
+texture_hover = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
