@@ -10,23 +10,47 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Object",
-"class": "Player",
+"class": "GameObj",
 "language": "GDScript",
-"path": "res://script/baseclass/player.gd"
+"path": "res://script/obj/gameObj.gd"
+}, {
+"base": "GameObj",
+"class": "GamePlayer",
+"language": "GDScript",
+"path": "res://script/obj/gamePlayer.gd"
+}, {
+"base": "Object",
+"class": "Loader",
+"language": "GDScript",
+"path": "res://script/data/loader.gd"
+}, {
+"base": "Control",
+"class": "MessageBox",
+"language": "GDScript",
+"path": "res://script/gui/messageBox.gd"
+}, {
+"base": "Object",
+"class": "Saver",
+"language": "GDScript",
+"path": "res://script/data/saver.gd"
 } ]
 _global_script_class_icons={
-"Player": ""
+"GameObj": "",
+"GamePlayer": "",
+"Loader": "",
+"MessageBox": "",
+"Saver": ""
 }
 
 [application]
 
 config/name="silkway"
-run/main_scene="res://scene/login.tscn"
+run/main_scene="res://scene/main.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-Gamemanager="*res://script/gamemanager.gd"
+gameManager="*res://script/gameManager.gd"
 
 [display]
 
