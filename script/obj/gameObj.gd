@@ -9,5 +9,8 @@ func _init():
 	pass
 
 func _set_name(value):
-	emit_signal("_s_gameobj_changed","name",name,value)
+	emit_signal("_s_gameobj_changed",self,"name",name,value)
 	name = value
+
+func save():
+	return OK

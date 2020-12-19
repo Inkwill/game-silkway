@@ -7,19 +7,25 @@ var savelist := []
 func _init():
 	pass
 	
-func add(obj:GameObj):
-	savelist.append(obj)
 
 static func save_to_file(data,file_path):
 	var file = File.new()
-	file.open(file_path, File.WRITE)
+	var err = file.open(file_path, File.WRITE)
+	if err : return err
 	file.store_line(to_json(data))
 	file.close()
+	return OK
 
-static func get_savedata(target):
-	if target is GamePlayer:
-		return {"name":target.name, "gold":target.gold}
+func savegame() -> Array:
+	var result = [savelist.size()]
+	var savednum = 0
+	for obj in savelist:
+		var err = obj.save()
+		if err : push_error("Save err : %s of %s" % [err,obj])
+		else : savednum += 1
+	result.append(savednum)
+	return result
 
-static func savegame() -> bool:
-	save_to_file(get_savedata(gameManager.current_player),"user://%s.save"%gameManager.current_player.name)
-	return true
+func _on_gameobj_changed(obj,property,old,new):
+	print("get signal(gameobj_changed) %s: %s -> %s " % [property,old,new])
+	if not obj in savelist : savelist.append(obj)
