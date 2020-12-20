@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Resource",
+"class": "Account",
+"language": "GDScript",
+"path": "res://script/data/account.gd"
+}, {
+"base": "Object",
+"class": "GameLoader",
+"language": "GDScript",
+"path": "res://script/data/loader.gd"
+}, {
 "base": "Object",
 "class": "GameObj",
 "language": "GDScript",
@@ -17,29 +27,25 @@ _global_script_classes=[ {
 "base": "GameObj",
 "class": "GamePlayer",
 "language": "GDScript",
-"path": "res://script/obj/gamePlayer.gd"
+"path": "res://script/obj/player.gd"
 }, {
 "base": "Object",
-"class": "Loader",
+"class": "GameSaver",
 "language": "GDScript",
-"path": "res://script/data/loader.gd"
+"path": "res://script/data/saver.gd"
 }, {
 "base": "Control",
 "class": "MessageBox",
 "language": "GDScript",
 "path": "res://script/gui/messageBox.gd"
-}, {
-"base": "Object",
-"class": "Saver",
-"language": "GDScript",
-"path": "res://script/data/saver.gd"
 } ]
 _global_script_class_icons={
+"Account": "",
+"GameLoader": "",
 "GameObj": "",
 "GamePlayer": "",
-"Loader": "",
-"MessageBox": "",
-"Saver": ""
+"GameSaver": "",
+"MessageBox": ""
 }
 
 [application]
