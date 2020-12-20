@@ -19,7 +19,7 @@ static	func dir_contents(path):
 		push_error("An error occurred when trying to access the path:%s" % path)
 	return contents
 
-static func load_from_file(file_path):
+static func load_json(file_path):
 	var file = File.new()
 	var err = file.open(file_path,File.READ)
 	if err : 
@@ -31,7 +31,7 @@ static func load_from_file(file_path):
 		return data
 
 static func load_player(player,filepath):
-	var data = load_from_file(filepath)
+	var data = load_json(filepath)
 	if data is Dictionary: 
 		if player.name in data : player.loaddata(data[player.name])
 		else: push_error("No player_data of %s from %s " % [player,filepath])

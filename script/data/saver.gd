@@ -1,7 +1,7 @@
 extends Object
 class_name GameSaver 
 
-static func save_to_file(data,file_path):
+static func save_to_json(data,file_path):
 	var file = File.new()
 	var err = file.open(file_path, File.WRITE)
 	if err : 
@@ -12,9 +12,8 @@ static func save_to_file(data,file_path):
 		file.close()
 		return true
 
-static func saveplayer(players,filepath) -> int:
-	var data := {}
-	for player in players:
-		data[player.name] = player.savedata()
-	save_to_file(data,filepath)
-	return data.size()
+static func saveplayer(player,filepath):
+	var data = GameLoader.load_json(filepath)
+	data[player.name] = player.savedata()
+	save_to_json(data,filepath)
+	return player
