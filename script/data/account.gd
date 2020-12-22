@@ -17,18 +17,17 @@ func _init(p_name = "",p_player_name = "", p_save_path = "",p_font_normal = null
 	
 func start():
 	check_save_dir()
-	load_player_list()
-	print(player_name)
-	if player_name in player_list : load_player(player_name)
-	else : create_new_player(player_name)
-	listen_player(curplayer)
+	load_player()
+	#listen_obj(curplayer)
 
-func load_player_list():
+func load_player():
 	var data = GameLoader.load_json(save_path + "player.save")
-	player_list = data.keys() if data is Dictionary else []
-#	if data is Dictionary: return data.keys()
-#	else: return 
-	
+	if data is Dictionary: player_list = data.keys()
+	if player_name in player_list : 
+		curplayer = GamePlayer.new(player_name)
+		curplayer.loaddata(data[player_name])
+	else: create_new_player(player_name)
+		
 func check_save_dir():
 	var dir = Directory.new()
 	if dir.open(save_path) : dir.make_dir(save_path)
@@ -36,14 +35,9 @@ func check_save_dir():
 func create_new_player(p_name):
 	curplayer = GamePlayer.new(p_name)
 	
-func load_player(p_name):
-	curplayer = GamePlayer.new(p_name)
-	GameLoader.load_player(curplayer, save_path + "player.save")
-
-func listen_player(player:GamePlayer):
-	var err = player.connect("_s_gameobj_changed",self,"_on_gameobj_changed")
-	if err : push_warning("%s : %s of %s" % [err,"_s_gameobj_changed",player])
-	player_list.append(player.name)
+func listen_obj(obj:GameObj):
+	var err = obj.connect("_s_gameobj_changed",self,"_on_gameobj_changed")
+	if err : push_warning("%s : %s of %s" % [err,"_s_gameobj_changed",obj])
 	
 func quit_game():
 	print("Save player : %s" % GameSaver.saveplayer(curplayer,save_path  + "player.save"))

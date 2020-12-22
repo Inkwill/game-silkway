@@ -14,6 +14,9 @@ static func save_to_json(data,file_path):
 
 static func saveplayer(player,filepath):
 	var data = GameLoader.load_json(filepath)
-	data[player.name] = player.savedata()
-	save_to_json(data,filepath)
+	if data is Dictionary: 
+		data[player.name] = player.savedata()
+		save_to_json(data,filepath)
+	else:
+		save_to_json({player.name: player.savedata()},filepath)
 	return player

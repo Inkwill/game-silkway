@@ -27,6 +27,7 @@ static func load_json(file_path):
 		return err
 	else : 
 		var data = parse_json(file.get_line())
+		print("load json: %s" % data)
 		file.close()
 		return data
 

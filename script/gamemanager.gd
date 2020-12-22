@@ -21,4 +21,4 @@ func _deferred_goto_scene(path):
 
 func _exit_tree():
 	account.quit_game()
-			
+	
