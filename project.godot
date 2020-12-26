@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://script/data/saver.gd"
 }, {
+"base": "Resource",
+"class": "GameWorld",
+"language": "GDScript",
+"path": "res://script/data/world.gd"
+}, {
 "base": "Control",
 "class": "MessageBox",
 "language": "GDScript",
@@ -45,6 +50,7 @@ _global_script_class_icons={
 "GameObj": "",
 "GamePlayer": "",
 "GameSaver": "",
+"GameWorld": "",
 "MessageBox": ""
 }
 

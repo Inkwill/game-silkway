@@ -5,6 +5,7 @@ export(String) var name
 export(String) var player_name
 export(String) var save_path
 export(Font) var font_normal
+export(Resource) var world
 
 var curplayer = null
 var player_list := []

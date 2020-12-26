@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://script/data/world.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+startDate = 0
+endDate = 0
+curDate = 0
