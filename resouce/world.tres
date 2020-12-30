@@ -4,6 +4,8 @@
 
 [resource]
 script = ExtResource( 1 )
-startDate = 0
-endDate = 0
-curDate = 0
+startDate = {
+"day": 1,
+"month": 11,
+"year": -140
+}

@@ -30,4 +30,25 @@ custom_fonts/font = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="bt_Date" type="Button" parent="bg"]
+anchor_right = 1.0
+margin_right = 3.05176e-05
+margin_bottom = 32.0
+custom_fonts/font = ExtResource( 3 )
+text = "漢 xx帝 年號xx年 月xx日"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lb_gold" type="Label" parent="bg"]
+margin_left = 4.20447
+margin_top = 37.8403
+margin_right = 44.2045
+margin_bottom = 51.8403
+text = "111"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="bg/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="bg/bt_Date" to="." method="_on_bt_Date_pressed"]

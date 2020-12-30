@@ -22,7 +22,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "GameObj",
 "language": "GDScript",
-"path": "res://script/obj/gameObj.gd"
+"path": "res://script/obj/gameobj.gd"
 }, {
 "base": "GameObj",
 "class": "GamePlayer",
@@ -42,7 +42,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "MessageBox",
 "language": "GDScript",
-"path": "res://script/gui/messageBox.gd"
+"path": "res://script/gui/messagebox.gd"
 } ]
 _global_script_class_icons={
 "Account": "",
@@ -62,7 +62,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-gameManager="*res://script/gameManager.gd"
+gameManager="*res://script/gamemanager.gd"
 
 [display]
 

@@ -1,11 +1,12 @@
 extends Resource
 class_name Account
 
+const world = preload("res://resouce/world.tres")
+
 export(String) var name
 export(String) var player_name
 export(String) var save_path
 export(Font) var font_normal
-export(Resource) var world
 
 var curplayer = null
 var player_list := []
@@ -19,8 +20,9 @@ func _init(p_name = "",p_player_name = "", p_save_path = "",p_font_normal = null
 func start():
 	check_save_dir()
 	load_player()
+	world.curDate = GameWorld.get_juliandate(world.startDate)
 	#listen_obj(curplayer)
-
+	
 func load_player():
 	var data = GameLoader.load_json(save_path + "player.save")
 	if data is Dictionary: player_list = data.keys()

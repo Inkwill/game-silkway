@@ -5,7 +5,7 @@ onready var tween = $Tween
 var show = false
 
 static func message(message,duration=1):
-	var gui_message = load("res://scene/gui/messageBox.tscn").instance()
+	var gui_message = load("res://scene/gui/messagebox.tscn").instance()
 	gameManager.current_scene.add_child(gui_message)
 	gui_message.show_message(message,duration)
 

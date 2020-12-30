@@ -1,31 +1,27 @@
 extends Node2D
-const SQLite = preload("res://addons/godot-sqlite/bin/gdsqlite.gdns")
 const account = preload("res://resouce/account.tres")
-
-var db
-var db_name := "res://resouce/db/chinese_calendar"
 
 
 export(Font) var font
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	MessageBox.message(account.name)
-	$bg/Button.text = account.curplayer.gold as String
-	
-	db = SQLite.new()
-	db.path = db_name
-	db.verbose_mode = true
-	db.open_db()
+	$bg/Button.text = account.world.curDate as String
+	$bg/lb_gold.text = account.curplayer.gold as String
+	$bg/bt_Date.text = account.world.get_datename(account.world.curDate)
+	print(GameWorld.get_from_juliandate(account.world.curDate))
 
 
 func _on_Button_pressed():
 	var player = account.curplayer
+	var world = account.world
 	player.gold += 1
-	#gameManager.current_player.set("gold", gameManager.current_player.gold +1)
-	$bg/Button.text = account.curplayer.gold as String
+	world.curDate += 1
+	$bg/Button.text = world.curDate as String
+	$bg/bt_Date.text = world.get_datename(account.world.curDate)
+	$bg/lb_gold.text = account.curplayer.gold as String
 
-	var select_condition : String = "emperor_id == %s" % account.curplayer.gold
-	var selected_array : Array = db.select_rows("t_emperor_names", select_condition, ["name"])
-	print("condition: " + select_condition)
-	for city in selected_array:
-		MessageBox.message(city["name"])
+
+func _on_bt_Date_pressed():
+	var date = GameWorld.get_from_juliandate(account.world.curDate)
+	MessageBox.message("%s-%s-%s" % [date["year"],date["month"],date["day"]])
