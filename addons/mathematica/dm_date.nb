@@ -10,17 +10,187 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[       820,         34]
-NotebookOptionsPosition[       561,         21]
-NotebookOutlinePosition[       960,         37]
-CellTagsIndexPosition[       917,         34]
+NotebookDataLength[      9750,        211]
+NotebookOptionsPosition[      8835,        191]
+NotebookOutlinePosition[      9238,        207]
+CellTagsIndexPosition[      9195,        204]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+Cell[BoxData[
+ RowBox[{"rdb", " ", "=", " ", 
+  RowBox[{"RelationalDatabase", "[", 
+   RowBox[{
+   "FindFile", "[", 
+    "\"\<F:\\\\Godot\\\\silkway\\\\resouce\\\\db\\\\chinese_calendar.db\>\"", 
+    "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.818372845183838*^9, 3.8183728539002905`*^9}, {
+  3.8183728998310947`*^9, 3.81837292203156*^9}},
+ CellLabel->"In[32]:=",ExpressionUUID->"deb94b19-58a5-4331-9a81-5a3972abe964"],
+
+Cell[BoxData[
+ RowBox[{"EntityRegister", "[", 
+  RowBox[{"EntityStore", "[", "rdb", "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.81837294210533*^9, 3.81837296391107*^9}},
+ CellLabel->"In[33]:=",ExpressionUUID->"1cf2513a-823a-4e7a-9160-585d2d0d2dda"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"filter", " ", "=", " ", 
+   RowBox[{"FilteredEntityClass", "[", 
+    RowBox[{"\"\<t_month\>\"", ",", 
+     RowBox[{"EntityFunction", "[", 
+      RowBox[{"c", ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"c", "[", "\"\<last\>\"", "]"}], "\[LessEqual]", " ", 
+         "\"\<1818253\>\""}], "  ", "&&", " ", 
+        RowBox[{
+         RowBox[{"c", "[", "\"\<status\>\"", "]"}], "\[Equal]", 
+         "\"\<S\>\""}]}]}], "]"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"columns", " ", "=", 
+   RowBox[{"Flatten", "@", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"\"\<first\>\"", ",", "\"\<last\>\""}], "}"}], ",", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"EntityProperty", "[", 
+          RowBox[{"#", ",", "\"\<name\>\""}], "]"}], "&"}], "/@", 
+        RowBox[{"{", 
+         RowBox[{
+         "\"\<t_dynasty_names\>\"", ",", "\"\<t_emperor_names\>\"", ",", 
+          "\"\<t_era_names\>\""}], "}"}]}], ")"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<year\>\"", ",", "\"\<ganzhi\>\"", ",", "\"\<month\>\"", ",", 
+        "\"\<month_name\>\"", ",", "\"\<leap_month\>\""}], "}"}]}], "}"}]}]}],
+   ";"}]}], "Input",
+ CellChangeTimes->{{3.818373063622738*^9, 3.818373077812857*^9}, {
+   3.818373109758264*^9, 3.8183732245648766`*^9}, {3.8183734712854548`*^9, 
+   3.818373496412573*^9}, {3.818373565629239*^9, 3.818373583325409*^9}, {
+   3.818373874298137*^9, 3.818373966452739*^9}, {3.818374060320984*^9, 
+   3.818374070710495*^9}, {3.8183755810403566`*^9, 3.8183756527865725`*^9}, {
+   3.8183854853134174`*^9, 3.8183855273292003`*^9}, {3.8183855808988857`*^9, 
+   3.818385614912672*^9}, {3.8183869107482343`*^9, 3.8183869223218737`*^9}, {
+   3.818388308684741*^9, 3.818388322435482*^9}, {3.818388491947287*^9, 
+   3.818388503242833*^9}, {3.8183885477397003`*^9, 3.81838859252274*^9}, {
+   3.8183928476458645`*^9, 3.8183928670420265`*^9}, {3.8183929175769014`*^9, 
+   3.818392917953372*^9}, {3.8183933833381586`*^9, 3.81839341024798*^9}, {
+   3.8183934617448483`*^9, 3.8183936226406136`*^9}, {3.81839365284042*^9, 
+   3.818393745120243*^9}, {3.818393778775364*^9, 3.8183937887683086`*^9}, {
+   3.818393845607372*^9, 3.818393871934713*^9}, {3.818396915844939*^9, 
+   3.818396986219165*^9}, {3.8183970428111954`*^9, 3.818397045803277*^9}, 
+   3.818397142836117*^9, {3.8183972508294487`*^9, 3.818397385859189*^9}, {
+   3.818397434369383*^9, 
+   3.8183974383610034`*^9}},ExpressionUUID->"614c60ad-1548-41a9-b721-\
+7fa292b34397"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dataClass", " ", "=", "  ", 
+   RowBox[{"CombinedEntityClass", "[", "\[IndentingNewLine]", "\t\t\t", 
+    RowBox[{
+     RowBox[{"CombinedEntityClass", "[", "\[IndentingNewLine]", "\t\t\t", 
+      RowBox[{
+       RowBox[{"CombinedEntityClass", "[", "\[IndentingNewLine]", "\t\t\t", 
+        RowBox[{
+         RowBox[{"CombinedEntityClass", "[", "\[IndentingNewLine]", "\t\t\t", 
+          RowBox[{
+           RowBox[{"CombinedEntityClass", "[", 
+            RowBox[{"filter", ",", "\"\<t_era\>\"", ",", 
+             RowBox[{"\"\<era_id\>\"", "\[Rule]", "\"\<id\>\""}]}], "]"}], 
+           ",", "\[IndentingNewLine]", "\t\t\t", 
+           RowBox[{"EntityClass", "[", 
+            RowBox[{"\"\<t_era_names\>\"", ",", 
+             RowBox[{"\"\<ranking\>\"", "\[Rule]", " ", "\"\<0\>\""}]}], 
+            "]"}], ",", "\"\<era_id\>\""}], "]"}], ",", "\[IndentingNewLine]",
+          "\t\t\t", "\"\<t_emperor\>\"", ",", 
+         RowBox[{"\"\<emperor_id\>\"", "\[Rule]", " ", "\"\<id\>\""}]}], 
+        "]"}], ",", "\[IndentingNewLine]", "\t\t", 
+       RowBox[{"EntityClass", "[", 
+        RowBox[{"\"\<t_emperor_names\>\"", ",", 
+         RowBox[{"\"\<ranking\>\"", "\[Rule]", " ", "\"\<0\>\""}]}], "]"}], 
+       ",", "\"\<emperor_id\>\""}], "]"}], ",", "\[IndentingNewLine]", "\t\t", 
+     RowBox[{"EntityClass", "[", 
+      RowBox[{"\"\<t_dynasty_names\>\"", ",", 
+       RowBox[{"\"\<ranking\>\"", "\[Rule]", " ", "\"\<0\>\""}]}], "]"}], 
+     ",", "\"\<dynasty_id\>\""}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.818377427017741*^9, 3.818377433736266*^9}, {
+   3.818386018581913*^9, 3.818386026340862*^9}, {3.8183862078612337`*^9, 
+   3.818386269718033*^9}, {3.8183863696537275`*^9, 3.8183864461811457`*^9}, {
+   3.818386505389965*^9, 3.818386523431658*^9}, {3.8183873143458276`*^9, 
+   3.8183873473198338`*^9}, {3.818387385801539*^9, 3.8183873897926426`*^9}, {
+   3.8183913871758614`*^9, 3.8183914690461965`*^9}, {3.818391748240525*^9, 
+   3.8183917721339226`*^9}, {3.8183918298168845`*^9, 3.818391836150544*^9}, 
+   3.8183918933840227`*^9, {3.8183919438852825`*^9, 3.818391983021063*^9}, {
+   3.8183920148783026`*^9, 3.818392016269199*^9}, {3.8183920515735545`*^9, 
+   3.8183920731096983`*^9}, {3.8183921305737095`*^9, 
+   3.8183922002365294`*^9}, {3.8183923306337504`*^9, 3.818392348556493*^9}, {
+   3.818392392088821*^9, 3.818392397043895*^9}, {3.818392512851178*^9, 
+   3.8183926185472717`*^9}, {3.818392654690386*^9, 3.818392742042548*^9}, {
+   3.818393917959093*^9, 3.8183939565985565`*^9}, {3.8183948643235846`*^9, 
+   3.8183948891636963`*^9}, {3.818395173649848*^9, 3.8183952958807697`*^9}, {
+   3.8183955363781776`*^9, 3.8183956540082116`*^9}, {3.818395730336901*^9, 
+   3.818395923143305*^9}, {3.818396281527545*^9, 3.818396327519207*^9}},
+ CellLabel->
+  "In[203]:=",ExpressionUUID->"805a6067-ddd9-49d6-9a21-9f357520b810"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"data", " ", "=", " ", 
+   RowBox[{"Prepend", "[", 
+    RowBox[{
+     RowBox[{"SortBy", "[", 
+      RowBox[{
+       RowBox[{"EntityValue", "[", 
+        RowBox[{"dataClass", ",", "columns"}], "]"}], ",", "First"}], "]"}], 
+     ",", 
+     RowBox[{"columns", "/.", " ", 
+      RowBox[{
+       RowBox[{"EntityProperty", "[", 
+        RowBox[{"type_", ",", "name_"}], "]"}], "\[RuleDelayed]", "  ", 
+       RowBox[{"StringDrop", "[", 
+        RowBox[{"type", ",", "2"}], "]"}]}]}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.8183901493172894`*^9, 3.818390150452046*^9}, {
+  3.8183907491324215`*^9, 3.818390761865176*^9}, {3.818396454749977*^9, 
+  3.818396476748665*^9}, {3.818396530886709*^9, 3.818396536340012*^9}, {
+  3.8183966055684147`*^9, 3.818396617956829*^9}, {3.818397725451084*^9, 
+  3.8183977522883615`*^9}, {3.818397907784405*^9, 3.8183979237677126`*^9}},
+ CellLabel->
+  "In[237]:=",ExpressionUUID->"eb8feff5-cfaa-43bc-971b-3561361bcfb6"],
+
+Cell[BoxData[
+ RowBox[{"Export", "[", 
+  RowBox[{
+  "\"\<F:\\\\Godot\\\\silkway\\\\resouce\\\\db\\\\chinese_calendar.csv\>\"", 
+   ",", "data", ",", "\"\<Table\>\"", ",", 
+   RowBox[{"CharacterEncoding", "\[Rule]", "\"\<Unicode\>\""}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.8183968900224476`*^9, 3.818396899316633*^9}, {
+  3.81839699154947*^9, 3.8183969920880623`*^9}, {3.818397060172579*^9, 
+  3.8183970608857956`*^9}, {3.8183973750028744`*^9, 3.818397394613594*^9}, {
+  3.818397464235489*^9, 3.818397539358059*^9}, {3.818397591360918*^9, 
+  3.8183976042681074`*^9}, {3.8183976720825386`*^9, 3.818397700208619*^9}, {
+  3.8183977608746204`*^9, 3.8183977800237994`*^9}},
+ CellLabel->
+  "In[238]:=",ExpressionUUID->"18688bc4-8a37-4faa-85c8-067ea7a85372"],
+
+Cell[BoxData[
+ RowBox[{"SystemOpen", "@", "%"}]], "Input",
+ CellChangeTimes->{{3.818397655657909*^9, 3.8183976588107705`*^9}, {
+  3.818397691641468*^9, 3.8183976932885036`*^9}, {3.81839778654317*^9, 
+  3.81839779468913*^9}, {3.818397880240636*^9, 3.8183978837367706`*^9}, {
+  3.818397945639566*^9, 3.81839795134276*^9}},
+ CellLabel->
+  "In[239]:=",ExpressionUUID->"87bae5cd-a128-4b15-b035-315b3cf6c24f"]
 },
-WindowSize->{760, 777},
-WindowMargins->{{10, Automatic}, {Automatic, 96}},
+WindowSize->{1186, 1028},
+WindowMargins->{{-1333, Automatic}, {Automatic, 0}},
 FrontEndVersion->"12.1 for Microsoft Windows (64-bit) (March 14, 2020)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"d4d2ab6d-3d04-494a-a823-f86cb1911b2e"
@@ -36,9 +206,14 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
+Cell[558, 20, 422, 9, 45, "Input",ExpressionUUID->"deb94b19-58a5-4331-9a81-5a3972abe964"],
+Cell[983, 31, 250, 4, 45, "Input",ExpressionUUID->"1cf2513a-823a-4e7a-9160-585d2d0d2dda"],
+Cell[1236, 37, 2556, 53, 103, "Input",ExpressionUUID->"614c60ad-1548-41a9-b721-7fa292b34397"],
+Cell[3795, 92, 2879, 48, 323, "Input",ExpressionUUID->"805a6067-ddd9-49d6-9a21-9f357520b810"],
+Cell[6677, 142, 987, 22, 45, "Input",ExpressionUUID->"eb8feff5-cfaa-43bc-971b-3561361bcfb6"],
+Cell[7667, 166, 758, 14, 45, "Input",ExpressionUUID->"18688bc4-8a37-4faa-85c8-067ea7a85372"],
+Cell[8428, 182, 403, 7, 45, "Input",ExpressionUUID->"87bae5cd-a128-4b15-b035-315b3cf6c24f"]
 }
 ]
 *)
-
-(* End of internal cache information *)
 

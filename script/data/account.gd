@@ -20,7 +20,7 @@ func _init(p_name = "",p_player_name = "", p_save_path = "",p_font_normal = null
 func start():
 	check_save_dir()
 	load_player()
-	world.curDate = GameWorld.get_juliandate(world.startDate)
+	world.curDate = GameWorld.get_juliandate(world.startDate) if world.curDate == 0 else world.curDate
 	#listen_obj(curplayer)
 	
 func load_player():

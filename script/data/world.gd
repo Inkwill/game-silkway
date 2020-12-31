@@ -1,12 +1,12 @@
 extends Resource
 class_name GameWorld
 const SQLite = preload("res://addons/godot-sqlite/bin/gdsqlite.gdns")
-var db_name := "res://resouce/db/chinese_calendar"
+var db_name := "res://resouce/db/chinese_calendar" # time authority database from : http://authority.dila.edu.tw/
 var db
 
-const begin := {"year":-220,"month":11,"day":14} # time authority database from : http://authority.dila.edu.tw/
-const endDate := {"year":-220,"month":11,"day":14} # 漢武 建元 元年 元月 元日
-export(Dictionary) var startDate := {"year":-140,"month":11,"day":01} # 漢武 建元 元年 元月 元日
+const begin := {"year":-220,"month":11,"day":14} # 秦始皇帝 二十七年 辛巳年 十月 一日 1641025
+const end := {"year":266,"month":2,"day":8} # 西晉武帝 泰始元年 乙酉年 十二月 十七日 1818253
+export(Dictionary) var startDate := {"year":-140,"month":11,"day":01} # 西漢武帝 建元元年 辛丑年 十月 一日 1670231
 
 var curDate := 0 # JulianDate
 
@@ -52,6 +52,5 @@ func get_datename(j_date) -> String: # 漢 xx帝 年號xx年 月xx日
 		var emperor_id = db.select_rows("t_era","id == %s" % month["era_id"],["emperor_id"])[0]["emperor_id"]
 		datename["emperor"] = db.select_rows("t_emperor_names","ranking == 0 AND emperor_id == %s" % emperor_id,["name"])[0]["name"]
 		var dynasty_id = db.select_rows("t_emperor","id == %s" % emperor_id,["dynasty_id"])[0]["dynasty_id"]
-		print("dynasty_id: %s" % dynasty_id)
 		datename["dynasty"] = db.select_rows("t_dynasty_names","dynasty_id == %s" % dynasty_id,["name"])[0]["name"]
 	return "%s%s %s%s年 (%s) %s月%s日 %s" %[datename["dynasty"],datename["emperor"],datename["era"],datename["year"],datename["ganzhi"],datename["month"],datename["day"],datename["solar"]]

@@ -16,7 +16,7 @@ func _on_Button_pressed():
 	var player = account.curplayer
 	var world = account.world
 	player.gold += 1
-	world.curDate += 1
+	world.curDate += 36500
 	$bg/Button.text = world.curDate as String
 	$bg/bt_Date.text = world.get_datename(account.world.curDate)
 	$bg/lb_gold.text = account.curplayer.gold as String
