@@ -37,3 +37,25 @@ static func load_player(player,filepath):
 		if player.name in data : player.loaddata(data[player.name])
 		else: push_error("No player_data of %s from %s " % [player,filepath])
 	else : push_error("Load data erro : %s to %s from %s" % [data,player,filepath])
+
+static func load_csv(file_path,indexs,delim: String = ","):
+	var file = File.new()
+	var err = file.open(file_path,File.READ)
+	if err : 
+		push_error("Load erro : %s of %s" % [err,file_path])
+		return err
+	else : 
+		var result = {"data":[],"keys":[],"columns":[]}
+		result["columns"] = Array(file.get_csv_line(delim))
+		for index in indexs:
+			if index in result["columns"]:result[index]=[]
+			else : index.remove(index)
+		while not file.eof_reached():
+			var d = Array(file.get_csv_line(delim))
+			result["data"].append(d)
+			result["keys"].append(d[0])
+			for index in indexs:
+				result[index].append(d[result["columns"].find(index)])
+		print("load csv: %s" % result["data"].size())
+		file.close()
+		return result
