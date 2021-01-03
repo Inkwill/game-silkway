@@ -7,7 +7,7 @@ func _init(p_file,indexs :=["first","last"]).(p_file,indexs):
 func _confirm_key(_key):
 	for i in range(content["last"].size()):
 		if int(_key) <= int(content["last"][i]) and int(_key) >= int(content["first"][i]): 
-			print("%s is in (%s,%s,%s)" %  [_key,content["keys"][i],content["first"][i],content["last"][i]])
+#			print("%s is in (%s,%s,%s)" %  [_key,content["keys"][i],content["first"][i],content["last"][i]])
 			return content["keys"][i]
 	return _key
 
@@ -15,7 +15,6 @@ func full_name(jdate): # 漢 xx帝 年號xx年 月xx日
 	var datename = value(jdate)
 	datename["solar"] =  get_solarterm(jdate)
 	datename["day"] = jdate - int(datename["first"]) + 1
-	print(datename)
 	return "%s%s %s%s年 (%s) %s月%s日 %s" %[datename["dynasty"],datename["emperor"],datename["era"],datename["year"],datename["ganzhi"],datename["month_name"],datename["day"],solar_name(datename["solar"])]
 
 
@@ -26,11 +25,11 @@ static func get_juliandate(date):
 	return date["day"] + (153*m+2)/5 + 365*y + y/4 -y/100 + y/400 -32045 #格里历
 	#return date["day"] + (153*m+2)/5 + 365*y + y/4 -32083 # 儒略历
 
-static func get_from_juliandate(jdate):
+static func date_from_juliandate(jdate):
 	return OS.get_datetime_from_unix_time((jdate - 2440588)* 86400)
 
 static func get_solarterm(jdate):
-	var year = get_from_juliandate(jdate)["year"]
+	var year = date_from_juliandate(jdate)["year"]
 	var solar_0 = 1721050.5 + 19/32 + year * 365.25 #上一個冬至
 	var solar = {"id":0,"day":0}
 	for i in range(25):

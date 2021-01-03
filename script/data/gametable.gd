@@ -4,7 +4,7 @@ class_name GameTable
 var content
 
 func _init(p_file,indexs=[]):
-	content = GameLoader.load_csv(p_file,indexs)
+	content = GameLoader.load_data(p_file,indexs)
 	resource_name = p_file
 
 func _confirm_key(_key):
