@@ -20,11 +20,6 @@ _global_script_classes=[ {
 "path": "res://script/data/gtb_date.gd"
 }, {
 "base": "Object",
-"class": "GameLoader",
-"language": "GDScript",
-"path": "res://script/data/loader.gd"
-}, {
-"base": "Object",
 "class": "GameObj",
 "language": "GDScript",
 "path": "res://script/obj/gameobj.gd"
@@ -33,11 +28,6 @@ _global_script_classes=[ {
 "class": "GamePlayer",
 "language": "GDScript",
 "path": "res://script/obj/player.gd"
-}, {
-"base": "Object",
-"class": "GameSaver",
-"language": "GDScript",
-"path": "res://script/data/saver.gd"
 }, {
 "base": "Resource",
 "class": "GameTable",
@@ -53,17 +43,27 @@ _global_script_classes=[ {
 "class": "MessageBox",
 "language": "GDScript",
 "path": "res://script/gui/messagebox.gd"
+}, {
+"base": "Reference",
+"class": "Storage",
+"language": "GDScript",
+"path": "res://addons/storage-manager/Storage.gd"
+}, {
+"base": "Node",
+"class": "StorageManager",
+"language": "GDScript",
+"path": "res://addons/storage-manager/StorageManager.gd"
 } ]
 _global_script_class_icons={
 "Account": "",
 "GameDate": "",
-"GameLoader": "",
 "GameObj": "",
 "GamePlayer": "",
-"GameSaver": "",
 "GameTable": "",
 "GameWorld": "",
-"MessageBox": ""
+"MessageBox": "",
+"Storage": "",
+"StorageManager": ""
 }
 
 [application]

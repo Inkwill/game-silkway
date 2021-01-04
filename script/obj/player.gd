@@ -8,7 +8,7 @@ func _init(_name).(_name):
 	gold = 10
 	
 func _set_gold(value):
-	print("emit_signal: set gold %s-> %s" % [gold,value])
+	print("emit_signal(%s): set gold %s-> %s" % [self,gold,value])
 	emit_signal("_s_gameobj_changed",self,"gold",gold,value)
 	gold = value
 
