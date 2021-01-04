@@ -47,12 +47,12 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "Storage",
 "language": "GDScript",
-"path": "res://addons/storage-manager/Storage.gd"
+"path": "res://addons/storage-manager/storage.gd"
 }, {
 "base": "Node",
 "class": "StorageManager",
 "language": "GDScript",
-"path": "res://addons/storage-manager/StorageManager.gd"
+"path": "res://addons/storage-manager/storagemanager.gd"
 } ]
 _global_script_class_icons={
 "Account": "",

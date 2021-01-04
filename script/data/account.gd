@@ -20,27 +20,8 @@ func start():
 	world.start()
 	#listen_obj(curplayer)
 	
-func check_storage():
-	var path = "user://%s/"%name
-	if not ResourceLoader.exists(path + "account.res"):
-		var dir = Directory.new()
-		if dir.open(path) : dir.make_dir(path)
-		var err = ResourceSaver.save(path + "account.res",self)
-		if err : 
-			push_error("Check storage err : %s, account: %s " % [err, name])
-			return self
-	var storage = ResourceLoader.load(path + "account.res")	
-	if not ResourceLoader.exists(path + "world.res"): 
-		var err = ResourceSaver.save(path+"world.res",world)
-		if err : 
-			push_error("Check storage err : %s, world of account: %s " % [err, name])
-			return storage
-	storage.world = ResourceLoader.load(path+"world.res")
-	return storage
-
 func load_player():
-	gameManager.storeager.file_name = "user://%s/"%name + "player.res"
-	var data = gameManager.storeager.load_json()
+	var data = gameManager.storager.load_json("user://%s/"%name + "player.res")
 	if data is Dictionary: player_list = data.keys()
 	if player_name in player_list : 
 		curplayer = GamePlayer.new(player_name)
@@ -63,18 +44,16 @@ func _on_gameobj_changed(obj,property,old,new):
 	print("get signal(gameobj_changed)%s(%s: %s -> %s) " % [obj,property,old,new])
 
 func saveplayer(filepath):
-	gameManager.storeager.file_name = filepath
-	var data = gameManager.storeager.load_json()
+	var data = gameManager.storager.load_json(filepath)
 	if data is Dictionary: 
 		data[curplayer.name] = curplayer.savedata()
-		gameManager.storeager.store_json(data)
+		gameManager.storager.store_json(filepath,data)
 	else:
-		gameManager.storeager.store_json({curplayer.name: curplayer.savedata()})
+		gameManager.storager.store_json(filepath,{curplayer.name: curplayer.savedata()})
 	return curplayer
 
 func loadplayer(filepath):
-	gameManager.storeager.file_name = filepath
-	var data = gameManager.storeager.load_json(filepath)
+	var data = gameManager.storager.load_json(filepath)
 	if data is Dictionary: 
 		if curplayer.name in data : curplayer.loaddata(data[curplayer.name])
 		else: push_error("No player_data of %s from %s " % [curplayer,filepath])

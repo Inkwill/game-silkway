@@ -1,8 +1,12 @@
 extends Node
 
 onready var root = get_tree().root
-var account = preload("res://resouce/account.tres")
-var storeager = preload("res://addons/storage-manager/StorageManager.res").instance()
+var account = preload("res://resouce/storage/account.res")
+var storager = preload("res://addons/storage-manager/storagemanager.res").instance()
+const SQLite = preload("res://addons/godot-sqlite/bin/gdsqlite.gdns")
+var dbname
+#var db_name = "user://test"
+var db_name := "res://data/test"
 var current_scene = null
 
 func _enter_tree():
@@ -11,7 +15,11 @@ func _enter_tree():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	current_scene = get_tree().current_scene
-	account = account.check_storage()
+	creat_account()
+
+func creat_account():
+	if storager.bind(account) == OK: storager.load_storage()
+	else : storager.creat_storage()
 	account.start()
 
 func goto_scene(path):
