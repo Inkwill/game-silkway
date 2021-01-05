@@ -27,7 +27,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "GameObj",
 "language": "GDScript",
-"path": "res://script/obj/gameobj.gd"
+"path": "res://script/obj/gameObj.gd"
 }, {
 "base": "GameObj",
 "class": "GamePlayer",
