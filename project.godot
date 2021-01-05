@@ -42,17 +42,17 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "MessageBox",
 "language": "GDScript",
-"path": "res://script/gui/messagebox.gd"
+"path": "res://gui/messagebox.gd"
 }, {
 "base": "Reference",
 "class": "Storage",
 "language": "GDScript",
-"path": "res://addons/storage-manager/storage.gd"
+"path": "res://addons/storage-manager/Storage.gd"
 }, {
 "base": "Node",
 "class": "StorageManager",
 "language": "GDScript",
-"path": "res://addons/storage-manager/storagemanager.gd"
+"path": "res://addons/storage-manager/StorageManager.gd"
 } ]
 _global_script_class_icons={
 "Account": "",
