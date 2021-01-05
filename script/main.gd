@@ -8,18 +8,16 @@ func _ready():
 	account = gameManager.account
 	MessageBox.message(account.name)
 	$bg/Button.text = account.world.curDay as String
-	$bg/lb_gold.text = account.curplayer.gold as String
+	if not account.curplayer.assets == null:
+		$bg/lb_gold.text = account.curplayer.assets as String
 	$bg/bt_Date.text = date.full_name(account.world.curDay)
 	
 func _on_Button_pressed():
-	var player = account.curplayer
 	var world = account.world
-	player.gold += 1
 	world.curDay += 1
 	$bg/Button.text = world.curDay as String
-	$bg/lb_gold.text = account.curplayer.gold as String
 	$bg/bt_Date.text = date.full_name(account.world.curDay)
 
 func _on_bt_Date_pressed():
-	var d = GameWorld.get_from_juliandate(account.world.curDate)
+	var d = GameDate.date_from_juliandate(account.world.curDay)
 	MessageBox.message("%s-%s-%s" % [d["year"],d["month"],d["day"]])

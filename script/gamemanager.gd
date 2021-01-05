@@ -17,7 +17,7 @@ func creat_account():
 	if storager.bind(account) == OK: storager.load_storage()
 	else : 
 		storager.creat_storage()
-		GameDB.create_db(account.name)
+		GameDB.create_db()
 	account.start()
 
 func goto_scene(path):
