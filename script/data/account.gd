@@ -6,6 +6,7 @@ export(String) var player_name
 export(Font) var font_normal
 export(Resource) var world
 
+var gamedb = null
 var curplayer = null
 var player_list := []
 
@@ -36,9 +37,9 @@ func listen_obj(obj:GameObj):
 	if err : push_warning("%s : %s of %s" % [err,"_s_gameobj_changed",obj])
 	
 func quit_game():
-	print("Save player : %s" % saveplayer("user://%s/"%name  + "player.res"))
-	print("Save world : %s" % ResourceSaver.save(world.resource_path,world))
-	print("Save account: %s" % ResourceSaver.save(resource_path,self))
+	print("Save player %s: %s" % [name,saveplayer("user://%s/"%name  + "player.res")])
+	print("Save world %s: %s" % [world.resource_path,ResourceSaver.save(world.resource_path,world)])
+	print("Save account %s: %s" % [resource_path,ResourceSaver.save(resource_path,self)])
 
 func _on_gameobj_changed(obj,property,old,new):
 	print("get signal(gameobj_changed)%s(%s: %s -> %s) " % [obj,property,old,new])

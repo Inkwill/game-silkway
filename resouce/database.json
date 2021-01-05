@@ -1,0 +1,8 @@
+[
+    {
+        "name": "action",
+        "sql": "CREATE TABLE action (id int PRIMARY KEY NOT NULL,name text NOT NULL)",
+        "row_array": []
+    },
+
+]
