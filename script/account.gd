@@ -36,6 +36,7 @@ func quit_game():
 	print("Save player %s" % curplayer.save_data())
 	print("Save world %s: %s" % [world.resource_path,ResourceSaver.save(world.resource_path,world)])
 	print("Save account %s: %s" % [resource_path,ResourceSaver.save(resource_path,self)])
+	print("Save assts num = %s" % asseter.save_assets())
 
 func _on_gameobj_changed(obj,property,old,new):
 	print("get signal(gameobj_changed)%s(%s: %s -> %s) " % [obj,property,old,new])
