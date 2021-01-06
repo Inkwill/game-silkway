@@ -1,5 +1,5 @@
 extends Node
-class_name StorageManager
+class_name Storager
 
 var storage_path := "user://"
 export(String) var storage_file_path : String = "res://resouce/storage/"
@@ -23,8 +23,8 @@ func creat_storage():
 	load_storage()
 
 func load_storage():
-	gameManager.account = ResourceLoader.load(storage_path + "account.res")
-	gameManager.account.world = ResourceLoader.load(storage_path + "world.res")
+	host.account = ResourceLoader.load(storage_path + "account.res")
+	host.account.world = ResourceLoader.load(storage_path + "world.res")
 	
 func load_json(file_name) -> Dictionary:
 	var storage = Storage.new(file_name, password)
@@ -69,7 +69,7 @@ func store_data(file_name,data : Dictionary) -> Dictionary:
 	return r
 
 func _show_load_error(json : Dictionary):
-	var err = load("res://addons/storage-manager/storagemanagererror.res").instance()
+	var err = load("res://addons/storage-manager/storagerror.res").instance()
 	err.bg_texture = error_bg_texture
 	err.alpha_layer_color = error_alpha_layer_color
 	err.text_color = error_text_color
@@ -80,7 +80,7 @@ func _show_load_error(json : Dictionary):
 	add_child(err)
 
 func _show_store_error(json : Dictionary):
-	var err = load("res://addons/storage-manager/storagemanagererror.res").instance()
+	var err = load("res://addons/storage-manager/storagerror.res").instance()
 	err.bg_texture = error_bg_texture
 	err.alpha_layer_color = error_alpha_layer_color
 	err.text_color = error_text_color

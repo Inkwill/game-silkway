@@ -7,7 +7,7 @@ export(Resource) var world
 export(Array) var player_list := []
 
 var curplayer = null
-var assets_manager = null
+var asseter = null
 
 func _init(p_name = "",p_font_normal = null,p_world = null,p_players = []):
 	name = p_name
@@ -16,7 +16,7 @@ func _init(p_name = "",p_font_normal = null,p_world = null,p_players = []):
 	player_list = p_players
 	
 func start():
-	assets_manager = AssetsManager.new()
+	asseter = Asseter.new()
 	load_player()
 	world.start()
 	#listen_obj(curplayer)

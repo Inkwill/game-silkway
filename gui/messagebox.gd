@@ -6,7 +6,7 @@ var show = false
 
 static func message(message,duration=1):
 	var gui_message = load("res://gui/messagebox.tscn").instance()
-	gameManager.current_scene.add_child(gui_message)
+	host.cur_scene.add_child(gui_message)
 	gui_message.show_message(message,duration)
 
 func _ready():

@@ -15,7 +15,7 @@ var state = LoginState.PRELUDE
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	MessageBox.message(get_tree().current_scene.name)
+	MessageBox.message(get_tree().cur_scene.name)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -28,7 +28,7 @@ func _on_start_pressed():
 			play_background_tween()
 			tween.interpolate_callback(self,tweentime*0.3,"play_button_tween")
 		LoginState.READY :
-			gameManager.goto_scene("res://scene/main.tscn")
+			host.goto_scene("res://scene/main.tscn")
 
 func play_background_tween():
 	tween.interpolate_property($bg,"rect_position:y",$bg.rect_position.y, -1*get_tree().root.size.y, tweentime,Tween.TRANS_QUINT, Tween.EASE_OUT)

@@ -11,7 +11,7 @@ const create_file = "res://resouce/database.res"
 
 static func get_db(verbose = true):
 	var _db = SQLite.new()
-	_db.path = "user://%s/data.db"%gameManager.account.name
+	_db.path = "user://%s/data.db"%host.account.name
 	_db.verbose_mode = verbose
 	if _db.open_db() : return _db
 	else : push_error("Open GameDB erro at : %s"% _db.path)
@@ -21,7 +21,7 @@ static func create_db():
 	gb.query("SELECT name FROM sqlite_master WHERE type = 'table';")
 	for t in dic_value(gb.query_result,"name"):
 		gb.drop_table(t)
-	var _tables = gameManager.storager.load_json(create_file)["data"]
+	var _tables = host.storager.load_json(create_file)["data"]
 	for table in _tables:
 		gb.create_table(table,_tables[table])
 #		_db.query("PRAGMA table_info(%s);" %table)

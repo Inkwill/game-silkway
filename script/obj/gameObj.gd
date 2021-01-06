@@ -26,11 +26,11 @@ func _to_string() -> String:
 func own(someth):
 	someth.owner = id
 
-func carry_asset() -> GameAssets:
-	return gameManager.account.assets_manager.get_asset(asset)
+func carry_asset() -> Asset:
+	return host.account.asseter.get_asset(asset)
 
 func register_data():
-	name = gameManager.account.name
+	name = host.account.name
 	var gb = GameDB.get_db()
 	gb.insert_rows("gameobj", [{"type": type, "name": name}])
 	gb.query("SELECT id from gameobj ORDER BY id DESC LIMIT 1;")

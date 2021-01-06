@@ -1,5 +1,5 @@
 extends Object
-class_name AssetsManager
+class_name Asseter
 
 var asset_list := {}
 var db_list := []
@@ -19,15 +19,14 @@ func new_asset() -> int:
 	data["id"] = gb.query_result[0]["id"]
 	gb.close_db()
 	db_list.append(data["id"])
-	asset_list[data["id"]] = GameAssets.new(data)
+	asset_list[data["id"]] = Asset.new(data)
 	return data["id"]
 
-func get_asset(id) -> GameAssets:
-	print("get_asset:%s in %s or %s" % [id, asset_list, db_list])
+func get_asset(id) -> Asset:
 	if id in asset_list.keys() : return asset_list[id]
 	if id in db_list:
 		var gb = GameDB.get_db()
-		var asset = GameAssets.new(gb.select_rows("assets", "id == %s"%id, ["id","owner","coin","silver","gold"])[0])
+		var asset = Asset.new(gb.select_rows("assets", "id == %s"%id, ["id","owner","coin","silver","gold"])[0])
 		asset_list[asset.id] = asset
 		return asset
 	else: return null
@@ -38,9 +37,14 @@ func owned_assets(owner_id) ->Array:
 	var datas = gb.select_rows("assets", "owner == %s"%owner_id, ["id","owner","coin","silver","gold"])
 	for data in datas :
 		if not data["id"] in asset_list : 
-			var asset = GameAssets.new(data)
+			var asset = Asset.new(data)
 			assets.append(asset)
 			asset_list[asset["id"]] = asset
 		else :	assets.append(asset_list[data["id"]])
 	return assets
-			
+
+func save_assets() :
+	var gb = GameDB.get_db()
+	for id in asset_list.keys():
+		gb.update_rows("assets", "id = %s"%id, {"owner":asset_list[id].data["owner"], "coin":asset_list[id].data["coin"],"silver":asset_list[id].data["silver"],"gold":asset_list[id].data["gold"]})			
+	gb.close_db()

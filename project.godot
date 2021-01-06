@@ -15,14 +15,19 @@ _global_script_classes=[ {
 "path": "res://script/account.gd"
 }, {
 "base": "Object",
-"class": "AssetsManager",
+"class": "Asset",
 "language": "GDScript",
-"path": "res://script/assetmanager.gd"
+"path": "res://script/obj/asset.gd"
 }, {
 "base": "Object",
-"class": "GameAssets",
+"class": "Asseter",
 "language": "GDScript",
-"path": "res://script/obj/gameassets.gd"
+"path": "res://script/asseter.gd"
+}, {
+"base": "Object",
+"class": "Effect",
+"language": "GDScript",
+"path": "res://script/act/effect.gd"
 }, {
 "base": "Object",
 "class": "GameDB",
@@ -32,7 +37,7 @@ _global_script_classes=[ {
 "base": "GameTable",
 "class": "GameDate",
 "language": "GDScript",
-"path": "res://script/data/gtb_date.gd"
+"path": "res://script/data/gamedate.gd"
 }, {
 "base": "Object",
 "class": "GameObj",
@@ -65,19 +70,20 @@ _global_script_classes=[ {
 "path": "res://addons/storage-manager/storage.gd"
 }, {
 "base": "Node",
-"class": "StorageManager",
+"class": "Storager",
 "language": "GDScript",
-"path": "res://addons/storage-manager/storagemanager.gd"
+"path": "res://addons/storage-manager/storager.gd"
 }, {
 "base": "GameObj",
 "class": "Troop",
 "language": "GDScript",
-"path": "res://script/obj/gobj_troop.gd"
+"path": "res://script/obj/troop.gd"
 } ]
 _global_script_class_icons={
 "Account": "",
-"AssetsManager": "",
-"GameAssets": "",
+"Asset": "",
+"Asseter": "",
+"Effect": "",
 "GameDB": "",
 "GameDate": "",
 "GameObj": "",
@@ -86,7 +92,7 @@ _global_script_class_icons={
 "GameWorld": "",
 "MessageBox": "",
 "Storage": "",
-"StorageManager": "",
+"Storager": "",
 "Troop": ""
 }
 
@@ -98,7 +104,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-gameManager="*res://script/gamemanager.gd"
+host="*res://script/host.gd"
 
 [display]
 
