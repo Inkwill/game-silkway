@@ -12,7 +12,17 @@ _global_script_classes=[ {
 "base": "Resource",
 "class": "Account",
 "language": "GDScript",
-"path": "res://script/data/account.gd"
+"path": "res://script/account.gd"
+}, {
+"base": "Object",
+"class": "AssetsManager",
+"language": "GDScript",
+"path": "res://script/assetmanager.gd"
+}, {
+"base": "Object",
+"class": "GameAssets",
+"language": "GDScript",
+"path": "res://script/obj/gameassets.gd"
 }, {
 "base": "Object",
 "class": "GameDB",
@@ -27,7 +37,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "GameObj",
 "language": "GDScript",
-"path": "res://script/obj/gameObj.gd"
+"path": "res://script/obj/gameobj.gd"
 }, {
 "base": "GameObj",
 "class": "GamePlayer",
@@ -42,7 +52,7 @@ _global_script_classes=[ {
 "base": "Resource",
 "class": "GameWorld",
 "language": "GDScript",
-"path": "res://script/data/world.gd"
+"path": "res://script/world.gd"
 }, {
 "base": "Control",
 "class": "MessageBox",
@@ -66,6 +76,8 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Account": "",
+"AssetsManager": "",
+"GameAssets": "",
 "GameDB": "",
 "GameDate": "",
 "GameObj": "",

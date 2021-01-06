@@ -8,8 +8,9 @@ func _ready():
 	account = gameManager.account
 	MessageBox.message(account.name)
 	$bg/Button.text = account.world.curDay as String
-	if not account.curplayer.assets == null:
-		$bg/lb_gold.text = account.curplayer.assets as String
+	if account.curplayer.asset == null:
+		account.curplayer.asset = account.assets_manager.new_asset()
+	$bg/lb_gold.text = str(account.curplayer.carry_asset())
 	$bg/bt_Date.text = date.full_name(account.world.curDay)
 	
 func _on_Button_pressed():
