@@ -1,15 +1,13 @@
-extends Object
+extends GameObj
 class_name Asset
-
-var id
-var data := {}
-var save := false
 
 signal _s_asset_changed
 
-func _init(_data):
-	data = _data
-	id = data["id"]
+static func load_asset(_id):
+	return host.account.asseter.get_member(_id)
+
+func _init(_data,_type = "asset").(_data,_type):
+	pass
 	
 func _to_string() -> String:
 	return "asset[%s]: %s "%[id,data]
@@ -20,6 +18,5 @@ func add(dic):
 		if key in data.keys() :
 			data[key] += int(dic[key])
 			num += 1
-	save = num > 0
-	if save : emit_signal("_s_asset_changed",self,"add",dic)
+	if num : emit_signal("_s_asset_changed",self,"add",dic)
 	return num == dic.size()

@@ -4,17 +4,17 @@
         "id" : {"data_type":"int", "primary_key": true, "not_null": true, "AUTOINCREMENT":true},
         "name": {"data_type":"text", "not_null": true},
     },
-     "gameobj": {
+     "actor": {
 
         "id" : {"data_type":"int", "primary_key": true, "not_null": true,"AUTOINCREMENT":true},
-        "type": {"data_type":"text", "not_null": true},
+        "form": {"data_type":"text", "not_null": true},
         "name": {"data_type":"text"},
-        "owner": {"data_type":"int","foreign_key":"gameobj.id"},
-        "asset":  {"data_type":"int","foreign_key":"assets.id"},
+        "ownerid" : {"data_type":"int","foreign_key":"actor.id"},
+        "assetid":  {"data_type":"int","foreign_key":"asset.id"},
     },
-    "assets": {
+    "asset": {
          "id" : {"data_type":"int", "primary_key": true, "not_null": true,"AUTOINCREMENT":true},
-         "owner" : {"data_type":"int","foreign_key":"gameobj.id"},
+         "ownerid" : {"data_type":"int","foreign_key":"actor.id"},
          "coin" : {"data_type":"int"},
          "silver" : {"data_type":"int"},
          "gold" : {"data_type":"int"}

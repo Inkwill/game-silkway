@@ -24,7 +24,6 @@ func creat_storage():
 
 func load_storage():
 	host.account = ResourceLoader.load(storage_path + "account.res")
-	host.account.world = ResourceLoader.load(storage_path + "world.res")
 	
 func load_json(file_name) -> Dictionary:
 	var storage = Storage.new(file_name, password)

@@ -3,6 +3,7 @@ extends Node
 onready var root = get_tree().root
 var account = preload("res://resouce/storage/account.res")
 var storager = preload("res://addons/storage-manager/storager.res").instance()
+const db_file = "res://resouce/database.res"
 var cur_scene = null
 
 func _enter_tree():
@@ -17,7 +18,7 @@ func creat_account():
 	if storager.bind(account) == OK: storager.load_storage()
 	else : 
 		storager.creat_storage()
-		GameDB.create_db()
+		GameDB.new().create_db(db_file)
 	account.start()
 
 func goto_scene(path):
