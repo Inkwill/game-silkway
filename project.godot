@@ -25,6 +25,11 @@ _global_script_classes=[ {
 "path": "res://script/actorer.gd"
 }, {
 "base": "GameObj",
+"class": "Aero",
+"language": "GDScript",
+"path": "res://script/space/aero.gd"
+}, {
+"base": "GameObj",
 "class": "Asset",
 "language": "GDScript",
 "path": "res://script/obj/asset.gd"
@@ -59,7 +64,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://script/data/gametable.gd"
 }, {
-"base": "Object",
+"base": "Manager",
 "class": "GameWorld",
 "language": "GDScript",
 "path": "res://script/world.gd"
@@ -93,6 +98,7 @@ _global_script_class_icons={
 "Account": "",
 "Actor": "",
 "Actorer": "",
+"Aero": "",
 "Asset": "",
 "Asseter": "",
 "Effect": "",
