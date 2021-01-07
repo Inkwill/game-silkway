@@ -23,9 +23,9 @@ func start():
 	player_list.append(curplayer.id)
 
 func quit_game():
-	print("Save player %s" % actorer._save_member())
+	print("Save player %s" % actorer.store_member())
 	print("Save account %s: %s" % [resource_path,ResourceSaver.save(resource_path,self)])
-	print("Save assts num = %s" % asseter._save_member())
+	print("Save assts num = %s" % asseter.store_member())
 	asseter.gamedb.close_db()
 	actorer.gamedb.close_db()
 	

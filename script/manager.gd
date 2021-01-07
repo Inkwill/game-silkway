@@ -6,7 +6,6 @@ var savers := []
 var db_list := []
 var gamedb
 var type
-var keys := []
 var init_data := {}
 
 func _init(_type):
@@ -17,6 +16,9 @@ func _init(_type):
 		db_list.append(data["id"])
 
 func _new_member(_data):
+	pass
+	
+func _storedata(_id):
 	pass
 
 func _register(memeber):
@@ -41,12 +43,17 @@ func create_member():
 func get_member(id):
 	if id in members.keys() : return members[id]
 	if id in db_list:
-		var member = _new_member(gamedb.select_rows(type, "id == %s"%id,keys)[0])
+		var member = _new_member(gamedb.select_rows(type, "id == %s"%id,GameDB.get_columns(type))[0])
 		_register(member)
 		return member
 	else:
 		push_warning("Try to get a invalid asset: id=%s"%id)
 		return id
 
-func _save_member() :
-	pass
+func store_member() :
+	if savers.size() == 0 :return 0
+	var num := 0
+	for id in savers:
+		if gamedb.update_rows(type, "id = %s"%id,_storedata(id)):	
+			num +=1
+	return num

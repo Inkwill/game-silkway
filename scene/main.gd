@@ -31,7 +31,7 @@ func _on_bt_Date_pressed():
 	MessageBox.message("%s-%s-%s" % [d["year"],d["month"],d["day"]])
 
 func _thread_function(userdata):
-	print("i'm a thread! Userdata is: ", userdata) 
+	print("i'm a thread! Userdata is: ", userdata)
 
 func _exit_tree():
 	thread.wait_to_finish()

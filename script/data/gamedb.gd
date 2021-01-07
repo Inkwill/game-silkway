@@ -12,7 +12,7 @@ func _init():
 
 func create_db(file):
 	gb.query("SELECT name FROM sqlite_master WHERE type = 'table';")
-	for t in dic_value(gb.query_result,"name"):
+	for t in Mtools.get_value_list(gb.query_result,"name"):
 		gb.drop_table(t)
 	var _tables = host.storager.load_json(file)["data"]
 	for table in _tables:
@@ -21,8 +21,11 @@ func create_db(file):
 #		print(str(_db.query_result))
 	gb.close_db()
 
-func dic_value(array,key):
-	var data := []
-	for d in array:
-		data.append(d[key])
-	return data
+static func get_columns(tb_name) ->Array:
+	var database = host.storager.load_json(host.db_file)["data"]
+	for table in database:
+		if table == tb_name :
+			return database[table].keys()
+	return []
+
+	
