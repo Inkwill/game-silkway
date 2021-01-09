@@ -1,18 +1,21 @@
 extends Object
 class_name Effect
 
-var _fun
+var _key
 var _args
 
-func _init(p_fun,p_args):
-	_fun = p_fun
+func _init(p_key,p_args):
+	_key = p_key
 	_args = p_args
+
+func _act(t,key,args):
+	t.call(key,args)
 	
 func at(target):
 	if target is Array:
 		for t in target:
-			t.call(_fun,_args)
+			_act(t,_key,_args)
 	elif target is Dictionary:
 		for t in target.values():
-			t.call(_fun,_args)
-	else: target.call(_fun,_args)
+			_act(t,_key,_args)
+	else: _act(target,_key,_args)

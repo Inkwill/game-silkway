@@ -23,8 +23,8 @@ func _storedata(_id):
 
 func _register(memeber):
 	members[memeber.id] = memeber
-	var err = memeber.connect("_s_%s_changed"%type,self,"_on_member_changed")
-	if err : push_warning("%s : _s_%s_changed of %s" % [err,type,memeber])
+	var err = memeber.connect("_s_gameobj_changed",self,"_on_member_changed")
+	if err : push_warning("Register memeber err[%s] of %s" % [err,memeber])
 
 func _on_member_changed(member,fun,dic):
 	if not member.id in savers :savers.append(member.id)

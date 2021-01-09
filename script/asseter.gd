@@ -2,13 +2,13 @@ extends Manager
 class_name Asseter
 
 func _init(type = "asset").(type):
-	init_data = {"ownerid": null, "coin": 0,"silver":0,"gold":0}
+	init_data = {"ownerid": null,"posx":0,"posy":0, "coin": 0,"silver":0,"gold":0}
 	
 func _new_member(_data):
 	return Asset.new(_data)
 
 func _storedata(id):
-	return {"ownerid":members[id].data["ownerid"], "coin":members[id].data["coin"],"silver":members[id].data["silver"],"gold":members[id].data["gold"]}
+	return {"ownerid":members[id].ownerid,"posx":members[id].pos.x,"posy":members[id].pos.y,"coin":members[id].data["coin"],"silver":members[id].data["silver"],"gold":members[id].data["gold"]}
 
 func owned_assets(owner_id) ->Array:
 	var assets = []

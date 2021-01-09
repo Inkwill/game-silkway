@@ -13,7 +13,8 @@ func _ready():
 		Effect.new("gain",account.asseter.create_member()).at(account.curplayer)
 	$bg/lb_gold.text = str(account.curplayer.asset.data["gold"])
 	$bg/bt_Date.text = date.full_name(account.curday)
-	
+	var movto = Move.new("moveto",Vector2(30,40))
+	movto.at(account.curplayer)
 	thread = Thread.new()
 	thread.start(self, "_thread_function","Wafflecopter")
 	
@@ -21,9 +22,14 @@ func _on_Button_pressed():
 	account.curday += 1
 	var eff = Effect.new("add",{"gold":1})
 	eff.at(account.asseter.members.values())
+	var mov = Move.new("move",{"westnorth":100})
+	mov.at(account.curplayer)
 	$bg/Button.text = account.curday as String
 	$bg/bt_Date.text = date.full_name(account.curday)
 	$bg/lb_gold.text = str(account.curplayer.asset.data["gold"])
+#	var a = {"a":1}
+#	var b = {"b":2}
+#	print(a+b)
 
 
 func _on_bt_Date_pressed():
