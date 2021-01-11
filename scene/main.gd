@@ -1,6 +1,6 @@
 extends Node2D
 var account
-var date = GameDate.new("res://resouce/data/chinese_calendar.res")
+var date = GameDate.new()
 var thread
 
 export(Font) var font
@@ -22,8 +22,9 @@ func _on_Button_pressed():
 	account.curday += 1
 	var eff = Effect.new("add",{"gold":1})
 	eff.at(account.asseter.members.values())
-	var mov = Move.new("move",{"westnorth":100})
-	mov.at(account.curplayer)
+	Action.new(account.curplayer,2).act()
+#	var mov = Move.new("move",{"westnorth":100})
+#	mov.at(account.curplayer)
 	$bg/Button.text = account.curday as String
 	$bg/bt_Date.text = date.full_name(account.curday)
 	$bg/lb_gold.text = str(account.curplayer.asset.data["gold"])
@@ -35,7 +36,7 @@ func _on_Button_pressed():
 func _on_bt_Date_pressed():
 	var d = GameDate.date_from_juliandate(account.curday)
 	MessageBox.message("%s-%s-%s" % [d["year"],d["month"],d["day"]])
-
+	pass
 func _thread_function(userdata):
 	print("i'm a thread! Userdata is: ", userdata)
 

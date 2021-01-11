@@ -1,0 +1,10 @@
+id	name	tips	key	value
+1	趕路	去往何方	next	2,3,4,5,6,7,8,9
+2	往東	往東行進	move	east:1
+3	往東北	往東北行進	move	eastnorth:1
+4	往北	往北行進	move	north:1
+5	往西北	往西北行進	move	westnorth:1
+6	往西	往西行進	move	west:1
+7	往西南	往西南行進	move	eastsouth:1
+8	往南	往南行進	move	south:1
+9	往東南	往東南行進	move	eastsouth:1

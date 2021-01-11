@@ -1,11 +1,9 @@
 extends Resource
 class_name GameTable
 
-var _datapath
-var content
+var content #keys,columns,data,indexs
 
 func _init(p_file,indexs=[]):
-	_datapath = p_file
 	content = load_data(p_file,indexs)
 
 func _confirm_key(_key):
@@ -28,7 +26,7 @@ func value(key,column=null):
 		return null
 	return content["data"][row][col]
 
-static func load_data(filepath,indexs,delim: String = ","):
+static func load_data(filepath,indexs,delim: String = "\t"):
 	var file = File.new()
 	var err = file.open(filepath,File.READ)
 	if err : 
@@ -42,6 +40,7 @@ static func load_data(filepath,indexs,delim: String = ","):
 			else : index.remove(index)
 		while not file.eof_reached():
 			var d = Array(file.get_csv_line(delim))
+			if d.size()<2 : break	#末尾空行
 			result["data"].append(d)
 			result["keys"].append(d[0])
 			for index in indexs:

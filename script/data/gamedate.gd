@@ -1,7 +1,8 @@
 extends GameTable
 class_name GameDate
+var _path := "res://resouce/data/chinese_calendar.res"
 
-func _init(p_file,indexs :=["first","last"]).(p_file,indexs):
+func _init(p_file = _path,indexs :=["first","last"]).(p_file,indexs):
 	pass
 
 func _confirm_key(_key):

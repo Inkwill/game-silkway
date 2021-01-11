@@ -1,8 +1,13 @@
 {
-    "action": {
+    "event": {
 
         "id" : {"data_type":"int", "primary_key": true, "not_null": true, "AUTOINCREMENT":true},
-        "name": {"data_type":"text", "not_null": true},
+        "pattern":{"data_type":"text"},
+        "subject": {"data_type":"text", "not_null": true},
+        "predicate": {"data_type":"text", "not_null": true},
+        "object":{"data_type":"text"},
+        "start":{"data_type":"int","not_null": true},
+        "end":{"data_type":"int"},
     },
      "actor": {
 

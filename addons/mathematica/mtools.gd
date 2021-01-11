@@ -7,6 +7,13 @@ static func get_value_list(array,key):
 		data.append(d[key])
 	return data
 
+static func dic_from_string(text):
+	var array = text.split(",")
+	var dic = {}
+	for a in array :
+		dic[a.split(":")[0]]= a.split(":")[1]
+	return dic
+
 static func d2r(theta):
 	return theta * PI/180
 
