@@ -3,6 +3,7 @@ var account
 var date = GameDate.new()
 var thread
 
+
 export(Font) var font
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,9 +23,7 @@ func _on_Button_pressed():
 	account.curday += 1
 	var eff = Effect.new("add",{"gold":1})
 	eff.at(account.asseter.members.values())
-	Action.new(account.curplayer,2).act()
-#	var mov = Move.new("move",{"westnorth":100})
-#	mov.at(account.curplayer)
+	UIAction.create($bg/Button,account.curplayer,2)
 	$bg/Button.text = account.curday as String
 	$bg/bt_Date.text = date.full_name(account.curday)
 	$bg/lb_gold.text = str(account.curplayer.asset.data["gold"])

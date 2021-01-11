@@ -4,6 +4,7 @@ class_name GameTable
 var content #keys,columns,data,indexs
 
 func _init(p_file,indexs=[]):
+	resource_path = p_file
 	content = load_data(p_file,indexs)
 
 func _confirm_key(_key):
@@ -13,7 +14,7 @@ func value(key,column=null):
 	if not key in content["keys"] : key = _confirm_key(key)
 	var row = content["keys"].find(str(key))
 	if row == -1 :
-		push_error("Can't find key[%s] in %s" % [key,self])
+		push_error("Can't find key[%s] in %s" % [key,resource_path])
 		return null
 	if column == null:
 		var element := {}
