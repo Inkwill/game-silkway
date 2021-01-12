@@ -67,7 +67,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "GameObj",
 "language": "GDScript",
-"path": "res://script/obj/gameObj.gd"
+"path": "res://script/obj/gameobj.gd"
 }, {
 "base": "Resource",
 "class": "GameTable",
@@ -112,7 +112,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "UIAction",
 "language": "GDScript",
-"path": "res://gui/ui_action.gd"
+"path": "res://gui/ui_action/ui_action.gd"
 } ]
 _global_script_class_icons={
 "Account": "",

@@ -23,7 +23,7 @@ func _on_Button_pressed():
 	account.curday += 1
 	var eff = Effect.new("add",{"gold":1})
 	eff.at(account.asseter.members.values())
-	UIAction.create($bg/Button,account.curplayer,2)
+	var action = Action.new(account.curplayer,1)
 	$bg/Button.text = account.curday as String
 	$bg/bt_Date.text = date.full_name(account.curday)
 	$bg/lb_gold.text = str(account.curplayer.asset.data["gold"])
