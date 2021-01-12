@@ -1,24 +1,20 @@
 extends Control
 class_name UIAction
 
+
 var _drag_instance
 var action
 var _option
 
-#static func create(actor,id):
-#	bt = load("res://gui/ui_action/ui_action.tscn").instance()
-#	ui_action._base_action = Action.new(actor,id)
-#	ui_action._base_action._ui = ui_action
-#	return ui_action
-
 func _ready():
-	$button.text = "Button"
+	$button.text = action._data.name
 	$button.set_drag_forwarding(self)
 	
 func get_drag_data_fw(_position,_from):
 	_drag_instance = Label.new()
 	_drag_instance.text = $button.text
 	_drag_instance.rect_size = Vector2(32,32)
+#	_drag_instance.font = host.account.normal_font
 	set_drag_preview(_drag_instance)
 	return _drag_instance.text
 
@@ -40,12 +36,10 @@ func drop_data(_position,_data):
 	
 func _on_bt_down():
 	$button.rect_scale = Vector2(0.001,0.001)
-	_option = Button.new()
+	_option = UIActOption.new(3)
 	_option.rect_size = Vector2(32,32)
-	_option.text = "opt"
-	_option.set_drag_forwarding(self)
+#	_option.set_drag_forwarding(self)
 	$opt.add_child(_option)
-	_option.set_position(Vector2(0,10))
 #	rect_size = get_viewport().size
 #	print("set size:%s"%rect_size)
 	

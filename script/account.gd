@@ -4,6 +4,8 @@ class_name Account
 export(String) var name
 export(int) var curday : = 0
 export(Array) var player_list := []
+export(Font) var normal_font
+
 var curplayer = null
 var asseter = null
 var world = null

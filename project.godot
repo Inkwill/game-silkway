@@ -67,7 +67,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "GameObj",
 "language": "GDScript",
-"path": "res://script/obj/gameobj.gd"
+"path": "res://script/obj/gameObj.gd"
 }, {
 "base": "Resource",
 "class": "GameTable",
@@ -109,6 +109,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/storage-manager/storager.gd"
 }, {
+"base": "Button",
+"class": "UIActOption",
+"language": "GDScript",
+"path": "res://gui/ui_action/ui_actoption.gd"
+}, {
 "base": "Control",
 "class": "UIAction",
 "language": "GDScript",
@@ -135,6 +140,7 @@ _global_script_class_icons={
 "Mtools": "",
 "Storage": "",
 "Storager": "",
+"UIActOption": "",
 "UIAction": ""
 }
 
@@ -152,6 +158,10 @@ host="*res://script/host.gd"
 
 window/size/width=480
 window/size/height=800
+
+[gui]
+
+theme/custom_font="res://resouce/font/font_normal.tres"
 
 [rendering]
 

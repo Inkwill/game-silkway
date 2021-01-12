@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://gui/ui_action/ui_actoption.gd" type="Script" id=1]
+[ext_resource path="res://resouce/font/YaHei Consolas Hybrid 1.12.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 2 )
+
+[node name="option" type="Button"]
+margin_left = -50.0
+margin_top = -10.0
+margin_right = 50.0
+margin_bottom = 10.0
+rect_pivot_offset = Vector2( 50, 10 )
+custom_fonts/font = SubResource( 1 )
+text = "Option12345"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

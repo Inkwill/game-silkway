@@ -2,7 +2,7 @@ extends Node2D
 var account
 var date = GameDate.new()
 var thread
-
+const _path_ui_action = "res://gui/ui_action/ui_action.tscn"
 
 export(Font) var font
 # Called when the node enters the scene tree for the first time.
@@ -23,7 +23,9 @@ func _on_Button_pressed():
 	account.curday += 1
 	var eff = Effect.new("add",{"gold":1})
 	eff.at(account.asseter.members.values())
-	var action = Action.new(account.curplayer,1)
+	var uiaction = load(_path_ui_action).instance()
+	uiaction.action = Action.new(2)
+	host.root.add_child(uiaction)
 	$bg/Button.text = account.curday as String
 	$bg/bt_Date.text = date.full_name(account.curday)
 	$bg/lb_gold.text = str(account.curplayer.asset.data["gold"])
