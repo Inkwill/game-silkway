@@ -9,7 +9,7 @@ export(Font) var font
 func _ready():
 	account = host.account
 	MessageBox.message(account.name)
-	$bg/Button.text = account.curday as String
+	$Button.text = account.curday as String
 	if account.curplayer.assetid == -1:
 		Effect.new("gain",account.asseter.create_member()).at(account.curplayer)
 	$bg/lb_gold.text = str(account.curplayer.asset.data["gold"])
@@ -18,6 +18,7 @@ func _ready():
 	movto.at(account.curplayer)
 	thread = Thread.new()
 	thread.start(self, "_thread_function","Wafflecopter")
+	$Sprite.texture = $Viewport.get_texture()
 	
 func _on_Button_pressed():
 	account.curday += 1
@@ -26,7 +27,7 @@ func _on_Button_pressed():
 	var uiaction = load(_path_ui_action).instance()
 	uiaction.action = Action.new(1)
 	host.root.add_child(uiaction)
-	$bg/Button.text = account.curday as String
+	$Button.text = account.curday as String
 	$bg/bt_Date.text = date.full_name(account.curday)
 	$bg/lb_gold.text = str(account.curplayer.asset.data["gold"])
 #	var a = {"a":1}
