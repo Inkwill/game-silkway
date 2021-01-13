@@ -5,19 +5,14 @@ const _data_path = "res://resouce/data/action.res"
 
 var _data 
 var _target = null
-var ui = null
 
 func _init(id):
 	_data = GameTable.new(_data_path).value(id)
 	
-func act(target):
-	_target = target
-	call(_data.key,_data.value)
+func act(options,target=null):
+	_target = host.account.curplayer if target == null else target
+	call(_data.fuc,options)
 
-func next(value):
-#	ui.next(value)
-	pass
-		
-func move(value):
-	Move.new("move",Mtools.dic_from_string(value)).at(_target)
+func move(options):
+	Move.new("move",options[0].value).at(_target)
 		 

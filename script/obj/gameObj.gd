@@ -24,4 +24,4 @@ func _private_setter(_value):
 
 func _set_pos(value:Vector2):
 	pos = value
-	emit_signal("_s_gameobj_changed",self,"moveto",value)
+	emit_signal("_s_gameobj_changed",self,"set_pos",value)

@@ -24,7 +24,7 @@ func _on_Button_pressed():
 	var eff = Effect.new("add",{"gold":1})
 	eff.at(account.asseter.members.values())
 	var uiaction = load(_path_ui_action).instance()
-	uiaction.action = Action.new(2)
+	uiaction.action = Action.new(1)
 	host.root.add_child(uiaction)
 	$bg/Button.text = account.curday as String
 	$bg/bt_Date.text = date.full_name(account.curday)
