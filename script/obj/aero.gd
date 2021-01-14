@@ -9,4 +9,4 @@ func _init(_data,_type="aero").(_data,_type):
 	pos = Vector2(int(str(id).right(2)),int(str(id).left(2)))
 	
 func sunshine_time():
-	return Mtools.sunshine_time(pos.y,GameDate.day_in_year(host.account.curday))
+	return World.sunshine_time(pos.y,GameDate.day_in_year(host.account.curday))

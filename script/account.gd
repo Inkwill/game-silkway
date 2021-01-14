@@ -2,7 +2,7 @@ extends Resource
 class_name Account
 
 export(String) var name
-export(int) var curday : = 0
+export(float) var curday : = 0.0
 export(Array) var player_list := []
 export(Font) var normal_font
 

@@ -13,17 +13,21 @@ func _confirm_key(_key):
 	return _key
 
 func full_name(jdate): # 漢 xx帝 年號xx年 月xx日 
+	jdate = round(jdate)
 	var datename = value(jdate)
 	datename["solar"] =  get_solarterm(jdate)
 	datename["day"] = jdate - int(datename["first"]) + 1
 	return "%s%s %s%s年 (%s) %s月%s日 %s" %[datename["dynasty"],datename["emperor"],datename["era"],datename["year"],datename["ganzhi"],datename["month_name"],datename["day"],solar_name(datename["solar"])]
 
-
+static func get_time_name(jdate):
+	var name = ["午","未","申","酉","戌","亥","子","丑","寅","卯","辰","巳"]
+	return name[int(fmod(jdate,1)*12)]
+	
 static func get_juliandate(date):
 	var a = (14 - date["month"])/12
 	var y = date["year"] + 4800 - a
 	var m = date["month"] + 12*a -3
-	return date["day"] + (153*m+2)/5 + 365*y + y/4 -y/100 + y/400 -32045 #格里历
+	return date["hour"]/24.0 + date["day"] + (153*m+2)/5 + 365*y + y/4 -y/100 + y/400 -32045.5 #格里历
 	#return date["day"] + (153*m+2)/5 + 365*y + y/4 -32083 # 儒略历
 
 static func date_from_juliandate(jdate):

@@ -29,7 +29,7 @@ func _moved_pos():
 			var dir = _args.keys()[0] as String
 			var dis = _args.values()[0] as int
 			print("Move dir: %s" % get(dir))
-			return Mtools.global_pos_moved(start_pos,Vector2(dis*cos(get(dir)*PI),dis*sin(get(dir)*PI)))
+			return GameWorld.global_pos_moved(start_pos,Vector2(dis*cos(get(dir)*PI),dis*sin(get(dir)*PI)))
 		_:push_error("Send a invalid move (%s,%s)" %[_key,_args])
 
 func _moved_dis():
