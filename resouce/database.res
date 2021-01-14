@@ -30,9 +30,10 @@
          "gold" : {"data_type":"int"}
     },
     "aero": {
-         "id" : {"data_type":"int", "primary_key": true, "not_null": true,"AUTOINCREMENT":true},
+         "id" : {"data_type":"int", "primary_key": true, "not_null": true},
          "ownerid" : {"data_type":"int","foreign_key":"actor.id"},
-         "posid" : {"data_type":"int"},
+         "posx" : {"data_type":"int"},
+         "posy" : {"data_type":"int"},
          "population" : {"data_type":"int"}
     }
 }

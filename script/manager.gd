@@ -30,16 +30,23 @@ func _on_member_changed(member,fun,dic):
 	if not member.id in savers :savers.append(member.id)
 	print("get signal(member_changed) %s: %s -> %s) " % [member,fun,dic])
 
-func create_member():
+func create_member(id=null):
 	var _data = init_data
-	gamedb.insert_rows(type, [_data])
-	gamedb.query("SELECT id from %s ORDER BY id DESC LIMIT 1;" % type)
-	_data["id"] = gamedb.query_result[0]["id"]
+	if id == null :
+		gamedb.insert_rows(type, [_data])
+		gamedb.query("SELECT id from %s ORDER BY id DESC LIMIT 1;" % type)
+		_data["id"] = gamedb.query_result[0]["id"]
+	elif id in db_list :
+		push_error("Create gameobj err : id[%s] conflict"%id)
+		return null
+	else :
+		_data["id"]=id
+		gamedb.insert_rows(type, [_data])
 	db_list.append(_data["id"])
 	var member = _new_member(_data)
 	_register(member)
 	return member
-
+	
 func get_member(id):
 	if id in members.keys() : return members[id]
 	if id in db_list:
@@ -47,8 +54,8 @@ func get_member(id):
 		_register(member)
 		return member
 	else:
-		push_warning("Try to get a invalid asset: id=%s"%id)
-		return id
+		push_warning("Try to get a invalid gameobj: id=%s, type=%s"% [id,type])
+		return null
 
 func store_member() :
 	if savers.size() == 0 :return 0

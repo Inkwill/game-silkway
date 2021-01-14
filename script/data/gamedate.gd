@@ -45,3 +45,7 @@ static func solar_name(solar)->String:
 	var name = ["冬至","小寒","大寒","立春","雨水", "驚蟄", "春分", "清明", "穀雨", "立夏", "小滿","芒種", "夏至", "小暑", "大暑", "立秋", "處暑", "白露", "秋分", "寒露", "霜降", "立冬","小雪","大雪","冬至"]
 	if solar["day"]>0 :return "%s(+%s)"% [name[solar["id"]],solar["day"]]
 	else : return name[solar["id"]]
+
+static func day_in_year(jdate):
+	var date = date_from_juliandate(jdate)
+	return jdate - get_juliandate({"year":date["year"],"month":1,"day":1})

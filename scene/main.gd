@@ -8,14 +8,12 @@ export(Font) var font
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	account = host.account
-	MessageBox.message(account.name)
+	MessageBox.message(len("12345"))
 	$Button.text = account.curday as String
 	if account.curplayer.assetid == -1:
 		Effect.new("gain",account.asseter.create_member()).at(account.curplayer)
-	$bg/lb_gold.text = str(account.curplayer.asset.data["gold"])
+	$bg/lb_gold.text = str(account.world.cur_aero.feature) + str(account.world.cur_aero.pos)
 	$bg/bt_Date.text = date.full_name(account.curday)
-	var movto = Move.new("moveto",Vector2(30,40))
-	movto.at(account.curplayer)
 	thread = Thread.new()
 	thread.start(self, "_thread_function","Wafflecopter")
 	$Sprite.texture = $Viewport.get_texture()
@@ -30,9 +28,7 @@ func _on_Button_pressed():
 	$Button.text = account.curday as String
 	$bg/bt_Date.text = date.full_name(account.curday)
 	$bg/lb_gold.text = str(account.curplayer.asset.data["gold"])
-#	var a = {"a":1}
-#	var b = {"b":2}
-#	print(a+b)
+	MessageBox.message(GameDate.day_in_year(account.curday))
 
 
 func _on_bt_Date_pressed():

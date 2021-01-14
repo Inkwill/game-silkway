@@ -3,8 +3,8 @@ class_name GameObj
 
 signal _s_gameobj_changed
 
-var id setget _private_setter
-var ownerid setget _private_setter
+var ownerid
+var id:int setget _private_setter
 var type:String setget _private_setter
 var data := {} setget _private_setter
 var pos := Vector2(0,0) setget _set_pos
@@ -25,3 +25,4 @@ func _private_setter(_value):
 func _set_pos(value:Vector2):
 	pos = value
 	emit_signal("_s_gameobj_changed",self,"set_pos",value)
+
