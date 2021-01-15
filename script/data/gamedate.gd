@@ -19,9 +19,12 @@ func full_name(jdate): # 漢 xx帝 年號xx年 月xx日
 	datename["day"] = jdate - int(datename["first"]) + 1
 	return "%s%s %s%s年 (%s) %s月%s日 %s" %[datename["dynasty"],datename["emperor"],datename["era"],datename["year"],datename["ganzhi"],datename["month_name"],datename["day"],solar_name(datename["solar"])]
 
+static func get_time(jdate):
+	return int(fmod(jdate,1)*12)
+
 static func get_time_name(jdate):
 	var name = ["午","未","申","酉","戌","亥","子","丑","寅","卯","辰","巳"]
-	return name[int(fmod(jdate,1)*12)]
+	return name[get_time(jdate)]
 	
 static func get_juliandate(date):
 	var a = (14 - date["month"])/12

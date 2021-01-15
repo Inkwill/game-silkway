@@ -18,13 +18,14 @@ func _ready():
 		Effect.new("gain",account.asseter.create_member()).at(player)
 	thread = Thread.new()
 	thread.start(self, "_thread_function","Wafflecopter")
-	$Sprite.texture = $Viewport.get_texture()
+	$bg.texture = $Viewport.get_texture()
 	refresh()
 
 func refresh():
 	$Button.text = account.curday as String
-	$bg/bt_Date.text = date.full_name(account.curday)
-	$bg/lb_gold.text = GameDate.get_time_name(account.curday)
+	$bt_Date.text = date.full_name(account.curday)
+	$lb_gold.text = GameDate.get_time_name(account.curday)
+	$Viewport/background/DirectionalLight.light_energy = GameDate.get_time(account.curday)/6.0
 	
 func _on_Button_pressed():
 	account.curday  += 0.1
