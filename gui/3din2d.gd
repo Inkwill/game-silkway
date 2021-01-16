@@ -6,7 +6,8 @@ var scale_factor := Vector2(1,1)
 var tweentime = 2.0
 
 func _ready():
-	get_viewport().connect("size_changed", self, "_on_root_size_changed")
+	var err = get_viewport().connect("size_changed", self, "_on_root_size_changed")
+	if err : push_warning("Connect err : _on_root_size_changed")
 	
 func zoom(scale:Vector2):
 	scale_factor = scale

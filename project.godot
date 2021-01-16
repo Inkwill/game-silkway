@@ -104,6 +104,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/mathematica/mtools.gd"
 }, {
+"base": "Object",
+"class": "RNGTools",
+"language": "GDScript",
+"path": "res://addons/rngtools/RNGTools.gd"
+}, {
 "base": "Reference",
 "class": "Storage",
 "language": "GDScript",
@@ -144,6 +149,7 @@ _global_script_class_icons={
 "MessageBox": "",
 "Move": "",
 "Mtools": "",
+"RNGTools": "",
 "Storage": "",
 "Storager": "",
 "UIActOption": "",
@@ -164,6 +170,10 @@ host="*res://script/host.gd"
 
 window/size/width=480
 window/size/height=800
+
+[editor_plugins]
+
+enabled=PoolStringArray( "ui_design_tool" )
 
 [gui]
 
