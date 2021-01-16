@@ -5,49 +5,48 @@
 [ext_resource path="res://scene/autospin.gd" type="Script" id=3]
 [ext_resource path="res://scene/automove.gd" type="Script" id=4]
 
-[sub_resource type="SpatialMaterial" id=6]
+[sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 2 )
 
 [sub_resource type="QuadMesh" id=2]
 size = Vector2( 3, 3 )
 
-[sub_resource type="SpatialMaterial" id=1]
+[sub_resource type="SpatialMaterial" id=3]
 flags_transparent = true
 albedo_color = Color( 1, 1, 1, 0.380392 )
 albedo_texture = ExtResource( 2 )
 
-[sub_resource type="QuadMesh" id=5]
+[sub_resource type="QuadMesh" id=4]
 size = Vector2( 3, 2 )
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="SpatialMaterial" id=5]
 albedo_texture = ExtResource( 1 )
 
-[sub_resource type="CubeMesh" id=4]
+[sub_resource type="CubeMesh" id=6]
 size = Vector3( 0.1, 0.1, 0.1 )
 
-[node name="background" type="Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+[node name="scene" type="Spatial"]
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
 
 [node name="ground" type="MeshInstance" parent="."]
 transform = Transform( 0.999999, 0, 0, 0, 1, 0, 0, 0, 0.999999, 0, 0, 0 )
-material_override = SubResource( 6 )
+material_override = SubResource( 1 )
 mesh = SubResource( 2 )
 material/0 = null
 
 [node name="ground3" type="MeshInstance" parent="."]
 transform = Transform( 0.999998, 0, 0, 0, 1, 0, 0, 0, 0.999998, -0.66, 0.3, 0 )
-material_override = SubResource( 1 )
-mesh = SubResource( 5 )
+material_override = SubResource( 3 )
+mesh = SubResource( 4 )
 material/0 = null
 script = ExtResource( 4 )
 
 [node name="ground2" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5 )
-material_override = SubResource( 3 )
-mesh = SubResource( 4 )
+material_override = SubResource( 5 )
+mesh = SubResource( 6 )
 material/0 = null
 script = ExtResource( 3 )
 

@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 var account 
 var player
@@ -18,24 +18,24 @@ func _ready():
 		Effect.new("gain",account.asseter.create_member()).at(player)
 	thread = Thread.new()
 	thread.start(self, "_thread_function","Wafflecopter")
-	$bg.texture = $Viewport.get_texture()
 	refresh()
 
 func refresh():
 	$Button.text = account.curday as String
 	$bt_Date.text = date.full_name(account.curday)
 	$lb_gold.text = GameDate.get_time_name(account.curday)
-	$Viewport/background/DirectionalLight.light_energy = GameDate.get_time(account.curday)/6.0
+#	$Viewport/background/DirectionalLight.light_energy = GameDate.get_time(account.curday)/6.0
 	
 func _on_Button_pressed():
 	account.curday  += 0.1
 	print(account.curday)
 	var eff = Effect.new("add",{"gold":1})
 	eff.at(account.asseter.members.values())
+	if $bg.scale_factor == Vector2(1,1): $bg.zoom(Vector2(0.5,0.5))
+	else : $bg.zoom(Vector2(1,1))
 #	var uiaction = load(_path_ui_action).instance()
 #	uiaction.action = Action.new(1)
 #	host.root.add_child(uiaction)
-	refresh()
 
 func _on_bt_Date_pressed():
 	var d = GameDate.date_from_juliandate(account.curday)
