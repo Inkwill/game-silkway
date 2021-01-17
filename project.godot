@@ -72,7 +72,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "GameObj",
 "language": "GDScript",
-"path": "res://script/obj/gameobj.gd"
+"path": "res://script/obj/gameObj.gd"
 }, {
 "base": "Resource",
 "class": "GameTable",
@@ -159,7 +159,7 @@ _global_script_class_icons={
 [application]
 
 config/name="silkway"
-run/main_scene="res://scene/main.tscn"
+run/main_scene="res://scene/login.tscn"
 config/icon="res://icon.png"
 
 [autoload]

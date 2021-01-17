@@ -4,7 +4,7 @@ var account
 var player
 var world
 
-var date = GameDate.new()
+var date
 var thread
 const _path_ui_action = "res://gui/ui_action/ui_action.tscn"
 
@@ -13,6 +13,7 @@ func _ready():
 	account = host.account
 	player = account.curplayer
 	world = account.world
+	date = GameDate.new()
 	
 	if player.assetid == -1:
 		Effect.new("gain",account.asseter.create_member()).at(player)
@@ -21,6 +22,8 @@ func _ready():
 	refresh()
 
 func refresh():
+	print("refresh")
+	print(account.curday)
 	$Button.text = account.curday as String
 	$bt_Date.text = date.full_name(account.curday)
 	$lb_gold.text = GameDate.get_time_name(account.curday)
