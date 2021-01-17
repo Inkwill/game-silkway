@@ -23,11 +23,13 @@ func creat_account():
 	account.start()
 
 func goto_scene(path):
+	TWColor.fade(1,true)
 	root.add_child(res_loader)
 	res_loader.connect("_load_finished",self,"_on_loader_finished")
 	res_loader.call_deferred("load_res",path)
 
 func _on_loader_finished(resource):
+	TWColor.fade(1)
 	var new_scene = resource.instance()
 	# Free current scene.
 	get_tree().current_scene.free()
