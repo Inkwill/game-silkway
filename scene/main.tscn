@@ -44,5 +44,12 @@ custom_fonts/font = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="bt_move" type="Button" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -28.0
+margin_right = 160.0
+text = "Move"
 [connection signal="pressed" from="bt_Date" to="." method="_on_bt_Date_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

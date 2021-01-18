@@ -32,15 +32,14 @@ func _thread_load(path):
 			push_error("Loading res err : %s" % path)
 			break
 	assert(res)
+#	thread.wait_to_finish()
+#	call_deferred("emit_signal","_load_finished",res)
 	emit_signal("_load_finished",res)	
 			
-func close():
-	thread.wait_to_finish()
-	queue_free()
-	
-
 func load_res(path):
 	thread = Thread.new()
 	thread.start( self, "_thread_load", path)
-	raise() # Show on top.
 	progress.visible = true
+
+func _exit_tree():
+	thread.wait_to_finish()

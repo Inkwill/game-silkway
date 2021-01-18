@@ -17,9 +17,11 @@ func _ready():
 	
 	if player.assetid == -1:
 		Effect.new("gain",account.asseter.create_member()).at(player)
-	thread = Thread.new()
-	thread.start(self, "_thread_function","Wafflecopter")
+	$bt_move.connect("pressed",self,"move")
 	refresh()
+
+func move():
+	host.goto_scene("res://scene/map.tscn")
 
 func refresh():
 	print("refresh")
@@ -44,10 +46,6 @@ func _on_bt_Date_pressed():
 	var d = GameDate.date_from_juliandate(account.curday)
 	MessageBox.message("%s-%s-%s" % [d["year"],d["month"],d["day"]])
 
-	
-func _thread_function(userdata):
-	print("i'm a thread! Userdata is: ", userdata)
-
 func _exit_tree():
-	thread.wait_to_finish()
+	pass
 

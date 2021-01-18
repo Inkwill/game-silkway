@@ -1,11 +1,11 @@
 extends Node
 
 onready var root = get_tree().root
-var res_loader = preload("res://gui/ui_res_loader/res_loader.tscn").instance()
 var account = preload("res://resouce/storage/account.res")
 var storager = preload("res://addons/storage-manager/storager.res").instance()
 const db_file = "res://resouce/database.res"
-#var cur_scene = null
+
+var res_loader
 
 func _enter_tree():
 	pass
@@ -23,6 +23,7 @@ func creat_account():
 	account.start()
 
 func goto_scene(path):
+	res_loader = load("res://gui/ui_res_loader/res_loader.tscn").instance()
 	TWColor.fade(1,true)
 	root.add_child(res_loader)
 	res_loader.connect("_load_finished",self,"_on_loader_finished")
@@ -38,7 +39,8 @@ func _on_loader_finished(resource):
 	get_tree().root.add_child(new_scene)
 	# Set as current scene.
 	get_tree().current_scene = new_scene
-	res_loader.close()
+	res_loader.queue_free()
+
 
 func _exit_tree():
 	account.quit_game()
