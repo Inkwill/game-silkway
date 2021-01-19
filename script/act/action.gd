@@ -10,7 +10,7 @@ func _init(id):
 	_data = GameTable.new(_data_path).value(id)
 	
 func act(options,target=null):
-	_target = host.account.curplayer if target == null else target
+	_target = host.account.player if target == null else target
 	call(_data.fuc,options)
 
 func move(options):

@@ -34,6 +34,7 @@
          "ownerid" : {"data_type":"int","foreign_key":"actor.id"},
          "posx" : {"data_type":"int"},
          "posy" : {"data_type":"int"},
-         "population" : {"data_type":"int"}
+         "population" : {"data_type":"int"},
+         "cells" : { "data_type":"text"}
     }
 }

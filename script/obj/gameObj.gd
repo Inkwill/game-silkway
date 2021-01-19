@@ -9,6 +9,7 @@ var type:String setget _private_setter
 var data := {} setget _private_setter
 var pos := Vector2(0,0) setget _set_pos
 
+
 func _init(_data,_type):
 	id = _data["id"]
 	ownerid = _data["ownerid"]

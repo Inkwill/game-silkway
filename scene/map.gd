@@ -1,12 +1,13 @@
 extends Control
 
 func _ready():
-	$TileMap.set_cell(0,0,1)
-	for i in range(30):
-		for j in range(50):
-			$TileMap.update_bitmask_area(Vector2(i,j))
+	$bt_back.connect("pressed",self,"_back_main")
+	$bt_move.connect("pressed",self,"_move")
+	
+func _back_main():
+	host.goto_scene("res://scene/main.tscn")
 
-func setup_tile():
-	var cells = $TileMap.get_used_cells()
-	for cell in cells :
-		var index = $TileMap.get_cell(cell.x,cell.y)
+func _move():
+	Move.new("move",{"east":10}).at(host.account.player)
+	$maptile._refresh_map(host.account.world.get_aero())
+	$maptile._refresh_actor()

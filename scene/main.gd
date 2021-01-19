@@ -11,7 +11,7 @@ const _path_ui_action = "res://gui/ui_action/ui_action.tscn"
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	account = host.account
-	player = account.curplayer
+	player = account.player
 	world = account.world
 	date = GameDate.new()
 	
@@ -38,6 +38,7 @@ func _on_Button_pressed():
 	eff.at(account.asseter.members.values())
 	if $bg.scale_factor == Vector2(1,1): $bg.zoom(Vector2(0.5,0.5))
 	else : $bg.zoom(Vector2(1,1))
+	print(world.cur_aero.cells["0"])
 #	var uiaction = load(_path_ui_action).instance()
 #	uiaction.action = Action.new(1)
 #	host.root.add_child(uiaction)

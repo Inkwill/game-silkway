@@ -6,7 +6,7 @@ export(float) var curday : = 0.0
 export(Array) var player_list := []
 export(Font) var normal_font
 
-var curplayer = null
+var player = null
 var asseter = null
 var world = null
 var actorer = null
@@ -17,12 +17,12 @@ func _init(p_name = "",p_world = null,p_players = []):
 	player_list = p_players
 	
 func start():
+	world = GameWorld.new()
 	asseter = Asseter.new()
 	actorer = Actorer.new()
-	curplayer = actorer.get_member(player_list[0]) if player_list.size() > 0 else actorer.create_member()
-	print("game start : account = %s, player = %s, day = %s" % [name,curplayer,curday])
-	player_list.append(curplayer.id)
-	world = GameWorld.new()
+	player = actorer.get_member(player_list[0]) if player_list.size() > 0 else actorer.create_member()
+	print("game start : account = %s, player = %s, day = %s" % [name,player,curday])
+	player_list.append(player.id)
 
 func quit_game():
 	print("Save player num = %s" % actorer.store_member())
