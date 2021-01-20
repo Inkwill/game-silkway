@@ -3,9 +3,8 @@ extends Control
 var account 
 var player
 var world
-
 var date
-var thread
+
 const _path_ui_action = "res://gui/ui_action/ui_action.tscn"
 
 # Called when the node enters the scene tree for the first time.
@@ -13,7 +12,7 @@ func _ready():
 	account = host.account
 	player = account.player
 	world = account.world
-	date = GameDate.new()
+	date = account.date
 	
 	if player.assetid == -1:
 		Effect.new("gain",account.asseter.create_member()).at(player)
@@ -32,13 +31,12 @@ func refresh():
 #	$Viewport/background/DirectionalLight.light_energy = GameDate.get_time(account.curday)/6.0
 	
 func _on_Button_pressed():
-	account.curday  += 0.1
-	print(account.curday)
+	date.run_time(0.1)
 	var eff = Effect.new("add",{"gold":1})
 	eff.at(account.asseter.members.values())
-	if $bg.scale_factor == Vector2(1,1): $bg.zoom(Vector2(0.5,0.5))
-	else : $bg.zoom(Vector2(1,1))
-	print(world.cur_aero.cells["0"])
+	if $bg2.scale_factor == Vector2(1,1): $bg2.zoom(Vector2(0.5,0.5))
+	else : $bg2.zoom(Vector2(1,1))
+	refresh()
 #	var uiaction = load(_path_ui_action).instance()
 #	uiaction.action = Action.new(1)
 #	host.root.add_child(uiaction)

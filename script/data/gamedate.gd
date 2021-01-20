@@ -1,9 +1,22 @@
 extends GameTable
 class_name GameDate
-var _path := "res://resouce/data/chinese_calendar.res"
+
+const begin := {"year":-220,"month":11,"day":14,"hour":12} # 秦始皇帝 二十七年 辛巳年 十月 一日 1641025
+const end := {"year":266,"month":2,"day":8,"hour":12} # 西晉武帝 泰始元年 乙酉年 十二月 十七日 1818253
+const startDate := {"year":-140,"month":11,"day":01,"hour":12} # 西漢武帝 建元元年 辛丑年 十月 一日 午時 1670231
+const _path := "res://resouce/data/chinese_calendar.res"
+const state_transition_duration := 1.0 
+
+enum CycleState { NIGHT, DAWN, DAY, DUSK }
+var current_cycle
+
+signal current_cycle_changed
+signal current_hour_changed
 
 func _init(p_file = _path,indexs :=["first","last"]).(p_file,indexs):
-	pass
+	print(get_juliandate(startDate))
+	host.account.curday = max(get_juliandate(startDate),host.account.curday)
+	current_cycle = get_cycle(host.account.curday)
 
 func _confirm_key(_key):
 	for i in range(content["last"].size()):
@@ -18,6 +31,19 @@ func full_name(jdate): # 漢 xx帝 年號xx年 月xx日
 	datename["solar"] =  get_solarterm(jdate)
 	datename["day"] = jdate - int(datename["first"]) + 1
 	return "%s%s %s%s年 (%s) %s月%s日 %s" %[datename["dynasty"],datename["emperor"],datename["era"],datename["year"],datename["ganzhi"],datename["month_name"],datename["day"],solar_name(datename["solar"])]
+
+func run_time(delta:float):
+	host.account.curday += delta
+	emit_signal("current_hour_changed")
+	current_cycle = get_cycle(host.account.curday)
+	emit_signal("current_cycle_changed")
+
+static func get_cycle(jdate):
+	match get_time(jdate) :
+		0,1,2,3,11 : return CycleState.DAY
+		4 : return CycleState.DUSK
+		5,6,7,8,9 : return CycleState.NIGHT
+		10: return CycleState.DAWN
 
 static func get_time(jdate):
 	return int(fmod(jdate,1)*12)

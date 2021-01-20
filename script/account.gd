@@ -10,6 +10,7 @@ var player = null
 var asseter = null
 var world = null
 var actorer = null
+var date = null
 
 func _init(p_name = "",p_world = null,p_players = []):
 	name = p_name
@@ -17,6 +18,7 @@ func _init(p_name = "",p_world = null,p_players = []):
 	player_list = p_players
 	
 func start():
+	date = GameDate.new()
 	world = GameWorld.new()
 	asseter = Asseter.new()
 	actorer = Actorer.new()

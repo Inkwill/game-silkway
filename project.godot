@@ -179,7 +179,7 @@ window/size/height=800
 
 [editor_plugins]
 
-enabled=PoolStringArray( "ui_design_tool" )
+enabled=PoolStringArray( "ImportCleaner" )
 
 [gui]
 
