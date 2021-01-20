@@ -21,3 +21,6 @@ func _process(delta):
 		refresh()
 	scale = Vector3(1,1,1)/(translation.y + n)
 	
+	$ground.translate_object_local(transform.basis.x * delta *0.1)
+	if $ground.translation.x >= 0.66 :
+		$ground.translation.x = -0.66
