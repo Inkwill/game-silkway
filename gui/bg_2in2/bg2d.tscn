@@ -11,6 +11,10 @@
 
 [node name="bg2in2" type="Node2D"]
 
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+
 [node name="BackgroundLayer" type="CanvasLayer" parent="."]
 layer = -1
 
@@ -52,10 +56,6 @@ tile_data = PoolIntArray( 262155, 2, 0, 327682, 0, 0, 327704, 0, 0, 589832, 1, 0
 position = Vector2( 40, 160 )
 texture = ExtResource( 4 )
 script = ExtResource( 8 )
-
-[node name="Camera2D" type="Camera2D" parent="content/Player"]
-offset = Vector2( 100, -260 )
-current = true
 
 [node name="DayNightCycleForeground" parent="." instance=ExtResource( 2 )]
 

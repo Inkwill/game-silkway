@@ -17,6 +17,7 @@ __meta__ = {
 visible = false
 
 [node name="bg2" parent="." instance=ExtResource( 4 )]
+view_size = Vector2( 480, 800 )
 
 [node name="bt_Date" type="Button" parent="."]
 anchor_right = 1.0
@@ -52,8 +53,12 @@ __meta__ = {
 [node name="bt_move" type="Button" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -28.0
+margin_top = -180.0
 margin_right = 160.0
+rect_pivot_offset = Vector2( 0, 180 )
 text = "Move"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="bt_Date" to="." method="_on_bt_Date_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

@@ -37,4 +37,3 @@ __meta__ = {
 }
 
 [node name="Tween" type="Tween" parent="."]
-[connection signal="resized" from="ViewTexture" to="." method="_on_ViewTexture_resized"]
