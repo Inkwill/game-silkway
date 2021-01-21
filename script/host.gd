@@ -10,9 +10,7 @@ var res_loader
 func _enter_tree():
 	pass
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-#	cur_scene = get_tree().current_scene
 	creat_account()
 
 func creat_account():

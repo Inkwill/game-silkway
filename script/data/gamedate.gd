@@ -1,30 +1,65 @@
 extends GameTable
 class_name GameDate
 
+const _path := "res://resouce/data/chinese_calendar.res"
 const begin := {"year":-220,"month":11,"day":14,"hour":12} # 秦始皇帝 二十七年 辛巳年 十月 一日 1641025
 const end := {"year":266,"month":2,"day":8,"hour":12} # 西晉武帝 泰始元年 乙酉年 十二月 十七日 1818253
 const startDate := {"year":-140,"month":11,"day":01,"hour":12} # 西漢武帝 建元元年 辛丑年 十月 一日 午時 1670231
-const _path := "res://resouce/data/chinese_calendar.res"
 const state_transition_duration := 1.0 
+
 
 enum CycleState { NIGHT, DAWN, DAY, DUSK }
 var current_cycle
+var action_list := []
+var is_running := false
+var timer_interval := 1.0 # 時辰
+var timer_unit := 3 # x秒 每 時辰
+var _duration := 0
 
 signal current_cycle_changed
-signal current_hour_changed
+signal timer_step
+signal timer_end
+signal current_hour_changed # hour = 時辰
 
 func _init(p_file = _path,indexs :=["first","last"]).(p_file,indexs):
-	print(get_juliandate(startDate))
 	host.account.curday = max(get_juliandate(startDate),host.account.curday)
 	current_cycle = get_cycle(host.account.curday)
 
-func _confirm_key(_key):
-	for i in range(content["last"].size()):
-		if int(_key) <= int(content["last"][i]) and int(_key) >= int(content["first"][i]): 
-#			print("%s is in (%s,%s,%s)" %  [_key,content["keys"][i],content["first"][i],content["last"][i]])
-			return content["keys"][i]
-	return _key
+func add_action(_action):
+	if _action in action_list : push_warning("Add a existed action : %s" % _action)
+	else : action_list.append(_action)
+	var err = connect("timer_step",_action,"_on_timer_step")
+	if err : push_error("GameDate connect _on_timer_step err[%s] to %s" % [err,_action])
+	else :err = connect("timer_end",_action,"_on_timer_end")
+	if err : push_error("GameDate connect _on_timer_end err[%s] to %s" % [err,_action])
+	if not is_running : run_timer(timer_interval)
 
+func finish_action(_action):
+	if not _action in action_list : push_warning("Finish a unexisted action : %s" % _action)
+	else : action_list.erase(_action)
+
+func run_timer(delta):
+	is_running = true
+	_duration = 0
+	step_timer(delta)
+
+func step_timer(delta):
+	yield(host.get_tree().create_timer(timer_unit*delta),"timeout")
+	_duration += delta
+	host.account.curday += delta
+	print("timer step,duration = %s" % _duration)
+	emit_signal("timer_step",delta)
+	
+	current_cycle = get_cycle(host.account.curday)
+	emit_signal("current_hour_changed")
+	emit_signal("current_cycle_changed")
+	
+	if action_list.size() > 0 and is_running: step_timer(delta)
+	else : 	
+		print("Stop timer,duration = %s" % _duration)
+		emit_signal("timer_end",_duration)
+		is_running = false
+	
 func full_name(jdate): # 漢 xx帝 年號xx年 月xx日 
 	jdate = round(jdate)
 	var datename = value(jdate)
@@ -32,11 +67,12 @@ func full_name(jdate): # 漢 xx帝 年號xx年 月xx日
 	datename["day"] = jdate - int(datename["first"]) + 1
 	return "%s%s %s%s年 (%s) %s月%s日 %s" %[datename["dynasty"],datename["emperor"],datename["era"],datename["year"],datename["ganzhi"],datename["month_name"],datename["day"],solar_name(datename["solar"])]
 
-func run_time(delta:float):
-	host.account.curday += delta
-	emit_signal("current_hour_changed")
-	current_cycle = get_cycle(host.account.curday)
-	emit_signal("current_cycle_changed")
+func _confirm_key(_key):
+	for i in range(content["last"].size()):
+		if int(_key) <= int(content["last"][i]) and int(_key) >= int(content["first"][i]): 
+#			print("%s is in (%s,%s,%s)" %  [_key,content["keys"][i],content["first"][i],content["last"][i]])
+			return content["keys"][i]
+	return _key
 
 static func get_cycle(jdate):
 	match get_time(jdate) :

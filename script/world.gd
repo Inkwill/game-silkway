@@ -1,6 +1,8 @@
 extends Manager
 class_name GameWorld
 
+const world_size = Vector2(1,1) # (long,lat)
+const cell_size := Vector2(15,15)
 const startpos := Vector2(109,34) # 長安
 
 func _init(type = "aero").(type):
@@ -52,3 +54,9 @@ static func solar_declination(day):
 # get sunshine time by (lat,day)
 static func sunshine_time(latitude,day):
 	return 24/PI * acos(-tan(deg2rad(latitude))*tan(solar_declination(day))) # hours
+
+static func dis_per_cell(pos) -> Vector2:   # km per cell
+	return Vector2(global_unit(pos).x * pos_per_cell().x, global_unit(pos).y * pos_per_cell().y)
+
+static func pos_per_cell() -> Vector2: # (long,lat) per cell 
+	return Vector2(world_size.x/cell_size.x, world_size.y/cell_size.y)

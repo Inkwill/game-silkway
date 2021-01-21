@@ -2,8 +2,9 @@ extends GameObj
 class_name Aero
 
 const _data_path = "res://resouce/data/aero.res"
-const cell_size := Vector2(15,15)
-const cell_origin := (cell_size - Vector2(1,1))/2.0
+var cell_size = host.account.world.cell_size
+var cell_origin = (cell_size - Vector2(1,1))/2.0
+
 var feature
 var population
 var cells setget _private_setter
@@ -19,8 +20,7 @@ func sunshine_time():
 
 func cell_pos(w_pos:Vector2)->Vector2:
 	var offset = w_pos - pos
-	print(offset)
-	return Vector2(cell_origin.x + ceil(offset.x*cell_size.x) - 1, cell_origin.y + ceil(offset.y*cell_size.y) -1)
+	return Vector2(cell_origin.x + ceil(offset.x*(cell_size.x-1)), cell_origin.y - ceil(offset.y*(cell_size.y-1)))
 
 func cell_value(pos:Vector2):
 	return cells[str(pos)] if str(pos) in cells else 0

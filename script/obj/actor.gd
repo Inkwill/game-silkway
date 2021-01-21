@@ -5,17 +5,25 @@ var name:String setget _private_setter
 var assetid setget _private_setter
 var asset setget _private_setter,_asset_getter
 var form:String setget _private_setter
+var move_speed :float setget _private_setter # km/時辰
+var _move setget _private_setter
 
 func _init(_data,_type="actor").(_data,_type):
 	name = _data["name"]
 	assetid = _data["assetid"]
 	form = _data["form"]
+	move_speed = 10.0
 
 func _private_setter(_value):
 	._private_setter(_value)
 
 func _asset_getter():
 	return host.account.asseter.get_member(assetid)
+
+func move(_args=null):
+	if _move == null :_move = Move.new(self,_args)
+	if _move.is_moving : MessageBox.message("is moving: %s..." % _move)
+	else : _move.act()
 
 func gain(sth):
 	if sth is Asset:

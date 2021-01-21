@@ -1,20 +1,18 @@
 extends Resource
 class_name Account
 
-export(String) var name
-export(float) var curday : = 0.0
-export(Array) var player_list := []
-export(Font) var normal_font
+export(String) var name 
+export(float) var curday 
+export(Array) var player_list := [] 
 
-var player = null
-var asseter = null
-var world = null
-var actorer = null
-var date = null
+var player = null setget _private_setter
+var asseter = null setget _private_setter
+var world = null setget _private_setter
+var actorer = null setget _private_setter
+var date = null setget _private_setter
 
-func _init(p_name = "",p_world = null,p_players = []):
+func _init(p_name = "",p_players = []):
 	name = p_name
-	world = p_world
 	player_list = p_players
 	
 func start():
@@ -35,3 +33,5 @@ func quit_game():
 	actorer.gamedb.close_db()
 	world.gamedb.close_db()
 	
+func _private_setter(_value):
+	push_warning("Illegal operation : _private_setter to Account![name:%s,set_value:] "% [name._value])
