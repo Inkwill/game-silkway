@@ -18,7 +18,7 @@
         "posx" : {"data_type":"float"},
         "posy" : {"data_type":"float"},
         "assetid":  {"data_type":"int","foreign_key":"asset.id"},
-	    "aeroid": {"data_type":"int","foreign_key":"aero.id"}
+	    "actions": {"data_type":"text"}
     },
     "asset": {
          "id" : {"data_type":"int", "primary_key": true, "not_null": true,"AUTOINCREMENT":true},

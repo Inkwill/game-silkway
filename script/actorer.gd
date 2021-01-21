@@ -8,4 +8,6 @@ func _new_member(_data):
 	return Actor.new(_data)
 
 func _storedata(id):
-	return {"name":members[id].name,"assetid":members[id].assetid,"posx":members[id].pos.x,"posy":members[id].pos.y,"ownerid":members[id].ownerid}
+	var data = {"name":members[id].name,"assetid":members[id].assetid,
+	"posx":members[id].pos.x,"posy":members[id].pos.y,"ownerid":members[id].ownerid}
+	if members[id].action_list.size()>0: data["actions"] = JSON.parse(members[id].action_list[0]._storage_data())

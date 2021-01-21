@@ -23,8 +23,6 @@ func move():
 	host.goto_scene("res://scene/map.tscn")
 
 func refresh():
-	print("refresh")
-	print(account.curday)
 	$Button.text = account.curday as String
 	$bt_Date.text = date.full_name(account.curday)
 	$lb_gold.text = GameDate.get_time_name(account.curday)

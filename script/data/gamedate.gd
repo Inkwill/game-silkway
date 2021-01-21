@@ -37,6 +37,11 @@ func add_action(_action):
 func finish_action(_action):
 	if not _action in action_list : push_warning("Finish a unexisted action : %s" % _action)
 	else : action_list.erase(_action)
+	if is_connected("timer_step",_action,"_on_timer_step"): disconnect("timer_step",_action,"_on_timer_step")
+	else :push_error("GameDate disconnect _on_timer_step err to %s" % _action)
+	if is_connected("timer_end",_action,"_on_timer_end"): disconnect("timer_end",_action,"_on_timer_end")
+	else: push_error("GameDate disconnect _on_timer_end err to %s" % _action)
+	if not is_running : run_timer(timer_interval)
 
 func run_timer(delta):
 	is_running = true

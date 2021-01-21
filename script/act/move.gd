@@ -14,25 +14,19 @@ var move_path := []  # [end,step_n-1,...step2,step1]
 var dir := ""
 var find_road := false
 var moved_dis := 0.0
-var is_moving := false
 
 func _init(_actor,_args,_type="move").(_actor,_args,_type):
 	if _args is Array : move_path = _args
 	elif _args is String : dir = _args
 
-func act():
-	.act()
-	is_moving = true
-	
 func _on_timer_step(_delta):
 	var dis = _delta * actor.move_speed
 	var pos_step = GameWorld.global_pos_moved(actor.pos,Vector2(dis*cos(get(dir)),dis*sin(get(dir))))
-#	var pos_step = _get_next_pos()
 	actor.pos = pos_step
 	moved_dis += dis
 	print("moved : %s" % moved_dis)
 #	dater.run_time(self,GameWorld.global_distance(actor.pos,pos_step)/actor.move_speed)
-	if moved_dis >= 100 : finish()
+	if moved_dis >= 30 : finish()
 
 	
 func _get_next_pos():
@@ -45,10 +39,14 @@ func _get_next_pos():
 			"east": pos = Vector2(actor.pos.x + GameWorld.pos_per_cell().x , actor.pos.y)
 		move_path.append(pos)
 	return move_path[-1]
-#func _act(t,_key,_args):
-#	start_pos = t.pos
-#	end_pos = _moved_pos()
-#	t.set("pos",end_pos)
+
+func _storage_data():
+	var data = ._storage_data()
+	data["move_path"] = move_path
+	data["dir"] = dir
+	data["find_road"] = 1 if find_road  else 0
+	data["moved_dis"] = moved_dis
+	return data
 
 #func _moved_pos():
 #	match _key:

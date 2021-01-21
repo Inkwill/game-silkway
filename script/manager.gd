@@ -26,7 +26,7 @@ func _register(memeber):
 	var err = memeber.connect("_s_gameobj_changed",self,"_on_member_changed")
 	if err : push_warning("Register memeber err[%s] of %s" % [err,memeber])
 
-func _on_member_changed(member,fun,dic):
+func _on_member_changed(member,_fun,_dic):
 	if not member.id in savers :savers.append(member.id)
 #	print("get signal(member_changed) %s: %s -> %s) " % [member,fun,dic])
 
