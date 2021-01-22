@@ -14,7 +14,7 @@ var move_path := []  # [end,step_n-1,...step2,step1]
 var dir := {}
 var find_road := false
 var moved_dis := 0.0
-var _trace_speed
+var speed
 
 func _init(_actor,_args,_type="move").(_actor,_args,_type):
 	if _args is Array : move_path = _args
@@ -22,36 +22,28 @@ func _init(_actor,_args,_type="move").(_actor,_args,_type):
 
 func _load(dic):
 	._load(dic)
-	move_path = dic["move_path"]
-	dir = dic["dir"]
+	_init_properties(["move_path","dir","moved_dis","speed"],dic)
 	find_road = dic["find_road"] as bool 
-	moved_dis = dic["moved_dis"]
-	_trace_speed = dic["speed"]
 
-func _on_timer_step(_delta):
-	._on_timer_step(_delta)
-	if not _consume(_delta) : 
-		print("Action terminated due to unsustainability : %s" % self)
-		terminate()
+func _do_action(_delta):
 	_act_move(actor.move_speed *_delta)
-	if  _is_finished(): _finish()
+
+func _consume(_duration) -> bool:
+	return true
+
+func _is_finished():
+	var remain = dir.values()[0] - moved_dis
+	return abs(remain) <= 0.5 # km
 
 func _trace_back(_delta):
 	._trace_back(_delta)
 	var duration = _trace_duration(_delta)
 	last_date += duration * 12
-	_act_move(_trace_speed * duration)
+	_act_move(speed * duration)
 	if  _is_finished(): _finish()
 	
-func _is_finished():
-	var remain = dir.values()[0] - moved_dis
-	return abs(remain) <= 0.5 # km
-	
-func _consume(_duration) -> bool:
-	return true
-	
 func _trace_duration(_duration) -> float:
-	return _duration if _trace_speed * _duration <= dir.values()[0] else dir.values()[0]/_trace_speed
+	return _duration if speed * _duration <= dir.values()[0] else dir.values()[0]/speed
 	
 func _act_move(dis):
 	var pos = GameWorld.global_pos_moved(actor.pos,Vector2(dis*cos(get(dir.keys()[0])),dis*sin(get(dir.keys()[0]))))

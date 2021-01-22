@@ -32,12 +32,12 @@ func start():
 func quit_game():
 	date.is_running = false
 	print("Save aero num = %s" % world.store_member())
-	world.gamedb.close_db()
 	print("Save assets num = %s" % asseter.store_member())
-	asseter.gamedb.close_db()
 	print("Save player num = %s" % actorer.store_member())
-	actorer.gamedb.close_db()
 	print("Save account at %s: %s (0==OK)" % [curday,ResourceSaver.save(resource_path,self)])
+	world.gamedb.close_db()
+	asseter.gamedb.close_db()
+	actorer.gamedb.close_db()
 	
 func _private_setter(_value):
 	push_warning("Illegal operation : _private_setter to Account![name:%s,set_value:] "% [name._value])

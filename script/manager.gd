@@ -28,7 +28,7 @@ func _register(memeber):
 
 func _on_member_changed(member,_fun,_dic):
 	if not member.id in savers :savers.append(member.id)
-#	print("get signal(member_changed) %s: %s -> %s) " % [member,fun,dic])
+	print("get signal(member_changed) %s: %s -> %s) " % [member,_fun,_dic])
 
 func create_member(id=null):
 	var _data = init_data

@@ -11,10 +11,10 @@ func _back_main():
 	host.goto_scene("res://scene/main.tscn")
 
 func _move():
-	var move
-	if host.account.player.action_list.size()>0:
-		move = host.account.player.action_list[0]
-	else : move = Move.new(host.account.player,{"west":35})
+	var move = null
+	for action in host.account.player.action_list:
+		if action.type == "move" : move = action
+	if move == null : move = Move.new(host.account.player,{"west":35})
 	move.is_active = true
 	move.act()
 
