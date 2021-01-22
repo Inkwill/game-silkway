@@ -16,7 +16,7 @@ var find_road := false
 var moved_dis := 0.0
 var speed
 
-func _init(_actor,_args,_type="move").(_actor,_args,_type):
+func _init(_actor,_args,_active=false,_type="move").(_actor,_args,_active,_type):
 	if _args is Array : move_path = _args
 	elif _args is Dictionary : dir = _args
 

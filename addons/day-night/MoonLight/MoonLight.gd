@@ -28,7 +28,6 @@ var hour_step: float
 var moon_position: float
 
 var cycle_sync_node: Node
-var delay: float = 0.0
 
 onready var color_transition_tween = $ColorTransitionTween
 onready var energy_transition_tween = $EnergyTransitionTween
@@ -50,23 +49,15 @@ func _ready():
 
 	# Connect signals.
 	var current_hour_changed_signal = host.account.date.connect(
-		"current_hour_changed",
+		"timer_step",
 		self,
-		"_on_current_hour_changed"
-	)
-
-	var current_cycle_changed_signal = host.account.date.connect(
-		"current_cycle_changed",
-		self,
-		"_on_current_cycle_changed"
+		"_on_timer_step"
 	)
 
 	# Check if signals are connected correctly.
 	if current_hour_changed_signal != OK:
 		printerr(current_hour_changed_signal)
 
-	if current_cycle_changed_signal != OK:
-		printerr(current_cycle_changed_signal)
 
 
 	# Create the path.
@@ -86,9 +77,6 @@ func _ready():
 	if move_moon:
 		if cycle_sync_node_path:
 			cycle_sync_node = get_node(cycle_sync_node_path)
-
-			# Sync the delay with the cycle.
-			delay = cycle_sync_node.delay
 
 			# Make it visible in case it's hidden in the editor.
 			visible = true
@@ -119,24 +107,22 @@ func _ready():
 			position = path.get_baked_points()[moon_position]
 
 	# Set the current cycle state.
-	match host.account.date.current_cycle:
-		host.account.date.CycleState.NIGHT:
+	match GameDate.get_time(host.account.curday):
+		0,1,2,3:
 			color = color_night
 			energy = energy_night
-		host.account.date.CycleState.DAWN:
+		10,11:
 			color = color_dawn
 			energy = energy_dawn
-		host.account.date.CycleState.DAY:
+		6,7,8,9:
 			color = color_day
 			energy = energy_day
-		host.account.date.CycleState.DUSK:
+		4,5:
 			color = color_dusk
 			energy = energy_dusk
 
-
 func _physics_process(delta):
 	_move_moon(delta)
-
 
 # PRIVATE FUNCTIONS
 # -----------------
@@ -150,110 +136,98 @@ func _move_moon(delta):
 
 # CALLBACKS
 # ---------
-func _on_current_cycle_changed():
-	match host.account.date.current_cycle:
-		host.account.date.CycleState.NIGHT:
-			if delay > 0:
-				yield(get_tree().create_timer(delay), "timeout")
+#func _on_current_cycle_changed():
+#	match host.account.date.current_cycle:
+#		host.account.date.CycleState.NIGHT:
+#			color_transition_tween.interpolate_property(
+#				self,
+#				"color",
+#				color_dusk,
+#				color_night,
+#				host.account.date.state_transition_duration,
+#				Tween.TRANS_SINE,
+#				Tween.EASE_OUT
+#			)
+#			color_transition_tween.start()
+#
+#			energy_transition_tween.interpolate_property(
+#				self,
+#				"energy",
+#				energy_dusk,
+#				energy_night,
+#				host.account.date.state_transition_duration,
+#				Tween.TRANS_SINE,
+#				Tween.EASE_OUT
+#			)
+#			energy_transition_tween.start()
+#		host.account.date.CycleState.DAWN:
+#			color_transition_tween.interpolate_property(
+#				self,
+#				"color",
+#				color_night,
+#				color_dawn,
+#				host.account.date.state_transition_duration,
+#				Tween.TRANS_SINE,
+#				Tween.EASE_OUT
+#			)
+#			color_transition_tween.start()
+#
+#			energy_transition_tween.interpolate_property(
+#				self,
+#				"energy",
+#				energy_night,
+#				energy_dawn,
+#				host.account.date.state_transition_duration,
+#				Tween.TRANS_SINE,
+#				Tween.EASE_OUT
+#			)
+#			energy_transition_tween.start()
+#		host.account.date.CycleState.DAY:
+#			color_transition_tween.interpolate_property(
+#				self,
+#				"color",
+#				color_dawn,
+#				color_day,
+#				host.account.date.state_transition_duration,
+#				Tween.TRANS_SINE,
+#				Tween.EASE_OUT
+#			)
+#			color_transition_tween.start()
+#
+#			energy_transition_tween.interpolate_property(
+#				self,
+#				"energy",
+#				energy_dawn,
+#				energy_day,
+#				host.account.date.state_transition_duration,
+#				Tween.TRANS_SINE,
+#				Tween.EASE_OUT
+#			)
+#			energy_transition_tween.start()
+#		host.account.date.CycleState.DUSK:
+#			color_transition_tween.interpolate_property(
+#				self,
+#				"color",
+#				color_day,
+#				color_dusk,
+#				host.account.date.state_transition_duration,
+#				Tween.TRANS_SINE,
+#				Tween.EASE_OUT
+#			)
+#			color_transition_tween.start()
+#
+#			energy_transition_tween.interpolate_property(
+#				self,
+#				"energy",
+#				energy_day,
+#				energy_dusk,
+#				host.account.date.state_transition_duration,
+#				Tween.TRANS_SINE,
+#				Tween.EASE_OUT
+#			)
+#			energy_transition_tween.start()
 
-			color_transition_tween.interpolate_property(
-				self,
-				"color",
-				color_dusk,
-				color_night,
-				host.account.date.state_transition_duration,
-				Tween.TRANS_SINE,
-				Tween.EASE_OUT
-			)
-			color_transition_tween.start()
-
-			energy_transition_tween.interpolate_property(
-				self,
-				"energy",
-				energy_dusk,
-				energy_night,
-				host.account.date.state_transition_duration,
-				Tween.TRANS_SINE,
-				Tween.EASE_OUT
-			)
-			energy_transition_tween.start()
-		host.account.date.CycleState.DAWN:
-			if delay > 0:
-				yield(get_tree().create_timer(delay), "timeout")
-
-			color_transition_tween.interpolate_property(
-				self,
-				"color",
-				color_night,
-				color_dawn,
-				host.account.date.state_transition_duration,
-				Tween.TRANS_SINE,
-				Tween.EASE_OUT
-			)
-			color_transition_tween.start()
-
-			energy_transition_tween.interpolate_property(
-				self,
-				"energy",
-				energy_night,
-				energy_dawn,
-				host.account.date.state_transition_duration,
-				Tween.TRANS_SINE,
-				Tween.EASE_OUT
-			)
-			energy_transition_tween.start()
-		host.account.date.CycleState.DAY:
-			if delay > 0:
-				yield(get_tree().create_timer(delay), "timeout")
-
-			color_transition_tween.interpolate_property(
-				self,
-				"color",
-				color_dawn,
-				color_day,
-				host.account.date.state_transition_duration,
-				Tween.TRANS_SINE,
-				Tween.EASE_OUT
-			)
-			color_transition_tween.start()
-
-			energy_transition_tween.interpolate_property(
-				self,
-				"energy",
-				energy_dawn,
-				energy_day,
-				host.account.date.state_transition_duration,
-				Tween.TRANS_SINE,
-				Tween.EASE_OUT
-			)
-			energy_transition_tween.start()
-		host.account.date.CycleState.DUSK:
-			if delay > 0:
-				yield(get_tree().create_timer(delay), "timeout")
-
-			color_transition_tween.interpolate_property(
-				self,
-				"color",
-				color_day,
-				color_dusk,
-				host.account.date.state_transition_duration,
-				Tween.TRANS_SINE,
-				Tween.EASE_OUT
-			)
-			color_transition_tween.start()
-
-			energy_transition_tween.interpolate_property(
-				self,
-				"energy",
-				energy_day,
-				energy_dusk,
-				host.account.date.state_transition_duration,
-				Tween.TRANS_SINE,
-				Tween.EASE_OUT
-			)
-			energy_transition_tween.start()
-
-func _on_current_hour_changed():
+func _on_timer_step(_delta):
 	if move_moon:
 		moon_position = hour_step * GameDate.get_time(host.account.cur_day)
 		position = path.get_baked_points()[moon_position]

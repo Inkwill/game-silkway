@@ -35,8 +35,7 @@ func _on_Button_pressed():
 	if $bg2.scale_factor == Vector2(1,1): $bg2.zoom(Vector2(1,0.1))
 	else : $bg2.zoom(Vector2(1,1))
 	if not date.is_running :
-		var action = Action.new(player,{"timer":10})
-		action.is_active = true
+		var action = Action.new(player,{"timer":10},true)
 		action.act()
 	refresh()
 #	var uiaction = load(_path_ui_action).instance()

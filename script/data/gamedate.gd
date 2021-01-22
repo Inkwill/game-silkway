@@ -9,19 +9,15 @@ const state_transition_duration := 1.0
 const timer_interval := 0.12 # 時辰
 const timer_unit := 1 # 秒/時辰
 
-enum CycleState { NIGHT, DAWN, DAY, DUSK }
-var current_cycle
 var action_list := []
 var is_running := false
 var _duration := 0.0
 
-signal current_cycle_changed
 signal timer_step
 signal timer_end
-signal current_hour_changed # hour = 時辰
 
 func _init(p_file = _path,indexs :=["first","last"]).(p_file,indexs):
-	current_cycle = get_cycle(host.account.curday)
+	pass
 
 func add_action(_action):
 	if _action in action_list : push_warning("Add a existed action : %s" % _action)
@@ -52,10 +48,6 @@ func step_timer(delta):
 #	print("timer step,duration = %s" % _duration)
 	emit_signal("timer_step",delta)
 	
-	current_cycle = get_cycle(host.account.curday)
-	emit_signal("current_hour_changed")
-	emit_signal("current_cycle_changed")
-	
 	if action_list.size() > 0 and is_running: step_timer(delta)
 	else : 	
 		print("Stop timer,duration = %s" % _duration)
@@ -76,14 +68,14 @@ func _confirm_key(_key):
 			return content["keys"][i]
 	return _key
 
-static func get_cycle(jdate):
-	match get_time(jdate) :
-		0,1,2,3,11 : return CycleState.DAY
-		4 : return CycleState.DUSK
-		5,6,7,8,9 : return CycleState.NIGHT
-		10: return CycleState.DAWN
+#static func get_cycle(jdate):
+#	match get_time(jdate) :
+#		0,1,2,3 : return CycleState.DAY
+#		4,5 : return CycleState.DUSK
+#		6,7,8,9 : return CycleState.NIGHT
+#		10,11: return CycleState.DAWN
 
-static func get_time(jdate):
+static func get_time(jdate): # 0~11
 	return int(fmod(jdate,1)*12)
 
 static func get_time_name(jdate):

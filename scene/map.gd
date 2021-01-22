@@ -14,8 +14,7 @@ func _move():
 	var move = null
 	for action in host.account.player.action_list:
 		if action.type == "move" : move = action
-	if move == null : move = Move.new(host.account.player,{"west":35})
-	move.is_active = true
+	if move == null : move = Move.new(host.account.player,{"west":35},true)
 	move.act()
 
 func _on_timer_step(_delta):

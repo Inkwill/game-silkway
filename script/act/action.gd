@@ -11,10 +11,11 @@ var last_date := 0.0 setget _last_date_setter
 var is_active := false
 var duration := 0.0
 
-func _init(_actor,_args="",_type="action"):
+func _init(_actor,_args="",active=false,_type="action"):
 	actor = _actor
 	args = _args
 	type = _type
+	is_active = active
 	create_date = host.account.curday
 	last_date = create_date
 	actor.action_list.append(self)
@@ -35,11 +36,11 @@ func _is_finished():
 	else: return true
 
 func _finish():
-	is_active = false
 	print("Action finish : %s(%s->%s)" % [self,create_date,last_date])
 	terminate()
 
 func terminate():
+	is_active = false
 	host.account.date.remove_action(self)
 	actor.remove_action(self)
 	call_deferred("free")
