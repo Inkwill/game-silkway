@@ -29,7 +29,6 @@ func refresh():
 #	$Viewport/background/DirectionalLight.light_energy = GameDate.get_time(account.curday)/6.0
 	
 func _on_Button_pressed():
-	date.run_time(0.1)
 	var eff = Effect.new("add",{"gold":1})
 	eff.at(account.asseter.members.values())
 	if $bg2.scale_factor == Vector2(1,1): $bg2.zoom(Vector2(1,0.1))

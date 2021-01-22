@@ -11,42 +11,73 @@ const east = 0
 const eastnorth = PI/4
 
 var move_path := []  # [end,step_n-1,...step2,step1]
-var dir := ""
+var dir := {}
 var find_road := false
 var moved_dis := 0.0
+var _trace_speed
 
 func _init(_actor,_args,_type="move").(_actor,_args,_type):
 	if _args is Array : move_path = _args
-	elif _args is String : dir = _args
+	elif _args is Dictionary : dir = _args
+
+func _load(dic):
+	._load(dic)
+	move_path = dic["move_path"]
+	dir = dic["dir"]
+	find_road = dic["find_road"] as bool 
+	moved_dis = dic["moved_dis"]
+	_trace_speed = dic["speed"]
 
 func _on_timer_step(_delta):
-	var dis = _delta * actor.move_speed
-	var pos_step = GameWorld.global_pos_moved(actor.pos,Vector2(dis*cos(get(dir)),dis*sin(get(dir))))
-	actor.pos = pos_step
+	._on_timer_step(_delta)
+	if not _consume(_delta) : 
+		print("Action terminated due to unsustainability : %s" % self)
+		terminate()
+	_act_move(actor.move_speed *_delta)
+	if  _is_finished(): _finish()
+
+func _trace_back(_delta):
+	._trace_back(_delta)
+	var duration = _trace_duration(_delta)
+	last_date += duration * 12
+	_act_move(_trace_speed * duration)
+	if  _is_finished(): _finish()
+	
+func _is_finished():
+	var remain = dir.values()[0] - moved_dis
+	return abs(remain) <= 0.5 # km
+	
+func _consume(_duration) -> bool:
+	return true
+	
+func _trace_duration(_duration) -> float:
+	return _duration if _trace_speed * _duration <= dir.values()[0] else dir.values()[0]/_trace_speed
+	
+func _act_move(dis):
+	var pos = GameWorld.global_pos_moved(actor.pos,Vector2(dis*cos(get(dir.keys()[0])),dis*sin(get(dir.keys()[0]))))
+	actor.pos = pos
 	moved_dis += dis
 	print("moved : %s" % moved_dis)
-#	dater.run_time(self,GameWorld.global_distance(actor.pos,pos_step)/actor.move_speed)
-	if moved_dis >= 30 : finish()
-
 	
-func _get_next_pos():
-	if move_path.size() < 1 :
-		var pos
-		match dir:
-			"north": pos = Vector2(actor.pos.x,actor.pos.y + GameWorld.pos_per_cell().y)
-			"south": pos = Vector2(actor.pos.x,actor.pos.y - GameWorld.pos_per_cell().y)
-			"west": pos = Vector2(actor.pos.x - GameWorld.pos_per_cell().x , actor.pos.y)
-			"east": pos = Vector2(actor.pos.x + GameWorld.pos_per_cell().x , actor.pos.y)
-		move_path.append(pos)
-	return move_path[-1]
-
 func _storage_data():
 	var data = ._storage_data()
-	data["move_path"] = move_path
 	data["dir"] = dir
+	data["move_path"] = move_path
 	data["find_road"] = 1 if find_road  else 0
 	data["moved_dis"] = moved_dis
+	data["speed"] = actor.move_speed
 	return data
+	
+#func _get_next_pos():
+#	if move_path.size() < 1 :
+#		var pos
+#		match dir:
+#			"north": pos = Vector2(actor.pos.x,actor.pos.y + GameWorld.pos_per_cell().y)
+#			"south": pos = Vector2(actor.pos.x,actor.pos.y - GameWorld.pos_per_cell().y)
+#			"west": pos = Vector2(actor.pos.x - GameWorld.pos_per_cell().x , actor.pos.y)
+#			"east": pos = Vector2(actor.pos.x + GameWorld.pos_per_cell().x , actor.pos.y)
+#		move_path.append(pos)
+#	return move_path[-1]
 
 #func _moved_pos():
 #	match _key:

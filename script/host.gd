@@ -18,6 +18,7 @@ func creat_account():
 	else : 
 		storager.creat_storage()
 		GameDB.new().create_db(db_file)
+		account.curday = GameDate.get_juliandate(GameDate.startDate)
 	account.start()
 
 func goto_scene(path):

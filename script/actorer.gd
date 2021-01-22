@@ -10,4 +10,8 @@ func _new_member(_data):
 func _storedata(id):
 	var data = {"name":members[id].name,"assetid":members[id].assetid,
 	"posx":members[id].pos.x,"posy":members[id].pos.y,"ownerid":members[id].ownerid}
-	if members[id].action_list.size()>0: data["actions"] = JSON.parse(members[id].action_list[0]._storage_data())
+	if members[id].action_list.size()>0: 
+		data["actions"] = JSON.print(Mtools.map_call(members[id].action_list,"_storage_data"))
+		print("Storedata_action :%s" % JSON.print(members[id].action_list[0]._storage_data()))
+	else : data["actions"] = ""
+	return data

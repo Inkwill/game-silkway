@@ -6,15 +6,14 @@ const begin := {"year":-220,"month":11,"day":14,"hour":12} # 秦始皇帝 二十
 const end := {"year":266,"month":2,"day":8,"hour":12} # 西晉武帝 泰始元年 乙酉年 十二月 十七日 1818253
 const startDate := {"year":-140,"month":11,"day":01,"hour":12} # 西漢武帝 建元元年 辛丑年 十月 一日 午時 1670231
 const state_transition_duration := 1.0 
-
+const timer_interval := 0.12 # 時辰
+const timer_unit := 1 # 秒/時辰
 
 enum CycleState { NIGHT, DAWN, DAY, DUSK }
 var current_cycle
 var action_list := []
 var is_running := false
-var timer_interval := 1.0 # 時辰
-var timer_unit := 3 # x秒 每 時辰
-var _duration := 0
+var _duration := 0.0
 
 signal current_cycle_changed
 signal timer_step
@@ -22,7 +21,6 @@ signal timer_end
 signal current_hour_changed # hour = 時辰
 
 func _init(p_file = _path,indexs :=["first","last"]).(p_file,indexs):
-	host.account.curday = max(get_juliandate(startDate),host.account.curday)
 	current_cycle = get_cycle(host.account.curday)
 
 func add_action(_action):
@@ -34,25 +32,24 @@ func add_action(_action):
 	if err : push_error("GameDate connect _on_timer_end err[%s] to %s" % [err,_action])
 	if not is_running : run_timer(timer_interval)
 
-func finish_action(_action):
+func remove_action(_action):
 	if not _action in action_list : push_warning("Finish a unexisted action : %s" % _action)
 	else : action_list.erase(_action)
 	if is_connected("timer_step",_action,"_on_timer_step"): disconnect("timer_step",_action,"_on_timer_step")
 	else :push_error("GameDate disconnect _on_timer_step err to %s" % _action)
 	if is_connected("timer_end",_action,"_on_timer_end"): disconnect("timer_end",_action,"_on_timer_end")
 	else: push_error("GameDate disconnect _on_timer_end err to %s" % _action)
-	if not is_running : run_timer(timer_interval)
 
 func run_timer(delta):
 	is_running = true
-	_duration = 0
+	_duration = 0.0
 	step_timer(delta)
 
 func step_timer(delta):
 	yield(host.get_tree().create_timer(timer_unit*delta),"timeout")
 	_duration += delta
-	host.account.curday += delta
-	print("timer step,duration = %s" % _duration)
+	host.account.curday += delta/12.0
+#	print("timer step,duration = %s" % _duration)
 	emit_signal("timer_step",delta)
 	
 	current_cycle = get_cycle(host.account.curday)

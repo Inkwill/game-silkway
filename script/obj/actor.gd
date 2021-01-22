@@ -1,40 +1,50 @@
 extends GameObj
 class_name Actor
 
-var name:String setget _private_setter
-var assetid setget _private_setter
-var asset setget _private_setter,_asset_getter
-var form:String setget _private_setter
-var move_speed :float setget _private_setter # km/時辰
+var name:String 
+var assetid 
+var asset setget ,_asset_getter
+var form:String 
+var move_speed :float # km/時辰
 var action_list := []
 
 func _init(_data,_type="actor").(_data,_type):
-	name = _data["name"]
-	assetid = _data["assetid"]
-	form = _data["form"]
+	_init_properties(["name","assetid","form"])
+	if "actions" in _data : _load_action(_data["actions"])
 	move_speed = 10.0
-
-func _private_setter(_value):
-	._private_setter(_value)
-
+	
 func _asset_getter():
 	return host.account.asseter.get_member(assetid)
 
+func _load_action(actions_data):
+	if actions_data == "": return
+	var js = JSON.parse(actions_data)
+	if not js.error :
+		for dic in js.result :
+			match dic["type"] :
+				"move" : 
+					Move.new(self,dic["args"])._load(dic)
+	else :push_error("Load action by invaild text: %s(%s)" % [actions_data,js.error])
+
 func act():
 	for action in action_list:
-		if action.is_active : action.act()
-
-func finish_action(_action):
+		if action.is_active : 
+			action.act()
+			emit_signal("_s_gameobj_changed",self,"act",action)
+			
+func remove_action(_action):
 	if _action in action_list : action_list.erase(_action)
-	else : push_warning("Missing a action when finish:%s of %s"% [_action,self])
-	print("player action num :%s" % action_list.size())
+	else : push_warning("Missing a action when remove:%s of %s"% [_action,self])
 	
 func gain(sth):
 	if sth is Asset:
 		if asset == null : 
 			asset = sth
 			assetid = sth.id
-			sth.ownerid = id
-			emit_signal("_s_gameobj_changed",self,"gain",sth)
+			sth.ownerid = self.id
+			self.emit_signal("_s_gameobj_changed",self,"gain",sth)
 		else : Effect.new("add",sth.data).at(asset)
 	else : push_warning("Gain something that is not Asset:(%s->%s)"% [sth,self])
+
+func _to_string() -> String:
+	return "actor_%s[%s]"%[form,name]
