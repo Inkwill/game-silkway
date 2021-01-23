@@ -46,15 +46,7 @@ static func global_pos_moved(pos:Vector2,dis:Vector2)-> Vector2:
 	var y_moved = dis.y/unit.y
 	return Vector2(pos.x+x_moved, pos.y+y_moved)
 
-# get solar declination 日赤緯角 
-static func solar_declination(day):
-	var b = 2*PI*(day -1)/365 # radian
-	return 0.006918 - 0.399912*cos(b) + 0.070257*sin(b) - 0.006758*cos(2*b) + 0.000907*sin(2*b) - 0.002697*cos(3*b) + 0.00148*sin(3*b)
 	
-# get sunshine time by (lat,day)
-static func sunshine_time(latitude,day):
-	return 24/PI * acos(-tan(deg2rad(latitude))*tan(solar_declination(day))) # hours
-
 static func dis_per_cell(pos) -> Vector2:   # km per cell
 	return Vector2(global_unit(pos).x * pos_per_cell().x, global_unit(pos).y * pos_per_cell().y)
 

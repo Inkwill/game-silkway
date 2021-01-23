@@ -94,8 +94,8 @@ func _ready():
 			printerr("--------------------")
 
 			visible = false
-
 			return
+			
 	elif static_moon:
 		set_physics_process(false)
 
@@ -107,19 +107,21 @@ func _ready():
 			position = path.get_baked_points()[moon_position]
 
 	# Set the current cycle state.
-	match GameDate.get_time(host.account.curday):
-		0,1,2,3:
-			color = color_night
-			energy = energy_night
-		10,11:
-			color = color_dawn
-			energy = energy_dawn
-		6,7,8,9:
-			color = color_day
-			energy = energy_day
-		4,5:
-			color = color_dusk
-			energy = energy_dusk
+	var quarter = fmod(host.account.curday,1)*96
+	var cycle = host.account.world.get_aero().sunshine_cycle()
+	if  abs(48 -quarter)<= cycle["day"] :
+		color = color_day
+		energy = energy_day
+	elif abs(quarter-48)>= cycle["night"] : 
+		color = color_night
+		energy = energy_night
+	elif quarter >= cycle["dusk"] :
+		color = color_dusk
+		energy = energy_dusk
+	else :
+		color = color_dawn
+		energy = energy_dawn
+	
 
 func _physics_process(delta):
 	_move_moon(delta)

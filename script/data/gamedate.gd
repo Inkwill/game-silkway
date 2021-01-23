@@ -6,8 +6,8 @@ const begin := {"year":-220,"month":11,"day":14,"hour":12} # 秦始皇帝 二十
 const end := {"year":266,"month":2,"day":8,"hour":12} # 西晉武帝 泰始元年 乙酉年 十二月 十七日 1818253
 const startDate := {"year":-140,"month":11,"day":01,"hour":12} # 西漢武帝 建元元年 辛丑年 十月 一日 午時 1670231
 const state_transition_duration := 1.0 
-const timer_interval := 0.12 # 時辰
-const timer_unit := 1 # 秒/時辰
+const timer_interval := 0.12 # (大時) 1刻=15min 96刻
+const timer_unit := 1 # 秒/大時
 
 var action_list := []
 var is_running := false
@@ -75,12 +75,12 @@ func _confirm_key(_key):
 #		6,7,8,9 : return CycleState.NIGHT
 #		10,11: return CycleState.DAWN
 
-static func get_time(jdate): # 0~11
-	return int(fmod(jdate,1)*12)
-
 static func get_time_name(jdate):
-	var name = ["午","未","申","酉","戌","亥","子","丑","寅","卯","辰","巳"]
-	return name[get_time(jdate)]
+	var big_hour_name = ["午","未","申","酉","戌","亥","子","丑","寅","卯","辰","巳"]
+	var quarter_name = ["","一刻",'二刻',"三刻","四刻","五刻","六刻","七刻"]
+	var big_hour = int(fmod(jdate,1)*12)
+	var quarter = int(fmod(jdate,1)*96)
+	return big_hour_name[big_hour] + "時" + quarter_name[quarter%8]
 	
 static func get_juliandate(date):
 	var a = (14 - date["month"])/12
@@ -111,4 +111,4 @@ static func solar_name(solar)->String:
 
 static func day_in_year(jdate):
 	var date = date_from_juliandate(jdate)
-	return jdate - get_juliandate({"year":date["year"],"month":1,"day":1})
+	return jdate - get_juliandate({"year":date["year"],"month":1,"day":1,"hour":0})

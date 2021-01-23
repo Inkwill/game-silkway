@@ -15,8 +15,24 @@ func _init(_data,_type="aero").(_data,_type):
 	population = _data.population
 	cells = JSON.parse(_data.cells).result
 	
-func sunshine_time():
-	return World.sunshine_time(pos.y,GameDate.day_in_year(host.account.curday))
+func sunshine_time(): # quarter
+	var day = GameDate.day_in_year(host.account.curday)
+	var hour = 24/PI * acos(-tan(deg2rad(pos.y))*tan(solar_declination(day))) # hours
+	return 4*hour 
+	
+# get solar declination 日赤緯角 
+static func solar_declination(day):
+	var b = 2*PI*(day -1)/365 # radian
+	return 0.006918 - 0.399912*cos(b) + 0.070257*sin(b) - 0.006758*cos(2*b) + 0.000907*sin(2*b) - 0.002697*cos(3*b) + 0.00148*sin(3*b)
+
+func sunshine_cycle():
+	var cycle := {}
+	var sqter = sunshine_time() +48 # 轉換爲 0.5=午時
+	cycle["day"] = sqter*1/4.0
+	cycle["night"] = sqter*5/8.0
+	cycle["dawn"] = 48 -sqter/2.0
+	cycle["dusk"] = 48 + sqter/2.0
+	return cycle
 
 func cell_pos(w_pos:Vector2)->Vector2:
 	var offset = w_pos - pos
