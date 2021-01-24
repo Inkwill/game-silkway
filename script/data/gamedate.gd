@@ -7,7 +7,7 @@ const end := {"year":266,"month":2,"day":8,"hour":12} # 西晉武帝 泰始元�
 const startDate := {"year":-140,"month":11,"day":01,"hour":12} # 西漢武帝 建元元年 辛丑年 十月 一日 午時 1670231
 const state_transition_duration := 1.0 
 const timer_interval := 0.12 # (大時) 1刻=15min 96刻
-const timer_unit := 1 # 秒/大時
+const timer_unit := 5 # 秒/大時
 
 var action_list := []
 var is_running := false
@@ -53,7 +53,12 @@ func step_timer(delta):
 		print("Stop timer,duration = %s" % _duration)
 		emit_signal("timer_end",_duration)
 		is_running = false
-	
+
+func get_day(jdate) -> int:
+	jdate = round(jdate)
+	var datename = value(jdate)
+	return jdate - int(datename["first"]) + 1
+
 func full_name(jdate): # 漢 xx帝 年號xx年 月xx日 
 	jdate = round(jdate)
 	var datename = value(jdate)
@@ -75,11 +80,11 @@ func _confirm_key(_key):
 #		6,7,8,9 : return CycleState.NIGHT
 #		10,11: return CycleState.DAWN
 
-static func get_time_name(jdate):
+static func get_time_name(jdate): # jdate - 12:00   - 午時三刻
 	var big_hour_name = ["午","未","申","酉","戌","亥","子","丑","寅","卯","辰","巳"]
 	var quarter_name = ["","一刻",'二刻',"三刻","四刻","五刻","六刻","七刻"]
-	var big_hour = int(fmod(jdate,1)*12)
-	var quarter = int(fmod(jdate,1)*96)
+	var big_hour = int(fmod(jdate+1/24.0,1)*12)
+	var quarter = int(fmod(jdate+3/96.0,1)*96)
 	return big_hour_name[big_hour] + "時" + quarter_name[quarter%8]
 	
 static func get_juliandate(date):

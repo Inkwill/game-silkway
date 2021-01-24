@@ -1,5 +1,19 @@
 extends Light2D
 
+# 朔月 日昇日落 crescent energy = 0
+# 新月 上半夜 new
+# 上弦 午時子時 up 
+# 滿月 日落日昇 full energy = 1
+# 下弦 子時午時 down 
+# 殘月 下半夜 set
+
+# 初一 朔月 
+# 初二至初八 峨眉(新)月 - 上弦月  傍晚 - 夜半 西天空
+# 初八至十五四 上弦月 - 凸月 傍晚 - 夜半 - 黎明 
+# 十五至十六 望月 傍晚 - 黎明  東昇西落 
+# 十七至廿三 凸月-下弦月 傍晚 - 夜半 - 黎明 
+# 廿四至廿九 下弦月-峨眉(殘月) 夜半-黎明 東天空
+
 export (Color) var color_night = Color(1.0, 1.0, 1.0, 1.0)
 export (float) var energy_night = 1.0
 export (Color) var color_dawn = Color(1.0, 1.0, 1.0, 1.0)
@@ -8,229 +22,57 @@ export (Color) var color_day = Color(1.0, 1.0, 1.0, 1.0)
 export (float) var energy_day = 0.0
 export (Color) var color_dusk = Color(1.0, 1.0, 1.0, 1.0)
 export (float) var energy_dusk = 0.0
-export (bool) var move_moon = false
-export (NodePath) var cycle_sync_node_path
-export (bool) var static_moon = true
-export (bool) var use_hour_position = false
-export (int, 0, 23) var hour_position = 0
 
-var window_x: float = ProjectSettings.get_setting("display/window/size/width")
-var window_y: float = ProjectSettings.get_setting("display/window/size/height")
-
-var window_center := Vector2(window_x / 2, window_y / 2)
-var radius_x: float = window_x / 2.10
-var radius_y: float = window_y / 2.15
-
-var path := Curve2D.new()
-
-var speed: float
-var hour_step: float
-var moon_position: float
-
-var cycle_sync_node: Node
 
 onready var color_transition_tween = $ColorTransitionTween
 onready var energy_transition_tween = $EnergyTransitionTween
 
 func _ready():
-	if static_moon and move_moon or not static_moon and not move_moon:
-		printerr("--------------------")
-		printerr("ERROR!")
-		printerr("File: '%s.gd'."  % self.name)
-		printerr("Message: The 'static_moon' and 'move_moon' variables can't" + \
-				" both be set to 'true' or 'false' at the same time.")
-		printerr("--------------------")
-
-		# Reset the path so in case there is a 'DebugOverlay' node,
-		# there won't be any options for the 'MoonLight' node.
-		cycle_sync_node_path = ""
-
-		return
-
 	# Connect signals.
-	var current_hour_changed_signal = host.account.date.connect(
-		"timer_step",
-		self,
-		"_on_timer_step"
-	)
-
-	# Check if signals are connected correctly.
-	if current_hour_changed_signal != OK:
-		printerr(current_hour_changed_signal)
-
-
-
-	# Create the path.
-	path.add_point(window_center + Vector2(0, -radius_y), Vector2(-radius_x, 0))
-	path.add_point(window_center + Vector2(radius_x, 0), Vector2(0, -radius_y))
-	path.add_point(window_center + Vector2(0, radius_y), Vector2(radius_x, 0))
-	path.add_point(window_center + Vector2(-radius_x, 0), Vector2(0, radius_y))
-	path.add_point(window_center + Vector2(0, -radius_y), Vector2(-radius_x, 0))
-
-	# Sync the speed with in-game time.
-	speed = path.get_baked_points().size() / \
-			(60.0*60.0*24 / 5400)
-
-	# Divide the path into hours.
-	hour_step = path.get_baked_points().size() / 24.0
-
-	if move_moon:
-		if cycle_sync_node_path:
-			cycle_sync_node = get_node(cycle_sync_node_path)
-
-			# Make it visible in case it's hidden in the editor.
-			visible = true
-
-			moon_position = hour_step * GameDate.get_time(host.account.cur_day)
-			position = path.get_baked_points()[moon_position]
-		else:
-			printerr("--------------------")
-			printerr("ERROR!")
-			printerr("File: '%s.gd'."  % self.name)
-			printerr("Message: The '" + str(self.name) + "' node isn't" + \
-					" sync with any 'DayNightCycle' node." + \
-					" Use the 'cycle_sync_node_path' variable in the '" + \
-					str(self.name) + "' node to sync it with a 'DayNightCycle' node.")
-			printerr("--------------------")
-
-			visible = false
-			return
-			
-	elif static_moon:
-		set_physics_process(false)
-
-		# Make it visible in case it's hidden in the editor.
-		visible = true
-
-		if use_hour_position:
-			moon_position = hour_step * hour_position
-			position = path.get_baked_points()[moon_position]
+	var err = host.account.date.connect("timer_step",self,"_on_timer_step")
+	if err: printerr(err)
 
 	# Set the current cycle state.
-	var quarter = fmod(host.account.curday,1)*96
-	var cycle = host.account.world.get_aero().sunshine_cycle()
-	if  abs(48 -quarter)<= cycle["day"] :
-		color = color_day
-		energy = energy_day
-	elif abs(quarter-48)>= cycle["night"] : 
-		color = color_night
-		energy = energy_night
-	elif quarter >= cycle["dusk"] :
-		color = color_dusk
-		energy = energy_dusk
-	else :
-		color = color_dawn
-		energy = energy_dawn
-	
-
-func _physics_process(delta):
-	_move_moon(delta)
-
-# PRIVATE FUNCTIONS
-# -----------------
-func _move_moon(delta):
-	if moon_position + (delta * speed) >= path.get_baked_points().size():
-		moon_position += (delta * speed) - path.get_baked_points().size()
-	else:
-		position = path.get_baked_points()[moon_position]
-		moon_position += delta * speed
-
-
-# CALLBACKS
-# ---------
-#func _on_current_cycle_changed():
-#	match host.account.date.current_cycle:
-#		host.account.date.CycleState.NIGHT:
-#			color_transition_tween.interpolate_property(
-#				self,
-#				"color",
-#				color_dusk,
-#				color_night,
-#				host.account.date.state_transition_duration,
-#				Tween.TRANS_SINE,
-#				Tween.EASE_OUT
-#			)
-#			color_transition_tween.start()
-#
-#			energy_transition_tween.interpolate_property(
-#				self,
-#				"energy",
-#				energy_dusk,
-#				energy_night,
-#				host.account.date.state_transition_duration,
-#				Tween.TRANS_SINE,
-#				Tween.EASE_OUT
-#			)
-#			energy_transition_tween.start()
-#		host.account.date.CycleState.DAWN:
-#			color_transition_tween.interpolate_property(
-#				self,
-#				"color",
-#				color_night,
-#				color_dawn,
-#				host.account.date.state_transition_duration,
-#				Tween.TRANS_SINE,
-#				Tween.EASE_OUT
-#			)
-#			color_transition_tween.start()
-#
-#			energy_transition_tween.interpolate_property(
-#				self,
-#				"energy",
-#				energy_night,
-#				energy_dawn,
-#				host.account.date.state_transition_duration,
-#				Tween.TRANS_SINE,
-#				Tween.EASE_OUT
-#			)
-#			energy_transition_tween.start()
-#		host.account.date.CycleState.DAY:
-#			color_transition_tween.interpolate_property(
-#				self,
-#				"color",
-#				color_dawn,
-#				color_day,
-#				host.account.date.state_transition_duration,
-#				Tween.TRANS_SINE,
-#				Tween.EASE_OUT
-#			)
-#			color_transition_tween.start()
-#
-#			energy_transition_tween.interpolate_property(
-#				self,
-#				"energy",
-#				energy_dawn,
-#				energy_day,
-#				host.account.date.state_transition_duration,
-#				Tween.TRANS_SINE,
-#				Tween.EASE_OUT
-#			)
-#			energy_transition_tween.start()
-#		host.account.date.CycleState.DUSK:
-#			color_transition_tween.interpolate_property(
-#				self,
-#				"color",
-#				color_day,
-#				color_dusk,
-#				host.account.date.state_transition_duration,
-#				Tween.TRANS_SINE,
-#				Tween.EASE_OUT
-#			)
-#			color_transition_tween.start()
-#
-#			energy_transition_tween.interpolate_property(
-#				self,
-#				"energy",
-#				energy_day,
-#				energy_dusk,
-#				host.account.date.state_transition_duration,
-#				Tween.TRANS_SINE,
-#				Tween.EASE_OUT
-#			)
-#			energy_transition_tween.start()
+	color = _get_moon()[0]
+	energy = _get_moon()[1]
 
 func _on_timer_step(_delta):
-	if move_moon:
-		moon_position = hour_step * GameDate.get_time(host.account.cur_day)
-		position = path.get_baked_points()[moon_position]
+	color_transition_tween.interpolate_property(
+		self,
+		"color",
+		color,
+		_get_moon()[0],
+		_delta * host.account.date.timer_unit,
+		Tween.TRANS_SINE,
+		Tween.EASE_OUT
+	)
+	if not color_transition_tween.is_active(): color_transition_tween.start()
+	energy_transition_tween.interpolate_property(
+		self,
+		"energy",
+		energy,
+		_get_moon()[1],
+		_delta * host.account.date.timer_unit,
+		Tween.TRANS_SINE,
+		Tween.EASE_OUT
+	)
+	if not energy_transition_tween.is_active(): energy_transition_tween.start()
 
+func _moon():
+	var day = host.account.date.get_day(host.account.curday)
+	if day < 8 : return "new"
+	elif day <15 : return "up"
+	elif day ==15 : return "full"
+	elif day <23 : return "down"
+	else : return ""
+		
+
+func _get_moon():
+	var quarter = fmod(host.account.curday,1)*96
+	var cycle = host.account.world.get_aero().sunshine_cycle()
+	if quarter <= cycle["day"] or quarter >=96-cycle["day"]: return [color_day,energy_day]
+	elif quarter <= cycle["dusk_s"] : return [lerp(color_dusk,color_day,(cycle["dusk_s"] - quarter)/(cycle["dusk_s"]-cycle["day"])),energy_dusk]
+	elif quarter <= cycle["dusk_e"] : return [lerp(color_night,color_dusk,(cycle["dusk_e"] - quarter)/(cycle["dusk_e"]-cycle["dusk_s"])),energy_dusk]
+	elif quarter >= cycle["dawn_e"] : return [lerp(color_dawn,color_day,(quarter - cycle["dawn_e"])/(96-cycle["day"]-cycle["dawn_e"])),energy_dawn]
+	elif quarter >= cycle["dawn_s"] : return [lerp(color_night,color_dawn,(quarter - cycle["dawn_s"])/(cycle["dawn_e"]-cycle["dawn_s"])),energy_dawn]
+	else :return [color_night,energy_night]

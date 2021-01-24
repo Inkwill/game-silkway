@@ -13,7 +13,7 @@ func _ready():
 	var err = get_viewport().connect("size_changed", self, "_on_root_size_changed")
 	if err : push_warning("Connect err : _on_root_size_changed")
 	content_height = view_size.y  - content.position.y
-	yield(get_tree().create_timer(1.0),"timeout")
+#	yield(get_tree().create_timer(1.0),"timeout")
 	
 func zoom(scale:Vector2):
 	scale_factor = Vector2(max(0.1,min(scale.x,1)),max(0.1,min(scale.y,1)))

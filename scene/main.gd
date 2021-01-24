@@ -18,6 +18,10 @@ func _ready():
 		Effect.new("gain",account.asseter.create_member()).at(player)
 	$bt_move.connect("pressed",self,"move")
 	date.connect("timer_step",self,"refresh")
+	account.curday = 1670231-132
+	print(account.world.get_aero().sunshine_time())
+	print(GameDate.get_time_name(account.world.get_aero().sunrise()/96))
+	print(GameDate.get_time_name(account.world.get_aero().sunset()/96))
 	refresh()
 
 func move():
@@ -38,6 +42,7 @@ func _on_Button_pressed():
 		var action = Action.new(player,{"timer":12},true)
 		action.act()
 	refresh()
+	
 #	var uiaction = load(_path_ui_action).instance()
 #	uiaction.action = Action.new(1)
 #	host.root.add_child(uiaction)

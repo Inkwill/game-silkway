@@ -57,8 +57,8 @@ position = Vector2( 40, 160 )
 texture = ExtResource( 4 )
 script = ExtResource( 8 )
 
-[node name="DayNightCycleForeground" parent="." instance=ExtResource( 2 )]
+[node name="DayNightCycleForeground" parent="content" instance=ExtResource( 2 )]
+position = Vector2( 0, -500 )
 
 [node name="MoonLight" parent="." instance=ExtResource( 1 )]
-visible = false
-position = Vector2( -33.2978, 297.302 )
+position = Vector2( 331.16, 448.113 )
