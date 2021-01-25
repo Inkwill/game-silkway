@@ -32,7 +32,7 @@ func _trace_back(_delta): # trace back
 	print("_trace_back action:%s->%s" % [self,_delta])
 
 func _is_finished():
-	print("Action is finish ? %s(%s>=%s)" % [ args["timer"]-duration <= 0.01,duration,args["timer"]])
+#	print("Action is finish ? %s(%s>=%s)" % [ args["timer"]-duration <= 0.01,duration,args["timer"]])
 	if "timer" in args : return  args["timer"]-duration <= 0.01
 	else: return true
 

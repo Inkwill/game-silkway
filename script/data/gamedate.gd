@@ -7,7 +7,7 @@ const end := {"year":266,"month":2,"day":8,"hour":12} # 西晉武帝 泰始元�
 const startDate := {"year":-140,"month":11,"day":01,"hour":12} # 西漢武帝 建元元年 辛丑年 十月 一日 午時 1670231
 const state_transition_duration := 1.0 
 const timer_interval := 0.12 # (大時) 1刻=15min 96刻
-const timer_unit := 5 # 秒/大時
+const timer_unit := 1 # 秒/大時
 
 var action_list := []
 var is_running := false
@@ -54,9 +54,9 @@ func step_timer(delta):
 		emit_signal("timer_end",_duration)
 		is_running = false
 
-func get_day(jdate) -> int:
-	jdate = round(jdate)
-	var datename = value(jdate)
+func get_day(jdate) -> float:
+	jdate = jdate
+	var datename = value(round(jdate))
 	return jdate - int(datename["first"]) + 1
 
 func full_name(jdate): # 漢 xx帝 年號xx年 月xx日 
