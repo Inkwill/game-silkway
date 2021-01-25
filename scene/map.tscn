@@ -1,16 +1,15 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://resouce/map/maptileset.tres" type="TileSet" id=1]
-[ext_resource path="res://scene/map.gd" type="Script" id=2]
 [ext_resource path="res://scene/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scene/maptile.gd" type="Script" id=4]
 
 [node name="maptile" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 80.0
+margin_top = 120.0
 margin_right = 3.05176e-05
-margin_bottom = -240.0
+margin_bottom = -200.0
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -24,40 +23,4 @@ tile_data = PoolIntArray( 0, 1610612745, 0, 1, 1610612745, 0, 2, 1610612745, 0, 
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 240, 240 )
-
-[node name="Control" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 240.0
-margin_top = 700.0
-margin_right = -240.0
-margin_bottom = 220.0
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="bt_back" type="Button" parent="Control"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -160.0
-margin_top = -180.0
-rect_pivot_offset = Vector2( 160, 180 )
-text = "Back"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="bt_move" type="Button" parent="Control"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -180.0
-margin_right = 160.0
-rect_pivot_offset = Vector2( 0, 180 )
-text = "Move"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
