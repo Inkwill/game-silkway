@@ -1,59 +1,122 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scene/main.gd" type="Script" id=2]
 [ext_resource path="res://resouce/font/font_normal.tres" type="DynamicFont" id=3]
 [ext_resource path="res://gui/bg_2in2/2din2d.tscn" type="PackedScene" id=4]
+[ext_resource path="res://resouce/icon/icon_001.jpg" type="Texture" id=5]
+
+[sub_resource type="Animation" id=1]
+resource_name = "in"
+tracks/0/type = "value"
+tracks/0/path = NodePath("bt_move:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 740 ), Vector2( 0, 800 ) ]
+}
 
 [node name="main" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="bg2" parent="." instance=ExtResource( 4 )]
+margin_left = -0.943848
+margin_top = -0.943878
+margin_right = -0.943848
+margin_bottom = -0.943848
+
+[node name="bt_Date" type="Button" parent="."]
+anchor_right = 1.0
+custom_fonts/font = ExtResource( 3 )
+text = "漢 xx帝 年號xx年 月xx日"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="lb_gold" type="Label" parent="."]
+margin_left = 4.20447
+margin_top = 37.8403
+margin_right = 44.2045
+margin_bottom = 59.8403
+text = "111"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
 
 [node name="Button" type="Button" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -37.6742
-margin_right = 68.3258
-margin_bottom = 40.0
+margin_left = -64.0
+margin_top = -24.0
+margin_right = 64.0
+margin_bottom = 24.0
+rect_pivot_offset = Vector2( 64, 24 )
 custom_fonts/font = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="bt_move" type="Button" parent="."]
-anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -80.0
-margin_top = -55.0
-margin_right = -32.0
-margin_bottom = -5.0
-rect_pivot_offset = Vector2( 0, 48 )
+margin_top = -60.0
+margin_right = 60.0
+rect_pivot_offset = Vector2( 0, 180 )
 text = "Move"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="animation" type="AnimationPlayer" parent="."]
+anims/in = SubResource( 1 )
+
+[node name="Popup" type="PopupMenu" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -227.0
+margin_top = -167.0
+margin_right = 226.0
+margin_bottom = 21.0
+popup_exclusive = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="bt_talk" type="Button" parent="."]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -24.0
-margin_top = -55.0
-margin_right = 24.0
-margin_bottom = -5.0
-rect_pivot_offset = Vector2( 0, 48 )
-text = "Talk"
+[node name="icon" type="TextureRect" parent="Popup"]
+margin_left = 23.7819
+margin_top = 25.6637
+margin_right = 111.282
+margin_bottom = 153.664
+texture = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="text" type="RichTextLabel" parent="Popup"]
+margin_left = 165.824
+margin_top = 31.2289
+margin_right = 397.824
+margin_bottom = 201.229
+text = "廣成子者，古之仙人也。居崆峒山石室之中。黃帝聞而造焉，曰：「敢問至道之要。」廣成子曰：「爾治天下，雲不待簇而飛，草木不待黃而落，奚足以語至道哉？」"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="bt_Date" to="." method="_on_bt_Date_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

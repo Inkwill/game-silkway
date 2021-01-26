@@ -23,7 +23,7 @@ func _refresh_map(aero):
 func _refresh_actor():
 	player = host.account.player
 	ui_player.position = _actor_pos(player.pos)
-	print("actor position: %s"% player.pos)
+#	print("actor position: %s"% player.pos)
 #	var old_cell = actormap.get_used_cells_by_id(actormap.tile_set.find_tile_by_name("player"))
 #	for old in old_cell:
 #		actormap.set_cell(old.x,old.y,-1)
@@ -43,7 +43,7 @@ func _actor_pos(pos):
 	var world = host.account.world
 	var offset = pos-_aero.pos
 	var center = rect_size *0.5
-	printerr(Vector2(center.x+ rect_size.x * offset.x * world.world_size.x,center.y - rect_size.y * offset.y * world.world_size.y))
+#	printerr(Vector2(center.x+ rect_size.x * offset.x * world.world_size.x,center.y - rect_size.y * offset.y * world.world_size.y))
 	return Vector2(center.x+ rect_size.x * offset.x * world.world_size.x,center.y - rect_size.y * offset.y * world.world_size.y)
 
 func _on_timer_step(_delta):
