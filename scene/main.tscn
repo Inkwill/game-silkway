@@ -1,24 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scene/main.gd" type="Script" id=2]
 [ext_resource path="res://resouce/font/font_normal.tres" type="DynamicFont" id=3]
 [ext_resource path="res://gui/bg_2in2/2din2d.tscn" type="PackedScene" id=4]
 [ext_resource path="res://resouce/icon/icon_001.jpg" type="Texture" id=5]
-
-[sub_resource type="Animation" id=1]
-resource_name = "in"
-tracks/0/type = "value"
-tracks/0/path = NodePath("bt_move:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 740 ), Vector2( 0, 800 ) ]
-}
 
 [node name="main" type="Control"]
 anchor_right = 1.0
@@ -71,19 +56,19 @@ __meta__ = {
 }
 
 [node name="bt_move" type="Button" parent="."]
+anchor_left = 0.5
 anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
+margin_left = -30.0
 margin_top = -60.0
-margin_right = 60.0
+margin_right = 30.0
 rect_pivot_offset = Vector2( 0, 180 )
 text = "Move"
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
-
-[node name="animation" type="AnimationPlayer" parent="."]
-anims/in = SubResource( 1 )
 
 [node name="Popup" type="PopupMenu" parent="."]
 anchor_left = 0.5

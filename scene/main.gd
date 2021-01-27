@@ -20,11 +20,11 @@ func _ready():
 	date.connect("timer_step",self,"refresh")
 	$bt_move.connect("pressed",self,"open_move")
 	account.curday = 1670231
-	var move = Move.new(host.account.player,{"east":500},true)
-	move.act()
-	print(account.world.get_aero().sunshine_time())
-	print(GameDate.get_time_name(account.world.get_aero().sunrise()/96))
-	print(GameDate.get_time_name(account.world.get_aero().sunset()/96))
+#	var move = Move.new(host.account.player,{"east":500},true)
+#	move.act()
+	print(date.full_name(account.curday))
+	print("日出:%s"%GameDate.get_time_name(account.world.get_aero().sunrise()/96))
+	print("日落:%s"%GameDate.get_time_name(account.world.get_aero().sunset()/96))
 	print(Vector2(1,1)*Vector2(2,0.5))
 	refresh()
 
@@ -51,8 +51,8 @@ func _on_Button_pressed():
 
 func _on_bt_Date_pressed():
 	var d = GameDate.date_from_juliandate(account.curday)
-	MessageBox.message("%s-%s-%s" % [d["year"],d["month"],d["day"]])
-
+	GUITools.message("%s-%s-%s" % [d["year"],d["month"],d["day"]])
+	
 func open_move():
 	UIWindow.open_window(self,"res://gui/win_map/map.tscn")
 
@@ -60,8 +60,7 @@ func _on_tween_step(_caller,_key, _elapsed, _value):
 	$bg2._on_tween_step(_caller,_key, _elapsed, _value)
 
 func _on_tween_started(_caller,_key):
-	if _caller.is_open : $animation.play("in")
-	else : $animation.play_backwards("in")
+	pass
 	
 func _on_tween_completed(_caller,_key):
 	pass
