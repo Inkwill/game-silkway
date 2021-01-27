@@ -6,12 +6,17 @@ var thread = null
 
 onready var progress = $progress
 
+func load_res(path):
+	thread = Thread.new()
+	thread.start( self, "_thread_load", path)
+	progress.visible = true
+
 func _thread_load(path):
 	var ril = ResourceLoader.load_interactive(path)
 	assert(ril)
 	var total = ril.get_stage_count()
 	# Call deferred to configure max load steps.
-	progress.call_deferred("set_max", total)
+	progress.call_deferred("set_max", max(1,total))
 
 	var res = null
 
@@ -36,10 +41,5 @@ func _thread_load(path):
 #	call_deferred("emit_signal","_load_finished",res)
 	emit_signal("_load_finished",res)	
 			
-func load_res(path):
-	thread = Thread.new()
-	thread.start( self, "_thread_load", path)
-	progress.visible = true
-
 func _exit_tree():
 	thread.wait_to_finish()

@@ -28,7 +28,8 @@ func _on_start_pressed():
 			play_background_tween()
 			tween.interpolate_callback(self,tweentime*0.3,"play_button_tween")
 		LoginState.READY :
-			host.goto_scene("res://scene/main.tscn")
+#			host.tree.change_scene("res://scene/main_test.tscn")
+			host.goto_scene("res://scene/main_test.tscn")
 
 func play_background_tween():
 	tween.interpolate_property($bg,"rect_position:y",$bg.rect_position.y, -1*get_tree().root.size.y, tweentime,Tween.TRANS_QUINT, Tween.EASE_OUT)
