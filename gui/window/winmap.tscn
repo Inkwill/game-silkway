@@ -1,0 +1,98 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://resouce/map/maptileset.tres" type="TileSet" id=1]
+[ext_resource path="res://gui/window/maptile.gd" type="Script" id=2]
+[ext_resource path="res://gui/window/winmap.gd" type="Script" id=3]
+[ext_resource path="res://scene/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://gui/control/h_flow_container.gd" type="Script" id=5]
+
+[node name="winmap" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+view_size = Vector2( 480, 800 )
+tw_from = Vector2( 0, 800 )
+tw_to = Vector2( 0, 120 )
+tw_duration = 2.0
+
+[node name="maptile" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 3.05176e-05
+margin_bottom = -320.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TileMap" type="TileMap" parent="maptile"]
+scale = Vector2( 0.5, 0.5 )
+tile_set = ExtResource( 1 )
+format = 1
+tile_data = PoolIntArray( 0, 1610612745, 0, 1, 1610612745, 0, 2, 1610612745, 0, 3, 1610612745, 0, 4, 1610612745, 0, 5, 1610612745, 0, 6, 1610612745, 0, 7, 1610612745, 0, 8, 1610612745, 0, 9, 1610612745, 0, 10, 1610612745, 0, 458759, 0, 0 )
+
+[node name="Player" parent="maptile" instance=ExtResource( 4 )]
+position = Vector2( 240, 240 )
+script = null
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 480.0
+margin_bottom = -120.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="Container" parent="Panel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 473.0
+margin_bottom = 193.0
+script = ExtResource( 5 )
+
+[node name="Button" type="Button" parent="Panel/HBoxContainer"]
+margin_right = 66.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+text = "Button"
+
+[node name="Button2" type="Button" parent="Panel/HBoxContainer"]
+margin_left = 71.0
+margin_right = 137.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+text = "Button"
+
+[node name="Button3" type="Button" parent="Panel/HBoxContainer"]
+margin_left = 142.0
+margin_right = 208.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+text = "Button"
+
+[node name="Button4" type="Button" parent="Panel/HBoxContainer"]
+margin_left = 213.0
+margin_right = 279.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+text = "Button"
+
+[node name="Button5" type="Button" parent="Panel/HBoxContainer"]
+margin_left = 284.0
+margin_right = 350.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+text = "Button"
+
+[node name="bt_close" type="Button" parent="Panel/HBoxContainer"]
+margin_left = 355.0
+margin_right = 415.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 60, 60 )
+text = "Close"
+[connection signal="gui_input" from="maptile" to="maptile" method="_on_gui_input"]
+[connection signal="pressed" from="Panel/HBoxContainer/bt_close" to="." method="_on_bt_close_pressed"]

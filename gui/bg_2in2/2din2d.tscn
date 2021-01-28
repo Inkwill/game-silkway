@@ -14,7 +14,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 view_size = Vector2( 480, 800 )
-ground_size = Vector2( 480, 190 )
 
 [node name="Viewport" type="Viewport" parent="."]
 size = Vector2( 480, 800 )

@@ -18,7 +18,7 @@ func _ready():
 		Effect.new("gain",account.asseter.create_member()).at(player)
 
 	date.connect("timer_step",self,"refresh")
-	$bt_move.connect("pressed",self,"open_move")
+#	$bt_move.connect("pressed",self,"open_move")
 	account.curday = 1670231
 #	var move = Move.new(host.account.player,{"east":500},true)
 #	move.act()
@@ -53,18 +53,6 @@ func _on_bt_Date_pressed():
 	var d = GameDate.date_from_juliandate(account.curday)
 	GUITools.message("%s-%s-%s" % [d["year"],d["month"],d["day"]])
 	
-func open_move():
-	UIWindow.open_window(self,"res://gui/win_map/map.tscn")
-
-func _on_tween_step(_caller,_key, _elapsed, _value):
-	$bg2._on_tween_step(_caller,_key, _elapsed, _value)
-
-func _on_tween_started(_caller,_key):
-	pass
-	
-func _on_tween_completed(_caller,_key):
-	pass
-#	$bg2._on_tween_completed(_caller,_key)
 
 func random_text():
 	var dic = ["廣成子者，古之仙人也。居崆峒山石室之中。黃帝聞而造焉，曰：「敢問至道之要。」廣成子曰：「爾治天下，雲不待簇而飛，草木不待黃而落，奚足以語至道哉？」",

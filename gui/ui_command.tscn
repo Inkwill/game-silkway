@@ -1,0 +1,162 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://gui/uicommand.gd" type="Script" id=1]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://resouce/font/YaHei Consolas Hybrid 1.12.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 10
+font_data = SubResource( 1 )
+
+[node name="uicommand" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+ground_size = Vector2( 0, 190 )
+
+[node name="pan" type="PanelContainer" parent="."]
+anchor_right = 1.0
+margin_bottom = 64.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="container" type="GridContainer" parent="pan"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 473.0
+margin_bottom = 57.0
+columns = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bt_move" type="Button" parent="pan/container"]
+margin_right = 100.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 100, 50 )
+rect_pivot_offset = Vector2( 0, 180 )
+text = "行"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bt_observe" type="Button" parent="pan/container"]
+margin_left = 104.0
+margin_right = 154.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+rect_pivot_offset = Vector2( 0, 180 )
+text = "察"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bt_order" type="Button" parent="pan/container"]
+margin_left = 158.0
+margin_right = 208.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+rect_pivot_offset = Vector2( 0, 180 )
+text = "令"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bt_write" type="Button" parent="pan/container"]
+margin_left = 212.0
+margin_right = 262.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+rect_pivot_offset = Vector2( 0, 180 )
+text = "書"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bt_inventory" type="Button" parent="pan/container"]
+margin_left = 266.0
+margin_right = 316.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+rect_pivot_offset = Vector2( 0, 180 )
+text = "庫"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="box_move" type="GridContainer" parent="pan/container"]
+margin_left = 320.0
+margin_right = 460.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 140, 0 )
+
+[node name="action" type="Label" parent="pan/container/box_move"]
+margin_right = 140.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 140, 0 )
+custom_fonts/font = SubResource( 2 )
+text = "體力"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ProgressBar" type="ProgressBar" parent="pan/container/box_move/action"]
+margin_top = 2.0
+margin_right = 120.0
+margin_bottom = 14.0
+value = 50.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="satiety" type="Label" parent="pan/container/box_move"]
+margin_top = 18.0
+margin_right = 140.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 140, 0 )
+custom_fonts/font = SubResource( 2 )
+text = "飽食"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ProgressBar" type="ProgressBar" parent="pan/container/box_move/satiety"]
+margin_top = 2.0
+margin_right = 120.0
+margin_bottom = 14.0
+value = 50.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mood" type="Label" parent="pan/container/box_move"]
+margin_top = 36.0
+margin_right = 140.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 140, 0 )
+custom_fonts/font = SubResource( 2 )
+text = "情緒"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ProgressBar" type="ProgressBar" parent="pan/container/box_move/mood"]
+margin_top = 2.0
+margin_right = 120.0
+margin_bottom = 14.0
+value = 50.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="pan/container/bt_move" to="." method="_on_bt_move_pressed"]

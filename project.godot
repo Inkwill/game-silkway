@@ -77,7 +77,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "GameObj",
 "language": "GDScript",
-"path": "res://script/obj/gameObj.gd"
+"path": "res://script/obj/gameobj.gd"
 }, {
 "base": "Resource",
 "class": "GameTable",
@@ -88,6 +88,11 @@ _global_script_classes=[ {
 "class": "GameWorld",
 "language": "GDScript",
 "path": "res://script/world.gd"
+}, {
+"base": "Container",
+"class": "HFlowContainer",
+"language": "GDScript",
+"path": "res://gui/control/h_flow_container.gd"
 }, {
 "base": "Object",
 "class": "Manager",
@@ -132,12 +137,12 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "UIWindow",
 "language": "GDScript",
-"path": "res://gui/uiwindow.gd"
+"path": "res://gui/window/uiwindow.gd"
 }, {
 "base": "UIWindow",
 "class": "WinMap",
 "language": "GDScript",
-"path": "res://gui/win_map/map.gd"
+"path": "res://gui/window/winmap.gd"
 } ]
 _global_script_class_icons={
 "Account": "",
@@ -156,6 +161,7 @@ _global_script_class_icons={
 "GameObj": "",
 "GameTable": "",
 "GameWorld": "",
+"HFlowContainer": "res://gui/control/h_flow_container.svg",
 "Manager": "",
 "Move": "",
 "Mtools": "",
@@ -171,7 +177,7 @@ _global_script_class_icons={
 [application]
 
 config/name="silkway"
-run/main_scene="res://scene/login.tscn"
+run/main_scene="res://scene/main.tscn"
 config/icon="res://icon.png"
 
 [autoload]

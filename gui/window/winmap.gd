@@ -1,12 +1,10 @@
 extends UIWindow
 class_name WinMap
 
+var tilemap_scale
 
 func _ready():
-	pass
-
-func _back_main():
-	host.goto_scene("res://scene/main.tscn")
+	tilemap_scale = $maptile/TileMap.scale
 
 func _move():
 	var move = null
@@ -14,3 +12,11 @@ func _move():
 		if action.type == "move" : move = action
 	if move == null : move = Move.new(host.account.player,{"north":35},true)
 	move.act()
+
+#func _on_root_size_changed():
+#	._on_root_size_changed()
+#	$maptile/TileMap.scale = tilemap_scale*window_scale
+
+
+func _on_bt_close_pressed():
+	show_close()

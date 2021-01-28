@@ -9,12 +9,8 @@ const db_file = "res://resouce/database.res"
 var res_loader
 
 func _enter_tree():
-	print("host enter tree")
 	creat_account()
 
-func _ready():
-	print("host ready")
-	
 func creat_account():
 	if storager.bind(account) == OK: storager.load_storage()
 	else : 

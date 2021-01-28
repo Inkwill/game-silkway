@@ -1,7 +1,6 @@
 extends Control
 
 export(Vector2) var view_size
-export(Vector2) var ground_size
 
 #var scale_factor := Vector2(1,1)
 var content_origin
@@ -31,11 +30,3 @@ func _on_root_size_changed():
 #	$ViewTexture.rect_size = get_viewport().size * scale_factor
 	window_scale = get_viewport().size/view_size
 
-func _on_tween_step(_caller,_key, _elapsed, _value):
-	if _caller.is_open and (_value - ground_size - content.position).y <= 0:
-		content.position.y = floor(_value.y - ground_size.y)
-	elif not _caller.is_open and (content.position-content_origin).y < 0:
-		content.position.y = floor(_value.y - ground_size.y)
-
-#func _on_tween_completed(_caller,_key):
-#	content.position = Vector2(int(content.position.x),int(content.position.y))

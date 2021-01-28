@@ -7,22 +7,34 @@ static func set_rect_full(control):
 	control.margin_right = 0
 	control.margin_left = 0
 
-static func	tween_postion(target,from,to,duration =1):
-	var tw = Tween.new()
-	target.add_child(tw)
-	tw.interpolate_property(target,"rect_position",from,to,duration,Tween.TRANS_QUINT, Tween.EASE_OUT)
-	tw.interpolate_deferred_callback(tw,duration,"queue_free")
+static func	tween_postion(target,from,to,duration =1,callback=null):
+	var tw
+	if target.has_node("tween"):tw = target.get_node("tween")
+	else: 
+		tw = Tween.new()
+		tw.name = "tween"
+		target.add_child(tw)
+	var pos_name = "rect_position" if target is Control else "position"
+	tw.interpolate_property(target,pos_name,from,to,duration,Tween.TRANS_QUINT, Tween.EASE_OUT)
+	if callback != null : tw.interpolate_deferred_callback(target,duration,callback)
 	if not tw.is_active():tw.start()
+	return tw
 
-static func	tween_color(target,from,to,duration =1):
-	var tw = Tween.new()
+static func	tween_color(target,from,to,duration =1,callback=null):
+	var tw
+	if target.has_node("tween"): tw = target.get_node("tween")
+	else: 
+		tw = Tween.new()
+		tw.name = "tween"
+		target.add_child(tw)
 	var cr = ColorRect.new()
-	set_rect_full(cr)
-	target.add_child(cr)
 	cr.add_child(tw)
+	set_rect_full(cr)
+	
 	tw.interpolate_property(cr,"color",from,to,duration,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tw.interpolate_deferred_callback(cr,duration,"queue_free")
+	if callback != null : tw.interpolate_deferred_callback(target,duration,callback)
 	if not tw.is_active():tw.start()
+	return tw
 
 
 static func message(message,duration=1,wide=480):
