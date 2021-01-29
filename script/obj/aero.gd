@@ -2,7 +2,7 @@ extends GameObj
 class_name Aero
 
 const _data_path = "res://resouce/data/aero.res"
-var cell_size = host.account.world.cell_size
+var cell_size = host.account.aeroer.cell_size
 var cell_origin = (cell_size - Vector2(1,1))/2.0
 
 var feature

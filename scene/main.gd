@@ -2,7 +2,7 @@ extends Control
 
 var account 
 var player
-var world
+var aeroer
 var date
 
 const _path_ui_action = "res://gui/ui_action/ui_action.tscn"
@@ -11,7 +11,7 @@ const _path_ui_action = "res://gui/ui_action/ui_action.tscn"
 func _ready():
 	account = host.account
 	player = account.player
-	world = account.world
+	aeroer = account.aeroer
 	date = account.date
 	
 	if player.assetid == -1:
@@ -23,9 +23,8 @@ func _ready():
 #	var move = Move.new(host.account.player,{"east":500},true)
 #	move.act()
 	print(date.full_name(account.curday))
-	print("日出:%s"%GameDate.get_time_name(account.world.get_aero().sunrise()/96))
-	print("日落:%s"%GameDate.get_time_name(account.world.get_aero().sunset()/96))
-	print(Vector2(1,1)*Vector2(2,0.5))
+	print("日出:%s"%GameDate.get_time_name(account.aeroer.get_aero().sunrise()/96))
+	print("日落:%s"%GameDate.get_time_name(account.aeroer.get_aero().sunset()/96))
 	refresh()
 
 

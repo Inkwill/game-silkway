@@ -29,7 +29,7 @@ func _on_timer_step(_delta):
 	
 func _get_color():
 	var quarter = fmod(host.account.curday,1)*96
-	var cycle = host.account.world.get_aero().sunshine_cycle()
+	var cycle = host.account.aeroer.get_aero().sunshine_cycle()
 	if quarter <= cycle["day"] or quarter >=96-cycle["day"]: return color_day
 	elif quarter <= cycle["dusk_s"] : return lerp(color_dusk,color_day,(cycle["dusk_s"] - quarter)/(cycle["dusk_s"]-cycle["day"]))
 	elif quarter <= cycle["dusk_e"] : return lerp(color_night,color_dusk,(cycle["dusk_e"] - quarter)/(cycle["dusk_e"]-cycle["dusk_s"]))

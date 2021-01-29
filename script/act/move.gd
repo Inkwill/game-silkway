@@ -46,7 +46,7 @@ func _trace_duration(_duration) -> float:
 	return _duration if speed * _duration <= dir.values()[0] else dir.values()[0]/speed
 	
 func _act_move(dis):
-	var pos = GameWorld.global_pos_moved(actor.pos,Vector2(dis*cos(get(dir.keys()[0])),dis*sin(get(dir.keys()[0]))))
+	var pos = Aeroer.global_pos_moved(actor.pos,Vector2(dis*cos(get(dir.keys()[0])),dis*sin(get(dir.keys()[0]))))
 	actor.pos = pos
 	moved_dis += dis
 	print("moved : %s" % moved_dis)
@@ -64,10 +64,10 @@ func _storage_data():
 #	if move_path.size() < 1 :
 #		var pos
 #		match dir:
-#			"north": pos = Vector2(actor.pos.x,actor.pos.y + GameWorld.pos_per_cell().y)
-#			"south": pos = Vector2(actor.pos.x,actor.pos.y - GameWorld.pos_per_cell().y)
-#			"west": pos = Vector2(actor.pos.x - GameWorld.pos_per_cell().x , actor.pos.y)
-#			"east": pos = Vector2(actor.pos.x + GameWorld.pos_per_cell().x , actor.pos.y)
+#			"north": pos = Vector2(actor.pos.x,actor.pos.y + Aeroer.pos_per_cell().y)
+#			"south": pos = Vector2(actor.pos.x,actor.pos.y - Aeroer.pos_per_cell().y)
+#			"west": pos = Vector2(actor.pos.x - Aeroer.pos_per_cell().x , actor.pos.y)
+#			"east": pos = Vector2(actor.pos.x + Aeroer.pos_per_cell().x , actor.pos.y)
 #		move_path.append(pos)
 #	return move_path[-1]
 
@@ -78,7 +78,7 @@ func _storage_data():
 #			var dir = _args.keys()[0] as String
 #			var dis = _args.values()[0] as int
 #			print("Move dir: %s" % get(dir))
-#			return GameWorld.global_pos_moved(start_pos,Vector2(dis*cos(get(dir)*PI),dis*sin(get(dir)*PI)))
+#			return Aeroer.global_pos_moved(start_pos,Vector2(dis*cos(get(dir)*PI),dis*sin(get(dir)*PI)))
 #		_:push_error("Send a invalid move (%s,%s)" %[_key,_args])
 
 #func _moved_dis():

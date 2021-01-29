@@ -1,9 +1,6 @@
 extends GameObj
 class_name Asset
 
-static func load_asset(_id):
-	return host.account.asseter.get_member(_id)
-
 func _init(_data,_type = "asset").(_data,_type):
 	pass
 	

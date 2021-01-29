@@ -1,8 +1,8 @@
 extends Manager
-class_name GameWorld
+class_name Aeroer
 
-const world_size = Vector2(1,1) # (long,lat)
-const cell_size := Vector2(15,15)
+const cell_scale = Vector2(1,1) # (long,lat)
+const cell_size := Vector2(15,15) # pixel
 const startpos := Vector2(109,34) # 長安
 
 func _init(type = "aero").(type):
@@ -14,14 +14,11 @@ func _new_member(_data):
 func _storedata(id):
 	return {"ownerid":members[id].ownerid,"population":members[id].population,"posx":members[id].pos.x,"posy":members[id].pos.y,"cells":JSON.print(members[id].cells)}
 
-func create_aero(pos:Vector2):
-	return create_member(aero_id(pos))
-
 func get_aero(pos= null):
 	if pos == null : pos = host.account.player.pos 
 	var id = aero_id(pos)
 	var aero 
-	if not id in db_list : aero = create_aero(pos)
+	if not id in db_list : aero = create_member(aero_id(pos))
 	else :aero = get_member(id)
 	return aero
 
@@ -48,7 +45,9 @@ static func global_pos_moved(pos:Vector2,dis:Vector2)-> Vector2:
 
 	
 static func dis_per_cell(pos) -> Vector2:   # km per cell
-	return Vector2(global_unit(pos).x * pos_per_cell().x, global_unit(pos).y * pos_per_cell().y)
+#	return Vector2(global_unit(pos).x * pos_per_cell().x, global_unit(pos).y * pos_per_cell().y)
+	return global_unit(pos) * pos_per_cell()
 
 static func pos_per_cell() -> Vector2: # (long,lat) per cell 
-	return Vector2(world_size.x/cell_size.x, world_size.y/cell_size.y)
+#	return Vector2(cell_scale.x/cell_size.x, cell_scale.y/cell_size.y)
+	return cell_scale/cell_size

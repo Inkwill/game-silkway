@@ -14,9 +14,13 @@ func _enter_tree():
 func creat_account():
 	if storager.bind(account) == OK: storager.load_storage()
 	else : 
+		print("****Create account****")
 		storager.creat_storage()
+		print("creat storage completed!")
 		GameDB.new().create_db(db_file)
+		print("creat db completed!")
 		account.curday = GameDate.get_juliandate(GameDate.startDate)
+		print("****Create account completed****")
 	account.start()
 
 func goto_scene(path):

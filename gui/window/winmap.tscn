@@ -27,6 +27,7 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+map_size = Vector2( 480, 480 )
 
 [node name="TileMap" type="TileMap" parent="maptile"]
 scale = Vector2( 0.5, 0.5 )
@@ -53,46 +54,49 @@ margin_top = 7.0
 margin_right = 473.0
 margin_bottom = 193.0
 script = ExtResource( 5 )
+horizontal_margin = 5.0
+vertical_margin = 5.0
 
-[node name="Button" type="Button" parent="Panel/HBoxContainer"]
-margin_right = 66.0
+[node name="bt_move_west" type="Button" parent="Panel/HBoxContainer"]
+margin_right = 120.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
-text = "Button"
+text = "Move to west"
 
 [node name="Button2" type="Button" parent="Panel/HBoxContainer"]
-margin_left = 71.0
-margin_right = 137.0
+margin_left = 125.0
+margin_right = 191.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
 text = "Button"
 
 [node name="Button3" type="Button" parent="Panel/HBoxContainer"]
-margin_left = 142.0
-margin_right = 208.0
+margin_left = 196.0
+margin_right = 262.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
 text = "Button"
 
 [node name="Button4" type="Button" parent="Panel/HBoxContainer"]
-margin_left = 213.0
-margin_right = 279.0
+margin_left = 267.0
+margin_right = 333.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
 text = "Button"
 
 [node name="Button5" type="Button" parent="Panel/HBoxContainer"]
-margin_left = 284.0
-margin_right = 350.0
+margin_left = 338.0
+margin_right = 404.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
 text = "Button"
 
 [node name="bt_close" type="Button" parent="Panel/HBoxContainer"]
-margin_left = 355.0
-margin_right = 415.0
-margin_bottom = 60.0
+margin_top = 65.0
+margin_right = 60.0
+margin_bottom = 125.0
 rect_min_size = Vector2( 60, 60 )
 text = "Close"
 [connection signal="gui_input" from="maptile" to="maptile" method="_on_gui_input"]
+[connection signal="pressed" from="Panel/HBoxContainer/bt_move_west" to="." method="_on_bt_move_west_pressed"]
 [connection signal="pressed" from="Panel/HBoxContainer/bt_close" to="." method="_on_bt_close_pressed"]
