@@ -7,14 +7,16 @@ const end := {"year":266,"month":2,"day":8,"hour":12} # 西晉武帝 泰始元�
 const startDate := {"year":-140,"month":11,"day":01,"hour":12} # 西漢武帝 建元元年 辛丑年 十月 一日 午時 1670231
 const state_transition_duration := 1.0 
 const timer_interval := 0.12 # (大時) 1刻=15min 96刻
-const timer_unit := 10 # 秒/大時
+const timer_unit := 1 # 秒/大時
 
 var action_list := []
 var is_running := false
 var _duration := 0.0
 
 signal timer_step
-signal timer_end
+signal day_step
+signal moon_step
+signal big_hour_step
 
 func _init(p_file = _path,indexs :=["first","last"]).(p_file,indexs):
 	pass
@@ -22,19 +24,13 @@ func _init(p_file = _path,indexs :=["first","last"]).(p_file,indexs):
 func add_action(_action):
 	if _action in action_list : push_warning("Add a existed action : %s" % _action)
 	else : action_list.append(_action)
-	var err = connect("timer_step",_action,"_on_timer_step")
-	if err : push_error("GameDate connect _on_timer_step err[%s] to %s" % [err,_action])
-	else :err = connect("timer_end",_action,"_on_timer_end")
-	if err : push_error("GameDate connect _on_timer_end err[%s] to %s" % [err,_action])
+	_connect_signals(_action,["timer_step","day_step","moon_step","big_hour_step"])
 	if not is_running : run_timer(timer_interval)
 
 func remove_action(_action):
 	if not _action in action_list : return
 	else : action_list.erase(_action)
-	if is_connected("timer_step",_action,"_on_timer_step"): disconnect("timer_step",_action,"_on_timer_step")
-	else :push_error("GameDate disconnect _on_timer_step err to %s" % _action)
-	if is_connected("timer_end",_action,"_on_timer_end"): disconnect("timer_end",_action,"_on_timer_end")
-	else: push_error("GameDate disconnect _on_timer_end err to %s" % _action)
+	_disconnect_signals(_action,["timer_step","day_step","moon_step","big_hour_step"])
 
 func run_timer(delta):
 	is_running = true
@@ -43,15 +39,18 @@ func run_timer(delta):
 
 func step_timer(delta):
 	yield(host.get_tree().create_timer(timer_unit*delta),"timeout")
+	var last_day = host.account.curday
 	_duration += delta
 	host.account.curday += delta/12.0
-#	print("timer step,duration = %s" % _duration)
 	emit_signal("timer_step",delta)
+	
+	if is_cross_big_hour(last_day,host.account.curday) : emit_signal("big_hour_step",delta)
+	if is_cross_day(last_day,host.account.curday) : emit_signal("day_step",delta)
+	if is_cross_moon(last_day,host.account.curday) : emit_signal("moon_step",delta)
 	
 	if action_list.size() > 0 and is_running: step_timer(delta)
 	else : 	
 		print("Stop timer,duration = %s" % _duration)
-		emit_signal("timer_end",_duration)
 		is_running = false
 
 func get_day(jdate) -> float:
@@ -73,12 +72,15 @@ func _confirm_key(_key):
 			return content["keys"][i]
 	return _key
 
-#static func get_cycle(jdate):
-#	match get_time(jdate) :
-#		0,1,2,3 : return CycleState.DAY
-#		4,5 : return CycleState.DUSK
-#		6,7,8,9 : return CycleState.NIGHT
-#		10,11: return CycleState.DAWN
+func _connect_signals(obj,signals):
+	for s in signals :
+		var err = connect(s,obj,"_on_%s"%s)
+		if err : push_error("Connect %s err[%s] to %s" % [s,err,obj])
+		
+func _disconnect_signals(obj,signals=null):
+	if signals == null : signals = get_signal_list()
+	for s in signals :
+		if is_connected(s,obj,"_on_%s"%s): disconnect(s,obj,"_on_%s"%s)
 
 static func get_time_name(jdate): # jdate - 12:00   - 午時三刻
 	var big_hour_name = ["午","未","申","酉","戌","亥","子","丑","寅","卯","辰","巳"]
@@ -117,3 +119,17 @@ static func solar_name(solar)->String:
 static func day_in_year(jdate):
 	var date = date_from_juliandate(jdate)
 	return jdate - get_juliandate({"year":date["year"],"month":1,"day":1,"hour":0})
+
+static func is_cross_day(last_jdate,new_jdate)->bool:
+	if new_jdate-last_jdate-1 >= 0 : return true
+	elif fmod(last_jdate,1)-15/32.0 < 0 : return fmod(new_jdate,1)-15/32.0 >=0		#午後子前
+	else : return fmod(new_jdate,1)-15/32.0>=0 and fmod(new_jdate,1)<fmod(last_jdate,1) #子後午前
+
+static func is_cross_moon(last_jdate,new_jdate)->bool:
+	if new_jdate-last_jdate-1 >= 0 : return true
+	return fmod(new_jdate,1)-fmod(last_jdate,1) <0
+	
+
+static func is_cross_big_hour(last_jdate,new_jdate)->bool:
+	if new_jdate-last_jdate-1/12.0 >= 0 : return true
+	else : return int(fmod(last_jdate+1/24.0,1)*12) == int(fmod(new_jdate+1/24.0,1)*12)

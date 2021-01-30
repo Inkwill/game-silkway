@@ -13,7 +13,8 @@ func _new_member(_data):
 func _storedata(id):
 	return {"name":members[id].name,"ownerid":members[id].ownerid,"posx":members[id].pos.x,"posy":members[id].pos.y}
 
-func launch(duration): #大時
+func launch(_duration): #大時
 	if members.size() < 1 : create_member()
 	for dynasty in members.values():
-		printerr("Dynasty:%s operation for %s big hours" %[dynasty.name, duration])
+		pass
+#		printerr("Dynasty:%s operation for %s big hours" %[dynasty.name, duration])

@@ -66,8 +66,15 @@ func _on_timer_step(_delta):
 func _consume(_delta):
 	return true
 
-func _on_timer_end(_duration):
+func _on_day_step(_duration):
+	printerr("day cross:%s"%GameDate.get_time_name(host.account.curday))
+	
+func _on_moon_step(_duration):
+	printerr("moon cross:%s"%GameDate.get_time_name(host.account.curday))
+	
+func _on_big_hour_step(_duration):
 	pass
+#	printerr("big hour cross:%s"%GameDate.get_time_name(host.account.curday))
 
 func _storage_data():
 	var data = {"type":type,"args":args,"create_date":create_date,"last_date":last_date,"duration":duration}

@@ -1,4 +1,14 @@
 id	date	type	incident	option1
-1	1670231	dynasty	create	{name:漢}
-
-
+1	1641025	dynasty	establish	{name:秦,monarch:始皇}
+2	1644944	dynasty	change_owner	{name:秦,monarch:二世}
+3	1646105	dynasty	change_owner	{name:秦,monarch:三世}
+4	1647640	dynasty	establish	{name:漢,morarch:高祖}
+5	1647640	dynasty	change_owner	{name:漢,morarch:高祖}
+6	1650505	dynasty	change_owner	{name:漢,morarch:惠帝}
+7	1653074	dynasty	change_owner	{name:漢,morarch:吕后}
+8	1655997	dynasty	change_owner	{name:漢,morarch:文帝}
+9	1664384	dynasty	change_owner	{name:漢,morarch:景帝}
+10	1670231	dynasty	change_owner	{name:漢,morarch:武帝}
+11	1689735	dynasty	change_owner	{name:漢,morarch:昭帝}
+12	1694551	dynasty	change_owner	{name:漢,morarch:宣帝}
+13	1000000	dynasty	establish	{name:周,morarch:武王}

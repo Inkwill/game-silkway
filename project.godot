@@ -104,6 +104,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://gui/control/h_flow_container.gd"
 }, {
+"base": "Object",
+"class": "HistoryProducer",
+"language": "GDScript",
+"path": "res://script/data/history_producer.gd"
+}, {
 "base": "GameTable",
 "class": "Incident",
 "language": "GDScript",
@@ -179,6 +184,7 @@ _global_script_class_icons={
 "GameObj": "",
 "GameTable": "",
 "HFlowContainer": "res://gui/control/h_flow_container.svg",
+"HistoryProducer": "",
 "Incident": "",
 "Manager": "",
 "Move": "",

@@ -3,6 +3,7 @@ class_name Account
 
 export(String) var name 
 export(float) var curday setget _curday_setter
+export(Array) var incident_list :=[]
 export(Array) var player_list := [] 
 
 var player = null setget _private_setter
@@ -11,19 +12,22 @@ var aeroer = null setget _private_setter
 var actorer = null setget _private_setter
 var date = null setget _private_setter
 var dynastyer = null setget _private_setter
+var incident = null setget _private_setter
 
-func _init(p_name = "",p_curday = 0.0,p_players = []):
+func _init(p_name = "",p_curday = 0.0,p_incident_list = [],p_players = []):
 	name = p_name
 	player_list = p_players
 	curday = p_curday
+	incident_list = p_incident_list
 	
 func start():
 	date = GameDate.new()
+	incident = Incident.new()
 	aeroer = Aeroer.new()
 	asseter = Asseter.new()
 	dynastyer = Dynastyer.new()
 	actorer = Actorer.new()
-	print("*** Game start : account = %s, player_list = %s, day = %s" % [name,player_list,curday])
+	print("*** Game start : account = %s, player_list = %s, day = %s, inident= %s" % [name,player_list,curday,incident_list])
 	if player_list.size() > 0 : player = actorer.get_member(player_list[0])
 	else : 
 		player = actorer.create_member()

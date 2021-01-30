@@ -9,7 +9,7 @@ func _init(p_file,indexs=[]):
 
 func _confirm_key(_key):
 	return _key
-
+	
 func value(key,column=null):
 	if not key in content["keys"] : key = _confirm_key(key)
 	var row = content["keys"].find(str(key))
