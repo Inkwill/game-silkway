@@ -7,8 +7,6 @@ var _remain_list := []
 func _init(p_file = _path,indexs=["date"]).(p_file,indexs):
 	host.account.date.connect("moon_step",self,"check")
 	_remain_list = Mtools.complement(content.keys,host.account.incident_list)   # need complement
-	print(content.date)
-	check()
 
 func check(_duration=0):
 	var cur_date = host.account.curday
@@ -19,23 +17,28 @@ func check(_duration=0):
 			continue
 		elif offset < 0 : continue
 		else :
-			printerr("incident break in :%s, at date[%s]"% [key,host.account.curday])
+			printerr("incident break in :%s, at date[%s]"% [value(key),host.account.curday])
 			break
 			
 func pre_produce():
-#	var dic = Mtools.thread_dic(content["date"],content["keys"])
-	print(content["date"])
-	print(content["keys"])
-#	dates.sort()
-#	for date in dates :
+	var dates = values(_remain_list,"date")
+	var dic = Mtools.thread_dic(dates,_remain_list)
+	dates = Mtools.delete_duplicate(dates)
+	dates.sort()
+	for date in dates :
+		var keys = dic[date] 
+		printerr("produce incident : %s" % [keys])
+		Mtools.map(self,"produce",keys)
 #		print(content["keys"].size())
 #		print("date:%s,index:%s"%[date,content["date"].find(date)])
-#		var key = content.keys[content["date"].find(date)]
+#		var keys = content.keys[dic[date]]
+#		Mtools.map(self,"produce",keys)
 #		if not key in host.account.incident_list : produce(key)
 
 func produce(key):
 	if key in host.account.incident_list : 
 		push_error("Want produce a produced incident:%s"%key)
-		return
-	print("Produce incident:%s"% value(key))
-	host.account.incident_list.append(key)
+	else:
+		print("Produce incident:%s"% value(key))
+		host.account.incident_list.append(key)
+		_remain_list.erase(key)

@@ -27,6 +27,12 @@ func value(key,column=null):
 		return null
 	return content["data"][row][col]
 
+func values(keys,column=null):
+	var result = []
+	for key in keys:
+		result.append(value(key,column))
+	return result
+
 static func load_data(filepath,indexs,delim: String = "\t"):
 	var file = File.new()
 	var err = file.open(filepath,File.READ)

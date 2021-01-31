@@ -22,18 +22,20 @@ func _init(p_name = "",p_curday = 0.0,p_incident_list = [],p_players = []):
 	
 func start():
 	date = GameDate.new()
-	incident = Incident.new()
 	aeroer = Aeroer.new()
 	asseter = Asseter.new()
 	dynastyer = Dynastyer.new()
 	actorer = Actorer.new()
-	print("*** Game start : account = %s, player_list = %s, day = %s, inident= %s" % [name,player_list,curday,incident_list])
+	print("*** Game start : account = %s, player_list = %s, day = %s" % [name,player_list,curday])
 	if player_list.size() > 0 : player = actorer.get_member(player_list[0])
 	else : 
 		player = actorer.create_member()
 		player_list.append(player.id)
 	print("*** Player start : name = %s, action_num = %s" % [player.name,player.action_list.size()])
 	if player.action_list.size() > 0 : player.act()
+	print("*** Incident start,produced:%s" % [incident_list])
+	incident = Incident.new()
+	incident.check()
 
 func quit_game():
 	date.is_running = false

@@ -20,8 +20,14 @@ static func map_call(obj_list,fuc) -> Array:
 		array.append(obj.call(fuc))
 	return array
 
+static func map(obj,fuc,para_list)->Array:
+	var array := []
+	for para in para_list:
+		array.append(obj.call(fuc,para))
+	return array
+
 static func complement(array1:Array,array2:Array)->Array:
-	var array = array1 if array1.size()>array2.size() else array2
+	var array = array1.duplicate() if array1.size()>array2.size() else array2.duplicate()
 	for element in array1:
 		if element in array2:array.erase(element)
 	return array 
@@ -32,8 +38,13 @@ static func thread_dic(array_key:Array,array_value:Array)->Dictionary:
 		push_error("Thread arrays should have same size!(%s-%s)"%[array_key.size(),array_value.size()])
 	else:
 		for key in array_key:
-			print(key)
 			dic[key] = []
 		for index in range(array_key.size()):
 			dic[array_key[index]].append(array_value[index])
 	return dic
+
+static func delete_duplicate(array:Array)->Array:
+	var arr = []
+	for ele in array:
+		if not ele in arr : arr.append(ele)
+	return arr
