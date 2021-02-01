@@ -1,12 +1,23 @@
 extends Manager
 class_name Actorer
 
-func _init(type = "actor").(type):
-	init_data = {"form":"troop", "name":"new_actor","posx":Aeroer.startpos.x,"posy":Aeroer.startpos.y,"assetid":-1,"ownerid":-1}
+var _form
+
+func _init(form="actor",type = "actor").(form,type):
+	_form = form
+	init_data = {"form":form,
+				 "name":"new_%s"%form,
+				 "posx":Aeroer.startpos.x,
+				 "posy":Aeroer.startpos.y,
+				 "createdate":-1,
+				 "perishdate":-1,
+				 "assetid":-1,
+				 "ownerid":-1
+				}
 
 func _new_member(_data):
 	return Actor.new(_data)
-
+	
 func _storedata(id):
 	var data = {"name":members[id].name,"assetid":members[id].assetid,
 	"posx":members[id].pos.x,"posy":members[id].pos.y,"ownerid":members[id].ownerid}

@@ -11,7 +11,7 @@ var last_date := 0.0 setget _last_date_setter
 var is_active := false
 var duration := 0.0
 
-func _init(_actor,_args="",active=false,_type="action"):
+func _init(_actor,_args,active=false,_type="action"):
 	actor = _actor
 	args = _args
 	type = _type

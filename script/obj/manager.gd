@@ -6,12 +6,15 @@ var savers := []
 var db_list := []
 var gamedb
 var type
+var form
 var init_data := {}
 
-func _init(_type):
+func _init(_form,_type):
 	type = _type
+	form = _form
 	gamedb = GameDB.new().gb
-	gamedb.query("SELECT id from %s;" % type)
+	gamedb.query("SELECT id from %s WHERE form = '%s';" % [type,form])
+#	var datas = gamedb.select_rows(type, "form = %s"%form, ["id"])
 	for data in gamedb.query_result:
 		db_list.append(data["id"])
 
@@ -42,15 +45,16 @@ func create_member(id=null):
 	else :
 		_data["id"]=id
 		gamedb.insert_rows(type, [_data])
-	db_list.append(_data["id"])
 	var member = _new_member(_data)
 	_register(member)
+	db_list.append(_data["id"])
 	return member
 	
 func get_member(id):
 	if id in members.keys() : return members[id]
 	if id in db_list:
-		var member = _new_member(gamedb.select_rows(type, "id == %s"%id,GameDB.get_columns(type))[0])
+		var _data = gamedb.select_rows(type, "id == %s"%id,GameDB.get_columns(type))[0]
+		var member = _new_member(_data)
 		_register(member)
 		return member
 	else:

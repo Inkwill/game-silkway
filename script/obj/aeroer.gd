@@ -5,8 +5,8 @@ const cell_scale = Vector2(1,1) # (long,lat)
 const cell_size := Vector2(15,15) # pixel
 const startpos := Vector2(109,34) # 長安
 
-func _init(type = "aero").(type):
-	init_data = {"ownerid":null,"population":0,"posx":0,"posy":0,"cells":JSON.print({"(0,0)":0})}
+func _init(form = "aero",type = "aero").(form,type):
+	init_data = {"form":form,"ownerid":null,"population":0,"posx":0,"posy":0,"cells":JSON.print({"(0,0)":0})}
 	
 func _new_member(_data):
 	return Aero.new(_data)

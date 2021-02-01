@@ -5,13 +5,14 @@ var name:String
 var assetid 
 var asset setget ,_asset_getter
 var form:String 
-var move_speed :float # km/時辰
+var createdate:int
+var perishdate:int
+
 var action_list := []
 
 func _init(_data,_type="actor").(_data,_type):
-	_init_properties(["name","assetid","form"])
+	_init_properties(["name","assetid","form","createdate","perishdate"])
 	if "actions" in _data : _load_action(_data["actions"])
-	move_speed = 10.0
 	
 func _asset_getter():
 	return host.account.asseter.get_member(assetid)
