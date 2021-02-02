@@ -34,3 +34,21 @@ margin_top = -53.0
 margin_right = 98.0
 margin_bottom = -31.0
 text = "歷史進行中："
+
+[node name="Button" type="Button" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -47.0
+text = "Process History"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="list_root" type="GridContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

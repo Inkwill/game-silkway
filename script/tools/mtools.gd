@@ -26,6 +26,12 @@ static func map(obj,fuc,para_list)->Array:
 		array.append(obj.call(fuc,para))
 	return array
 
+static func dic_slice(dic:Dictionary,keys:Array)->Dictionary:
+	var result := {}
+	for key in keys:
+		result[key] = dic[key]
+	return result
+
 static func complement(array1:Array,array2:Array)->Array:
 	var array = array1.duplicate() if array1.size()>array2.size() else array2.duplicate()
 	for element in array1:
@@ -41,7 +47,7 @@ static func thread_dic(array_key:Array,array_value:Array)->Dictionary:
 			dic[key] = []
 		for index in range(array_key.size()):
 			dic[array_key[index]].append(array_value[index])
-	return dic
+	return dic_slice(dic,delete_duplicate(array_key))
 
 static func delete_duplicate(array:Array)->Array:
 	var arr = []
