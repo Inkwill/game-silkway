@@ -1,15 +1,15 @@
 extends Control
 
-var cur_date
+var cur_year
 
 func _ready():
-	cur_date = GameDate.get_juliandate(host.begin)
-	$Label.text = str(cur_date)
+	cur_year = host.begin.year
+	$Label.text = str(cur_year)
 	
 func process_history():
 	var duration := OS.get_unix_time()
-	for date in range(cur_date,cur_date+10):  #GameDate.get_juliandate(host.startDate)):
-		var incident = Incident.new(date)
+	for year in range(cur_year,cur_year+100):  #GameDate.get_juliandate(host.startDate)):
+		var incident = Incident.new(year)
 		incident.connect("progress",self,"_on_incident_processed")
 		$Label.text = str(yield(incident,"processed"))
 		$Button.text = str(OS.get_unix_time()-duration)
@@ -44,4 +44,4 @@ func _on_incident_processed(_data,progress,total):
 #	$Label.text = str(data)
 	$ProgressBar.max_value = total
 	$ProgressBar.value = progress
-	print("result =%s,progress: %s" % [_data,1.0*progress/total])
+	print("event completed:%s, progress=%s" % [_data,1.0*progress/total])

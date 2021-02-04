@@ -10,8 +10,6 @@ var obj :Array
 var _obj_param :Array
 
 var param :Array
-var _result := []
-
 signal completed(result)
 
 func _init(args):
@@ -24,11 +22,11 @@ func _init(args):
 	_obj_param = Mtools.dics_from_string(args.obj)
 	obj = Mtools.thread_call(self,"_get_obj",_objtype,_obj_param)
 	param = args.param.split(";") if "param" in args else []
-	for p in _pattern:
-		yield(host.tree,"idle_frame")
-		_result.append(_handle(p))
-	emit_signal("completed",_result)
 	
+func handle():
+	var result = Mtools.map(self,"_handle",_pattern)
+	emit_signal("completed",result)
+	return result
 
 func _handle(text):
 	var steps = text.split(".")
@@ -51,9 +49,9 @@ func _parse(text):
 	var _array = Mtools.str_split_between(text,"[","]")
 	var value = get(_array[0])
 	var index = int(_array[-1])
-	if value == null : push_warning("Event[%s] warning: invalid property[%s] during parse[%s]!"%[name,_array[0],text])
+	if value == null : push_warning("Event(%s) warning: invalid property=%s during parse text :%s!"%[name,_array[0],text])
 	elif value.size() > index: value = value[index]
-	else : push_warning("Event[%s] warning: invalid index[%s] during parse[%s]!"%[name,index,value])
+	else : push_warning("Event(%s) warning: invalid index=%s during parse text:%s!"%[name,index,text])
 	return value
 
 func _pattern_call(subject,fuc,para):

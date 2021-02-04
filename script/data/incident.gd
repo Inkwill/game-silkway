@@ -4,31 +4,27 @@ class_name Incident
 signal progress(_key,_progress,_total)
 signal processed(_data)
 
-var date
+var year
 var events:=[]
 
-func _init(_date):
-	date = _date
+func _init(_year):
+	year = _year
 	init_events()
 	process()
 
 func init_events():
-	events = host.account.incidenter.get_incident(date)
-
+	var start_date = GameDate.get_juliandate({"year":year,"month":1,"day":1,"hour":12})
+	var end_date = GameDate.get_juliandate({"year":year+1,"month":1,"day":1,"hour":12})
+	for date in range(start_date,end_date):
+		if str(date) in host.account.incidenter.incidents: events += host.account.incidenter.get_incident(date)
+	for i in range(100-events.size()):
+		events += [{"event":"nothing","obj":"name:測試⌚️事件","param":"%s"%i}]
+	printerr("%s年:%s"%[year,Mtools.dic_values(events,"event")])
+	
 func process():
 	for i in range(events.size()):
-		var result = yield(Event.new(events[i]),"completed")
-		emit_signal("progress",result,(i+1.0),events.size())
+		var event = Event.new(events[i]).handle()
+		yield(host.tree,"idle_frame")
+		emit_signal("progress",event,(i+1.0),events.size())
 	yield(host.tree,"idle_frame")
-	emit_signal("processed",date)
-
-
-#func get_subject(form,name):
-#	match form:
-#		"troop":
-#			var actor = host.account.trooper.get_member({"name":name})
-#			if actor == null:
-#				actor = host.account.trooper.create_member()
-#				actor.name = name
-#			return actor
-#		_ : return null
+	emit_signal("processed",year)

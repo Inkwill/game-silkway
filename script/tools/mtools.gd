@@ -1,7 +1,7 @@
 extends Object
 class_name Mtools
 
-static func get_value_list(dic_list,key):
+static func dic_values(dic_list,key):
 	var data := []
 	for dic in dic_list:
 		data.append(dic[key])
