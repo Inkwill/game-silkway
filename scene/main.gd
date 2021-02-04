@@ -15,7 +15,7 @@ func _ready():
 	date = account.date
 	
 	if player.assetid == -1:
-		Effect.new("gain",account.asseter.create_member()).at(player)
+		player.gain(account.asseter.create_member())
 
 	date.connect("timer_step",self,"refresh")
 #	$bt_move.connect("pressed",self,"open_move")
@@ -40,7 +40,7 @@ func _on_Button_pressed():
 #	$bg2.move_content( (randi()%5+2)*100)
 	var tex = randi()%7+1
 	$Popup/icon.texture = load("res://resouce/icon/icon_00%s.jpg"%tex)
-	$Popup/text.text = random_text()
+	$Popup/text.text = host.account.trooper.get_member({"name":"武王"}).name#random_text()
 	$Popup.popup()
 	refresh()
 	

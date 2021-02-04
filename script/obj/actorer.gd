@@ -1,19 +1,11 @@
 extends Manager
 class_name Actorer
 
-var _form
-
 func _init(form="actor",type = "actor").(form,type):
-	_form = form
-	init_data = {"form":form,
-				 "name":"new_%s"%form,
-				 "posx":Aeroer.startpos.x,
-				 "posy":Aeroer.startpos.y,
-				 "createdate":-1,
-				 "perishdate":-1,
-				 "assetid":-1,
-				 "ownerid":-1
-				}
+	pass
+
+func _init_data():
+	return Mtools.combine_dic(._init_data() , {"name":"new_%s"%form,"assetid":-1})
 
 func _new_member(_data):
 	return Actor.new(_data)

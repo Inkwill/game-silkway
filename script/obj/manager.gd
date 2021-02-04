@@ -7,16 +7,18 @@ var db_list := []
 var gamedb
 var type
 var form
-var init_data := {}
 
 func _init(_form,_type):
 	type = _type
 	form = _form
 	gamedb = GameDB.new().gb
-	gamedb.query("SELECT id from %s WHERE form = '%s';" % [type,form])
+	gamedb.query("SELECT id from %s WHERE perishdate == -1 AND form == '%s';" % [type,form])
 #	var datas = gamedb.select_rows(type, "form = %s"%form, ["id"])
 	for data in gamedb.query_result:
 		db_list.append(data["id"])
+
+func _init_data():
+	return {"posx":host.startpos.x,"posy":host.startpos.y,"form":form, "ownerid": null,"createdate":int(host.account.curday),"perishdate":-1}
 
 func _new_member(_data):
 	pass
@@ -34,7 +36,7 @@ func _on_member_changed(member,_fun,_dic):
 	print("get signal(member_changed) %s: %s -> %s) " % [member,_fun,_dic])
 
 func create_member(id=null):
-	var _data = init_data
+	var _data = _init_data()
 	if id == null :
 		gamedb.insert_rows(type, [_data])
 		gamedb.query("SELECT id from %s ORDER BY id DESC LIMIT 1;" % type)
@@ -50,16 +52,20 @@ func create_member(id=null):
 	db_list.append(_data["id"])
 	return member
 	
-func get_member(id):
-	if id in members.keys() : return members[id]
-	if id in db_list:
-		var _data = gamedb.select_rows(type, "id == %s"%id,GameDB.get_columns(type))[0]
-		var member = _new_member(_data)
+func get_member(dic:Dictionary):
+	if "id" in dic and dic.id in members: return members[dic.id]
+	var select_condition = "form == '%s'"%form
+	for key in dic:
+		select_condition = select_condition + " AND " + "%s == '%s'"%[key,dic[key]] if dic[key] is String else "%s == %s"%[key,dic[key]]
+#	printerr("select_condition:%s"%[select_condition])
+	var selected_array = gamedb.select_rows(type, select_condition,["*"]) #GameDB.get_columns(type))
+	if selected_array.size() > 0 :
+		if selected_array.size() > 1 : push_warning("get_member selected more than one result:%s"%[dic])
+		var member = _new_member(selected_array[0])
 		_register(member)
 		return member
-	else:
-		push_warning("Try to get a invalid gameobj: id=%s, type=%s"% [id,type])
-		return null
+	else: push_warning("Try to get a invalid gameobj: %s"% [dic])
+	return null
 
 func store_member() :
 	if savers.size() == 0 :return 0

@@ -75,6 +75,11 @@ _global_script_classes=[ {
 "path": "res://script/act/event.gd"
 }, {
 "base": "Object",
+"class": "Figure",
+"language": "GDScript",
+"path": "res://script/obj/figure.gd"
+}, {
+"base": "Object",
 "class": "GUITools",
 "language": "GDScript",
 "path": "res://script/tools/guitools.gd"
@@ -193,6 +198,7 @@ _global_script_class_icons={
 "Dynastyer": "",
 "Effect": "",
 "Event": "",
+"Figure": "",
 "GUITools": "",
 "GameDB": "",
 "GameDate": "",

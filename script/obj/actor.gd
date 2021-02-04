@@ -1,7 +1,7 @@
 extends GameObj
 class_name Actor
 
-var name:String 
+var name:String setget _set_name
 var assetid 
 var asset setget ,_asset_getter
 var form:String 
@@ -11,11 +11,11 @@ var perishdate:int
 var action_list := []
 
 func _init(_data,_type="actor").(_data,_type):
-	_init_properties(["name","assetid","form","createdate","perishdate"])
+	_init_properties(["name","assetid"])
 	if "actions" in _data : _load_action(_data["actions"])
 	
 func _asset_getter():
-	return host.account.asseter.get_member(assetid)
+	return host.account.asseter.get_member({"id":assetid})
 
 func _load_action(actions_data):
 	if actions_data == "": return
@@ -48,3 +48,7 @@ func gain(sth):
 
 func _to_string() -> String:
 	return "actor_%s[%s]"%[form,name]
+	
+func _set_name(value:String):
+	name = value
+	emit_signal("_s_gameobj_changed",self,"set_name",value)

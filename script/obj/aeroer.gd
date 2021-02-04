@@ -3,10 +3,12 @@ class_name Aeroer
 
 const cell_scale = Vector2(1,1) # (long,lat)
 const cell_size := Vector2(15,15) # pixel
-const startpos := Vector2(109,34) # 長安
 
 func _init(form = "aero",type = "aero").(form,type):
-	init_data = {"form":form,"ownerid":null,"population":0,"posx":0,"posy":0,"cells":JSON.print({"(0,0)":0})}
+	pass
+	
+func _init_data():
+	return Mtools.combine_dic(._init_data(),{"population":0,"cells":JSON.print({"(0,0)":0})})
 	
 func _new_member(_data):
 	return Aero.new(_data)
@@ -19,7 +21,7 @@ func get_aero(pos= null):
 	var id = aero_id(pos)
 	var aero 
 	if not id in db_list : aero = create_member(aero_id(pos))
-	else :aero = get_member(id)
+	else :aero = get_member({"id":id})
 	return aero
 
 static func aero_id(pos:Vector2):

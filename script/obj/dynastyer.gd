@@ -3,7 +3,7 @@ class_name Dynastyer
 
 func _init(form = "dynasty").(form):
 	for id in db_list:
-		get_member(id)
+		get_member({"id":id})
 	host.account.date.connect("timer_step",self,"launch")
 
 func _new_member(_data):

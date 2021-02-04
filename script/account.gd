@@ -26,7 +26,7 @@ func start():
 	trooper = Trooper.new()
 	incidenter = Incidenter.new()
 	print("*** Game start : account = %s, player_list = %s, day = %s" % [name,player_list,curday])
-	if player_list.size() > 0 : player = trooper.get_member(player_list[0])
+	if player_list.size() > 0 : player = trooper.get_member({"id":player_list[0]})
 	else : 
 		player = trooper.create_member()
 		player_list.append(player.id)

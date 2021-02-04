@@ -22,7 +22,6 @@ func _init(_actor,_args,active=false,_type="action"):
 	actor.emit_signal("_s_gameobj_changed",actor,"new_action",self)
 	 
 func act():
-	if not is_active : return
 	print("Action act! %s" % self)
 	actor.emit_signal("_s_gameobj_changed",actor,"act_action",self)
 	if last_date > 0 and (host.account.curday-last_date)*12 > host.account.date.timer_interval : _trace_back(12 * (host.account.curday - last_date))
@@ -38,9 +37,9 @@ func _is_finished():
 
 func _finish():
 	print("Action finish : %s(%s->%s)" % [self,create_date,last_date])
-	terminate()
+	_terminate()
 
-func terminate():
+func _terminate():
 	is_active = false
 	host.account.date.remove_action(self)
 	actor.remove_action(self)
@@ -59,7 +58,7 @@ func _on_timer_step(_delta):
 	set("last_date", host.account.curday)
 	if not _consume(_delta) : 
 		print("Action terminated due to unsustainability : %s" % self)
-		terminate()
+		_terminate()
 	_do_action(_delta)
 	if  _is_finished(): _finish()
 

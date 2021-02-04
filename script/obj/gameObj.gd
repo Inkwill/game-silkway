@@ -13,7 +13,7 @@ var pos := Vector2(0,0) setget _set_pos
 func _init(_data,_type):
 	type = _type
 	data = _data
-	_init_properties(["id","ownerid"])
+	_init_properties(["id","ownerid","form","createdate","perishdate"])
 	pos = Vector2(_data["posx"],_data["posy"])
 	
 func _to_string() -> String:

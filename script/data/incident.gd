@@ -1,17 +1,34 @@
 extends Object
 class_name Incident
 
-signal progress(_key,_rate)
+signal progress(_key,_progress,_total)
 signal processed(_data)
 
-var data
+var date
+var events:=[]
 
-func _init(id):
-	data = host.account.incidenter.value(id)
+func _init(_date):
+	date = _date
+	init_events()
 	process()
 
+func init_events():
+	events = host.account.incidenter.get_incident(date)
+
 func process():
-	for i in range(1,11):
-		yield(host.tree.create_timer(0.1),"timeout")
-		emit_signal("progress",data.id,i,10.0)
-	emit_signal("processed",data)
+	for i in range(events.size()):
+		var result = yield(Event.new(events[i]),"completed")
+		emit_signal("progress",result,(i+1.0),events.size())
+	yield(host.tree,"idle_frame")
+	emit_signal("processed",date)
+
+
+#func get_subject(form,name):
+#	match form:
+#		"troop":
+#			var actor = host.account.trooper.get_member({"name":name})
+#			if actor == null:
+#				actor = host.account.trooper.create_member()
+#				actor.name = name
+#			return actor
+#		_ : return null

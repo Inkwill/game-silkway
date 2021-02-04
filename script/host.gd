@@ -5,6 +5,10 @@ onready var root = get_tree().root
 var account = preload("res://resouce/storage/account.res")
 var storager = preload("res://addons/storage-manager/storager.res").instance()
 const db_file = "res://resouce/database.res"
+const startpos := Vector2(109,34) # 長安
+const begin := {"year":-220,"month":11,"day":14,"hour":12} # 秦始皇帝 二十七年 辛巳年 十月 一日 1641025
+const end := {"year":266,"month":2,"day":8,"hour":12} # 西晉武帝 泰始元年 乙酉年 十二月 十七日 1818253
+const startDate := {"year":-140,"month":11,"day":01,"hour":12} # 西漢武帝 建元元年 辛丑年 十月 一日 午時 1670231
 
 var res_loader
 
@@ -19,7 +23,7 @@ func creat_account():
 		print("creat storage completed!")
 		GameDB.new().create_db(db_file)
 		print("creat db completed!")
-		account.curday = GameDate.get_juliandate(GameDate.startDate)
+		account.curday = GameDate.get_juliandate(startDate)
 		print("****Create account completed****")
 	account.start()
 
