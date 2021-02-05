@@ -97,7 +97,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "GameObj",
 "language": "GDScript",
-"path": "res://script/obj/gameObj.gd"
+"path": "res://script/obj/gameobj.gd"
 }, {
 "base": "Resource",
 "class": "GameTable",
@@ -140,6 +140,11 @@ _global_script_classes=[ {
 "path": "res://script/tools/mtools.gd"
 }, {
 "base": "Object",
+"class": "Population",
+"language": "GDScript",
+"path": "res://script/obj/population.gd"
+}, {
+"base": "Object",
 "class": "RNGTools",
 "language": "GDScript",
 "path": "res://addons/rngtools/RNGTools.gd"
@@ -147,7 +152,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "Storage",
 "language": "GDScript",
-"path": "res://addons/storage-manager/Storage.gd"
+"path": "res://addons/storage-manager/storage.gd"
 }, {
 "base": "Node",
 "class": "Storager",
@@ -211,6 +216,7 @@ _global_script_class_icons={
 "Manager": "",
 "Move": "",
 "Mtools": "",
+"Population": "",
 "RNGTools": "",
 "Storage": "",
 "Storager": "",

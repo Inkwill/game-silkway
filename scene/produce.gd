@@ -1,19 +1,39 @@
 extends Control
 
 var cur_year
+var cur_aero
 
 func _ready():
 	cur_year = host.begin.year
-	$Label.text = str(cur_year)
-	
-func process_history():
-	var duration := OS.get_unix_time()
-	for year in range(cur_year,cur_year+100):  #GameDate.get_juliandate(host.startDate)):
-		var incident = Incident.new(year)
-		incident.connect("progress",self,"_on_incident_processed")
-		$Label.text = str(yield(incident,"processed"))
-		$Button.text = str(OS.get_unix_time()-duration)
+	cur_aero = host.account.aeroer.db_list.size()
+	$Label.text = ""
+	_refresh()
+		
+func _refresh():
+	$lb_root/lb_aero.text = "Aero: %s/%s"% [cur_aero,host.account.aeroer.aero_data.size()]
+	$lb_root/lb_history.text = "History: %s/%s" % [cur_year - host.begin.year,host.startDate.year-host.begin.year+1]
 
+func produce_aero():
+	var duration := OS.get_unix_time()
+	for id in host.account.aeroer.aero_data.keys():
+		if cur_aero >= host.account.aeroer.db_list.size():break
+		$Label.text = "Aero:%s"% host.account.aeroer.get_aero(id)
+		yield(host.tree,"idle_frame")
+		$lb_root/lb_time.text = "cost time: %s s" % (OS.get_unix_time()-duration)
+		cur_aero += 1
+		_refresh()
+
+func produce_history():
+	var duration := OS.get_unix_time()
+	var start_year = cur_year
+	for year in range(start_year,host.startDate.year+1):  #GameDate.get_juliandate(host.startDate)):
+		var incident = Incident.new(year)
+		incident.connect("progress",self,"_on_incident_progress")
+		$Label.text = "Year: %s"%yield(incident,"processed")
+		$lb_root/lb_time.text = "cost time: %s s" % (OS.get_unix_time()-duration)
+		cur_year += 1
+		_refresh()
+		
 #func refresh_list():
 #	for date in range(GameDate.get_juliandate(host.begin),GameDate.get_juliandate(host.startDate)):
 #		var keys = host.account.incidenter.get_incident(date)
@@ -25,23 +45,15 @@ func process_history():
 #				$list_root.add_child(lab)
 #			elif key in processed_list and $list_root.has_node(key):
 #				$list_root.get_node(key).queue_free()
-#
-func _on_Button_pressed():
-	process_history()
-#
-#func process_history(): 
-#	for date in history_dates :
-#		if int(date) - host.account.curday <= 0:
-#			var keys = host.account.incidenter.get_incident(date)
-#			for key in keys:
-#				var incident = Incident.new(key)
-#				incident.connect("progress",self,"_on_incident_processed")
-#				processed_list.append(yield(incident,"processed").id)
-#				printerr("Processed ok : %s" % key)
-#				refresh_list()
-				
-func _on_incident_processed(_data,progress,total):
-#	$Label.text = str(data)
+
+func _on_incident_progress(event,progress,total):
 	$ProgressBar.max_value = total
 	$ProgressBar.value = progress
-	print("event completed:%s, progress=%s" % [_data,1.0*progress/total])
+	print("event completed:%s, progress=%s" % [event,1.0*progress/total])
+				
+func _on_produce_history():
+	produce_history()
+
+
+func _on_produce_aero():
+	produce_aero()

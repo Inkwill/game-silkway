@@ -1,8 +1,8 @@
 extends GameObj
 class_name Aero
 
-const _data_path = "res://resouce/data/aero.res"
-var cell_size = host.account.aeroer.cell_size
+var aeroer = host.account.aeroer
+var cell_size = aeroer.cell_size
 var cell_origin = (cell_size - Vector2(1,1))/2.0
 
 var feature
@@ -10,7 +10,7 @@ var population
 var cells setget _private_setter
 
 func _init(_data,_type="aero").(_data,_type):
-	feature = GameTable.new(_data_path).value(id)
+	feature = aeroer.aero_data.value(id)
 	pos = Vector2(int(str(id).right(2)),int(str(id).left(2)))
 	population = _data.population
 	cells = JSON.parse(_data.cells).result

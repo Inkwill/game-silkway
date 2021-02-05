@@ -1,11 +1,13 @@
 extends Manager
 class_name Aeroer
 
+const _data_path = "res://resouce/data/aero.res"
 const cell_scale = Vector2(1,1) # (long,lat)
 const cell_size := Vector2(15,15) # pixel
+var aero_data
 
 func _init(form = "aero",type = "aero").(form,type):
-	pass
+	aero_data = GameTable.new(_data_path)
 	
 func _init_data():
 	return Mtools.combine_dic(._init_data(),{"population":0,"cells":JSON.print({"(0,0)":0})})
@@ -16,14 +18,12 @@ func _new_member(_data):
 func _storedata(id):
 	return {"ownerid":members[id].ownerid,"population":members[id].population,"posx":members[id].pos.x,"posy":members[id].pos.y,"cells":JSON.print(members[id].cells)}
 
-func get_aero(pos= null):
-	if pos == null : pos = host.account.player.pos 
-	var id = aero_id(pos)
-	var aero 
-	if not id in db_list : aero = create_member(aero_id(pos))
-	else :aero = get_member({"id":id})
+func get_aero(key = null): #null:cur   Vector2:pos   String:id
+	if key == null : key = host.account.player.pos
+	var id  = aero_id(key) if key is Vector2 else str(key)
+	var aero = get_member({"id":id}) if id in db_list else create_member(id)
 	return aero
-
+	
 static func aero_id(pos:Vector2):
 	return int(str(round(pos.y))+str(round(pos.x)))
 
