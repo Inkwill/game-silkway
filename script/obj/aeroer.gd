@@ -1,13 +1,13 @@
 extends Manager
 class_name Aeroer
 
-const _data_path = "res://resouce/data/aero.res"
 const cell_scale = Vector2(1,1) # (long,lat)
 const cell_size := Vector2(15,15) # pixel
-var aero_data
 
 func _init(form = "aero",type = "aero").(form,type):
-	aero_data = GameTable.new(_data_path)
+	pass
+#	for id in db_list:
+#		get_member({"id":id})
 	
 func _init_data(_id=null):
 	return Mtools.combine_dic(._init_data(_id),{"population":Population.new()._init_data(_id),"cells":JSON.print({"(0,0)":0})})

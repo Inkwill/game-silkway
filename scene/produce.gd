@@ -7,16 +7,17 @@ func _ready():
 	cur_year = host.begin.year
 	cur_aero = 0
 	$Label.text = ""
+	var aero = host.account.aeroer.get_aero()
 	_refresh()
 		
 func _refresh():
-	$lb_root/lb_aero.text = "Aero: %s/%s"% [cur_aero,host.account.aeroer.aero_data.size()]
+	$lb_root/lb_aero.text = "Aero: %s/%s"% [cur_aero,host.aero_data.size()]
 	$lb_root/lb_history.text = "History: %s/%s" % [cur_year - host.begin.year,host.startDate.year-host.begin.year+1]
 
 func produce_aero():
 	var duration := OS.get_unix_time()
-	for id in host.account.aeroer.aero_data.keys():
-		if cur_aero >= host.account.aeroer.aero_data.size():break
+	for id in host.aero_data.keys():
+		if cur_aero >= host.aero_data.size():break
 		$Label.text = "Aero:%s"% host.account.aeroer.get_aero(id)
 		yield(host.tree,"idle_frame")
 		$lb_root/lb_time.text = "cost time: %s s" % (OS.get_unix_time()-duration)
@@ -26,7 +27,7 @@ func produce_aero():
 func produce_history():
 	var duration := OS.get_unix_time()
 	var start_year = cur_year
-	for year in range(start_year,host.startDate.year+1):  #GameDate.get_juliandate(host.startDate)):
+	for year in range(start_year,start_year+1): #host.startDate.year+1):  #GameDate.get_juliandate(host.startDate)):
 		var incident = Incident.new(year)
 		incident.connect("progress",self,"_on_incident_progress")
 		$Label.text = "Year: %s"%yield(incident,"processed")

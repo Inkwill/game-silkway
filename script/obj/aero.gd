@@ -1,16 +1,12 @@
 extends GameObj
 class_name Aero
 
-var aeroer = host.account.aeroer
-var cell_size = aeroer.cell_size
-var cell_origin = (cell_size - Vector2(1,1))/2.0
-
 var feature
 var population
 var cells setget _private_setter
 
 func _init(_data,_type="aero").(_data,_type):
-	feature = aeroer.aero_data.value(id)
+	feature = host.aero_data.value(id)
 	pos = Vector2(int(str(id).right(2)),int(str(id).left(2)))
 	if "population" in _data :population = Population.new(self,_data.population)
 	cells = JSON.parse(_data.cells).result
@@ -41,6 +37,8 @@ func sunset():
 
 func cell_pos(w_pos:Vector2)->Vector2:
 	var offset = w_pos - pos
+	var cell_size = host.account.aeroer.cell_size
+	var cell_origin = (cell_size - Vector2(1,1))/2.0
 	return Vector2(cell_origin.x + ceil(offset.x*(cell_size.x-1)), cell_origin.y - ceil(offset.y*(cell_size.y-1)))
 
 func cell_value(pos:Vector2):

@@ -18,7 +18,7 @@ func init_events():
 	for date in range(start_date,end_date):
 		if str(date) in host.account.incidenter.incidents: events += host.account.incidenter.get_incident(date)
 	events += [{"event":"population_increase","obj":"host:aeroer"}]
-	for i in range(10-events.size()):
+	for i in range(5-events.size()):
 		events += [{"event":"nothing","obj":"name:測試⌚️事件","param":"%s"%i}]
 	printerr("%s年:%s"%[year,Mtools.dic_values(events,"event")])
 	

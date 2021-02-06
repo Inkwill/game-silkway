@@ -17,7 +17,7 @@ func _init(_listener=null,_data=null).(_listener,_data):
 	pass
 
 func _init_data(id):
-	var data = host.account.aeroer.aero_data.value(id)
+	var data = host.aero_data.value(id)
 	natural_mortality = 0.1
 	abnormal_mortality = 0.05
 	infant_mortality = 0.1
@@ -34,14 +34,15 @@ func increase(): #by year
 	_add("infant",-1*infant_mortality)
 	_add("infant",birth_rate)
 	owner.emit_signal("_s_gameobj_changed",owner,"population_increase",self)
-	printerr("increase")
 	return number
 	
 func immigrant(num): #int:number float:rate ->青壯年 
 	_add("adult",num)
 	
 func _add(age,num):
+	printerr("age:%s,num:%s,cur:%s"%[age,num,age_composition[age]])
 	if num is float and num<1: num = age_composition[age] * num
+	
 	age_composition[age] = max(0, num + age_composition[age])
 	number = max(0,number + num)
 	

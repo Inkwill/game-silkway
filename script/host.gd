@@ -10,6 +10,8 @@ const begin := {"year":-220,"month":11,"day":14,"hour":12} # 秦始皇帝 二十
 const end := {"year":266,"month":2,"day":8,"hour":12} # 西晉武帝 泰始元年 乙酉年 十二月 十七日 1818253
 const startDate := {"year":-140,"month":11,"day":01,"hour":12} # 西漢武帝 建元元年 辛丑年 十月 一日 午時 1670231
 
+var aero_data = GameTable.new("res://resouce/data/aero.res")
+
 var res_loader
 
 func _enter_tree():
