@@ -17,8 +17,8 @@ func _ready():
 func _refresh_map(aero):
 	if _aero == aero : return
 	_aero = aero
-	for i in range(_aero.cell_size.x):
-		for j in range(_aero.cell_size.y):
+	for i in range(host.account.aeroer.cell_size.x):
+		for j in range(host.account.aeroer.cell_size.y):
 			tilemap.set_cell(i,j,_aero.cell_value(Vector2(i,j)))
 	
 func _refresh_actor():

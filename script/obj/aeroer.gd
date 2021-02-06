@@ -5,9 +5,9 @@ const cell_scale = Vector2(1,1) # (long,lat)
 const cell_size := Vector2(15,15) # pixel
 
 func _init(form = "aero",type = "aero").(form,type):
-	pass
-#	for id in db_list:
-#		get_member({"id":id})
+	
+	for id in db_list:
+		get_member({"id":id})
 	
 func _init_data(_id=null):
 	return Mtools.combine_dic(._init_data(_id),{"population":Population.new()._init_data(_id),"cells":JSON.print({"(0,0)":0})})
@@ -26,7 +26,8 @@ func get_aero(key = null): #null:cur   Vector2:pos   String:id
 	return aero
 	
 func increase_population():
-	return Mtools.map_call(members.values(),"increase_population")
+	var result = Mtools.map_call(members.values(),"increase_population")
+	return "increase population in %s aero"% result.size()
 
 static func aero_id(pos:Vector2):
 	return int(str(round(pos.y))+str(round(pos.x)))

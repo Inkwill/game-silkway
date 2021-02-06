@@ -27,7 +27,7 @@ func produce_aero():
 func produce_history():
 	var duration := OS.get_unix_time()
 	var start_year = cur_year
-	for year in range(start_year,start_year+1): #host.startDate.year+1):  #GameDate.get_juliandate(host.startDate)):
+	for year in range(start_year,host.startDate.year+1):  #GameDate.get_juliandate(host.startDate)):
 		var incident = Incident.new(year)
 		incident.connect("progress",self,"_on_incident_progress")
 		$Label.text = "Year: %s"%yield(incident,"processed")
