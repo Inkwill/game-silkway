@@ -4,8 +4,8 @@ class_name Actorer
 func _init(form="actor",type = "actor").(form,type):
 	pass
 
-func _init_data():
-	return Mtools.combine_dic(._init_data() , {"name":"new_%s"%form,"assetid":-1})
+func _init_data(_id=null):
+	return Mtools.combine_dic(._init_data(_id) , {"name":"new_%s"%form,"assetid":-1})
 
 func _new_member(_data):
 	return Actor.new(_data)

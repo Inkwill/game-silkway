@@ -73,5 +73,6 @@ func _get_obj(type,condition):
 		"troop" : _obj= host.account.trooper.get_member(condition)
 		"dynasty" : _obj= host.account.dynastyer.get_member(condition)
 		"figure" : _obj = Figure.new(condition.name)
+		"aeroer" : _obj = host.account.aeroer
 	if _obj == null : push_warning("Event%s want get a invalid gameobj:%s"%[name,[type,condition]])
 	return _obj

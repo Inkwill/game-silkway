@@ -1,9 +1,9 @@
 extends Object
 class_name Manager
 
-var members := {}
-var savers := []
-var db_list := []
+var members := {} #{id:gameobj}
+var savers := [] #gameobj
+var db_list := [] #int
 var gamedb
 var type
 var form
@@ -17,7 +17,7 @@ func _init(_form,_type):
 	for data in gamedb.query_result:
 		db_list.append(data["id"])
 
-func _init_data():
+func _init_data(_id=null):
 	return {"posx":host.startpos.x,"posy":host.startpos.y,"form":form, "ownerid": null,"createdate":int(host.account.curday),"perishdate":-1}
 
 func _new_member(_data):
@@ -36,7 +36,7 @@ func _on_member_changed(member,_fun,_dic):
 	print("get signal(member_changed) %s: %s -> %s) " % [member,_fun,_dic])
 
 func create_member(id=null):
-	var _data = _init_data()
+	var _data = _init_data(id)
 	if id == null :
 		gamedb.insert_rows(type, [_data])
 		gamedb.query("SELECT id from %s ORDER BY id DESC LIMIT 1;" % type)

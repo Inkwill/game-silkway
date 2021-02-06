@@ -42,7 +42,7 @@
          "posy" : {"data_type":"int"},
          "createdate" : {"data_type":"int","not_null": true},
          "perishdate" : {"data_type":"int"},
-         "population" : {"data_type":"int"},
+         "population" : {"data_type":"text"},
          "cells" : { "data_type":"text"}
     }
 }

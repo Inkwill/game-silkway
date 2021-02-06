@@ -32,7 +32,13 @@ static func map(obj,fuc,para_list)->Array:
 	for para in para_list:
 		array.append(obj.call(fuc,para))
 	return array
-
+	
+static func erase_list(list,para_list)->Array:
+	var array = list.duplicate()
+	for para in para_list:
+		if para in list: array.erase(para)
+	return array
+	
 static func dic_slice(dic:Dictionary,keys:Array)->Dictionary:
 	var result := {}
 	for key in keys:

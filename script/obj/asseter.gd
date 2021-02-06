@@ -4,8 +4,8 @@ class_name Asseter
 func _init(form = "asse",type = "asset").(form,type):
 	pass
 
-func _init_data():
-	return Mtools.combine_dic(._init_data(),{"coin": 0,"silver":0,"gold":0})
+func _init_data(_id=null):
+	return Mtools.combine_dic(._init_data(_id),{"coin": 0,"silver":0,"gold":0})
 
 func _new_member(_data):
 	return Asset.new(_data)

@@ -5,7 +5,7 @@ var cur_aero
 
 func _ready():
 	cur_year = host.begin.year
-	cur_aero = host.account.aeroer.db_list.size()
+	cur_aero = 0
 	$Label.text = ""
 	_refresh()
 		
@@ -16,7 +16,7 @@ func _refresh():
 func produce_aero():
 	var duration := OS.get_unix_time()
 	for id in host.account.aeroer.aero_data.keys():
-		if cur_aero >= host.account.aeroer.db_list.size():break
+		if cur_aero >= host.account.aeroer.aero_data.size():break
 		$Label.text = "Aero:%s"% host.account.aeroer.get_aero(id)
 		yield(host.tree,"idle_frame")
 		$lb_root/lb_time.text = "cost time: %s s" % (OS.get_unix_time()-duration)

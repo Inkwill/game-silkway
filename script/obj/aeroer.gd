@@ -9,21 +9,25 @@ var aero_data
 func _init(form = "aero",type = "aero").(form,type):
 	aero_data = GameTable.new(_data_path)
 	
-func _init_data():
-	return Mtools.combine_dic(._init_data(),{"population":0,"cells":JSON.print({"(0,0)":0})})
+func _init_data(_id=null):
+	return Mtools.combine_dic(._init_data(_id),{"population":Population.new()._init_data(_id),"cells":JSON.print({"(0,0)":0})})
 	
 func _new_member(_data):
 	return Aero.new(_data)
 
 func _storedata(id):
-	return {"ownerid":members[id].ownerid,"population":members[id].population,"posx":members[id].pos.x,"posy":members[id].pos.y,"cells":JSON.print(members[id].cells)}
+	return {"ownerid":members[id].ownerid,"population":members[id].population._store_data(),"posx":members[id].pos.x,"posy":members[id].pos.y,"cells":JSON.print(members[id].cells)}
 
 func get_aero(key = null): #null:cur   Vector2:pos   String:id
 	if key == null : key = host.account.player.pos
-	var id  = aero_id(key) if key is Vector2 else str(key)
+	var id  = aero_id(key) if key is Vector2 else int(key)
+	printerr("get aero:%s,?in:%s"%[id,id in db_list])
 	var aero = get_member({"id":id}) if id in db_list else create_member(id)
 	return aero
 	
+func increase_population():
+	return Mtools.map_call(members.values(),"increase_population")
+
 static func aero_id(pos:Vector2):
 	return int(str(round(pos.y))+str(round(pos.x)))
 

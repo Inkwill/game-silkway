@@ -12,9 +12,12 @@ var cells setget _private_setter
 func _init(_data,_type="aero").(_data,_type):
 	feature = aeroer.aero_data.value(id)
 	pos = Vector2(int(str(id).right(2)),int(str(id).left(2)))
-	population = _data.population
+	if "population" in _data :population = Population.new(self,_data.population)
 	cells = JSON.parse(_data.cells).result
-	
+
+func increase_population():
+	return population.increase()
+
 func sunshine_time(): # quarter
 	var day = GameDate.day_in_year(host.account.curday)
 	var hour = 24/PI * acos(-tan(deg2rad(pos.y))*tan(solar_declination(day))) # hours
@@ -56,3 +59,7 @@ func _private_setter(_value):
 static func solar_declination(day):
 	var b = 2*PI*(day -1)/365 # radian
 	return 0.006918 - 0.399912*cos(b) + 0.070257*sin(b) - 0.006758*cos(2*b) + 0.000907*sin(2*b) - 0.002697*cos(3*b) + 0.00148*sin(3*b)
+
+func _to_string():
+	return "Aero(%s)"%id
+

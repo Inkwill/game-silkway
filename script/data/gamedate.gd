@@ -51,7 +51,6 @@ func step_timer(delta):
 		is_running = false
 
 func get_day(jdate) -> float:
-	jdate = jdate
 	var datename = value(round(jdate))
 	return jdate - int(datename["first"]) + 1
 
