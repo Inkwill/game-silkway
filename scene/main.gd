@@ -40,7 +40,7 @@ func _on_Button_pressed():
 #	$bg2.move_content( (randi()%5+2)*100)
 	var tex = randi()%7+1
 	$Popup/icon.texture = load("res://resouce/icon/icon_00%s.jpg"%tex)
-	$Popup/text.text = str(host.account.aeroer.members.size())#random_text()
+	$Popup/text.text = str(host.account.aeroer.get_aero().population)#random_text()
 	$Popup.popup()
 	refresh()
 	

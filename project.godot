@@ -97,7 +97,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "GameObj",
 "language": "GDScript",
-"path": "res://script/obj/gameObj.gd"
+"path": "res://script/obj/gameobj.gd"
 }, {
 "base": "Resource",
 "class": "GameTable",
@@ -157,7 +157,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "Storage",
 "language": "GDScript",
-"path": "res://addons/storage-manager/Storage.gd"
+"path": "res://addons/storage-manager/storage.gd"
 }, {
 "base": "Node",
 "class": "Storager",

@@ -10,6 +10,7 @@ func _init(_owner=null,_data=null):
 	if _data != "" and _data != null: _parse_data(_data)
 	if _owner != null : owner=_owner
 
+
 func _parse_data(_data):
 	var js = JSON.parse(_data)
 	if not js.error :

@@ -1,8 +1,8 @@
 extends JSONRes
 class_name Population
 
-var mortality:float	#死亡率
-var birth_rate:float	#出生率
+var mortality:float	#年死亡率
+var birth_rate:float	#年出生率
 
 var ethnic_composition:Dictionary	#種族構成 
 var aero_composition:Dictionary	#地域構成
@@ -10,7 +10,9 @@ var aero_composition:Dictionary	#地域構成
 var number:int #數量
 var satiety:int #飽食度 0~100
 
-func _init(_listener=null,_data=null).(_listener,_data):
+var date:int
+
+func _init(_owner=null,_data=null).(_owner,_data):
 	pass
 
 func _init_data(id):
@@ -18,15 +20,20 @@ func _init_data(id):
 	mortality = 0.1
 	birth_rate = 0.15
 	number = int(data["population"]) * 10000
+	date = GameDate.get_juliandate(host.begin)
 	return _store_data()
 
-func increase(): #by year
-	number = int(number * (1 + birth_rate - mortality))
+func update(): #by year
+	if date > host.account.curday : 
+		push_warning("population(%s) date err:date=%s,curday=%s"%[owner,date,host.account.curday])
+		date = host.account.curday
+	if date == host.account.curday : return
+	var year = int((host.account.curday - date)/365)
+	number = int(number * pow(1 + birth_rate - mortality,year))
+#	printerr("number:%s,increase:%s"%[number,pow(1 + birth_rate - mortality,year)])
+	date = host.account.curday
 	owner.emit_signal("_s_gameobj_changed",owner,"population_increase",self)
 	return number
-	
-func immigrant(_num): #int:number
-	pass
 	
 func _to_string():
 	return "Population:%s"% [number]

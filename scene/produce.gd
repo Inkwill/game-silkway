@@ -7,7 +7,7 @@ func _ready():
 	cur_year = host.begin.year
 	cur_aero = 0
 	$Label.text = ""
-	var aero = host.account.aeroer.get_aero()
+	var _aero = host.account.aeroer.get_aero()
 	_refresh()
 		
 func _refresh():
@@ -50,7 +50,7 @@ func produce_history():
 func _on_incident_progress(event,progress,total):
 	$ProgressBar.max_value = total
 	$ProgressBar.value = progress
-	print("event completed:%s, progress=%s" % [event,1.0*progress/total])
+#	print("event completed:%s, progress=%s" % [event,1.0*progress/total])
 				
 func _on_produce_history():
 	produce_history()
