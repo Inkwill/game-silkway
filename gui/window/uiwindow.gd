@@ -2,7 +2,7 @@ extends Control
 class_name UIWindow
 
 var tween
-export(Vector2) var view_size
+export(Vector2) var win_size
 export(Vector2) var tw_from
 export(Vector2) var tw_to
 export(float) var tw_duration
@@ -13,14 +13,19 @@ var is_open = false
 signal s_close
 
 func _ready():
-	window_scale = get_viewport().size/view_size
+	window_scale = get_viewport().size/win_size
 	var err = get_viewport().connect("size_changed", self, "_on_root_size_changed")
 	if err : push_warning("Connect err : _on_root_size_changed")
 	show_open()
+	
+func _on_opened():
+	pass
 
 func show_open():
 	is_open = true
 	tween = GUITools.tween_postion(self,tw_from*window_scale, tw_to*window_scale, tw_duration)
+	yield(host.tree.create_timer(tw_duration), "timeout")
+	_on_opened()
 
 func show_close():
 	is_open = false
@@ -41,4 +46,4 @@ static func open_window(_root,_path,_duration=1):
 	return win
 	
 func _on_root_size_changed():
-	window_scale = get_viewport().size/view_size
+	window_scale = get_viewport().size/win_size

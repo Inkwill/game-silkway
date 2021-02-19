@@ -1,10 +1,11 @@
 extends UIWindow
 class_name WinMap
 
-var tilemap_scale
+onready var map = $Viewport/maptile
+onready var view_texture = $ViewTexture
 
 func _ready():
-	tilemap_scale = $maptile/TileMap.scale
+	map.camera.offset -= (win_size - view_texture.rect_size)/2
 
 func _move(dir,dis):
 	var move = null

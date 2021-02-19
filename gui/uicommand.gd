@@ -18,7 +18,7 @@ func hide():
 	GUITools.tween_postion($pan,pan_origin,pan_origin+Vector2(0,64))
 
 func _on_bt_move_pressed():
-	open_window("res://gui/window/winmap.tscn")
+	open_window("res://scene/map/winmap.tscn")
 
 func open_window(path):
 	hide()

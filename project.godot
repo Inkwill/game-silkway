@@ -124,6 +124,36 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://script/data/incidenter.gd"
 }, {
+"base": "InputEventAction",
+"class": "InputEventMultiScreenDrag",
+"language": "GDScript",
+"path": "res://addons/InputEvents/CustomInputEvents/InputEventMultiScreenDrag.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventScreenPinch",
+"language": "GDScript",
+"path": "res://addons/InputEvents/CustomInputEvents/InputEventScreenPinch.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventScreenTwist",
+"language": "GDScript",
+"path": "res://addons/InputEvents/CustomInputEvents/InputEventScreenTwist.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventSingleScreenDrag",
+"language": "GDScript",
+"path": "res://addons/InputEvents/CustomInputEvents/InputEventSingleScreenDrag.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventSingleScreenTap",
+"language": "GDScript",
+"path": "res://addons/InputEvents/CustomInputEvents/InputEventSingleScreenTap.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventSingleScreenTouch",
+"language": "GDScript",
+"path": "res://addons/InputEvents/CustomInputEvents/InputEventSingleScreenTouch.gd"
+}, {
 "base": "Object",
 "class": "JSONRes",
 "language": "GDScript",
@@ -192,7 +222,7 @@ _global_script_classes=[ {
 "base": "UIWindow",
 "class": "WinMap",
 "language": "GDScript",
-"path": "res://gui/window/winmap.gd"
+"path": "res://scene/map/winmap.gd"
 } ]
 _global_script_class_icons={
 "Account": "",
@@ -218,6 +248,12 @@ _global_script_class_icons={
 "History": "",
 "Incident": "",
 "Incidenter": "",
+"InputEventMultiScreenDrag": "",
+"InputEventScreenPinch": "",
+"InputEventScreenTwist": "",
+"InputEventSingleScreenDrag": "",
+"InputEventSingleScreenTap": "",
+"InputEventSingleScreenTouch": "",
 "JSONRes": "",
 "Manager": "",
 "Move": "",
@@ -242,6 +278,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+InputManager="*res://addons/InputEvents/InputManager.gd"
 host="*res://script/host.gd"
 
 [display]
@@ -256,6 +293,10 @@ enabled=PoolStringArray( "ImportCleaner" )
 [gui]
 
 theme/custom_font="res://resouce/font/font_normal.tres"
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
 
 [rendering]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://gui/ui_command.tscn" type="PackedScene" id=1]
+[ext_resource path="res://gui/uicommand.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scene/main.gd" type="Script" id=2]
 [ext_resource path="res://resouce/font/font_normal.tres" type="DynamicFont" id=3]
 [ext_resource path="res://gui/bg_2in2/2din2d.tscn" type="PackedScene" id=4]
