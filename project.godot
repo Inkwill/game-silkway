@@ -97,7 +97,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "GameObj",
 "language": "GDScript",
-"path": "res://script/obj/gameobj.gd"
+"path": "res://script/obj/gameObj.gd"
 }, {
 "base": "Resource",
 "class": "GameTable",
@@ -278,13 +278,13 @@ config/icon="res://icon.png"
 
 [autoload]
 
-InputManager="*res://addons/InputEvents/InputManager.gd"
 host="*res://script/host.gd"
 
 [display]
 
 window/size/width=480
 window/size/height=800
+window/size/resizable=false
 
 [editor_plugins]
 

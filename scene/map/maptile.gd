@@ -56,7 +56,7 @@ func _input(event):
 		elif _pressed != null : 
 			_selected = _pressed
 			_pressed = null
-			print("gui postion:%s"%_pos_from_gui(event.position))
+			print("gui postion:%s"%(event.position))
 			printerr(str(_selected.pos))
 #			var pos = Vector2(event.position.x/tilemap.scale.x,event.position.y/tilemap.scale.y)
 #			pos = tilemap.world_to_map(pos)
@@ -65,19 +65,22 @@ func _input(event):
 #			_aero.active_cell(pos,cell_id)
 
 func _on_gui_input(event):
-	if event is InputEventScreenTouch: 
+	if event is InputEventScreenTouch and not event.pressed: 
+		print("gui postion:%s"%event.position)
+		event.position += Vector2(0,120)
 		print("gui postion:%s"%event.position)
 	_input(event)
 	
 func _pos_from_gui(pos):
 #	var quadrant = pos - map_size/2.0
 	var offset = (map_size - map_size/camera.zoom)/2.0
+	var camera_offset = camera.position/camera.zoom-offset
 #	if quadrant == Vector2(0,0) : return pos
 #	elif quadrant.x >= 0 and quadrant.y <= 0: return pos+offset*Vector2(1,-1)
 #	elif quadrant.x >= 0 and quadrant.y >= 0: return pos+offset*Vector2(1,1)
 #	elif quadrant.x <= 0 and quadrant.y >= 0: return pos+offset*Vector2(-1,1)
 #	elif quadrant.x <= 0 and quadrant.y <= 0: return pos+offset*Vector2(-1,-1)
-	return (pos+ pos*camera.position/map_size)
+	return (pos+camera_offset)*camera.zoom
 
 	
 func _pos_to_map(pos):

@@ -12,7 +12,6 @@ map_size = Vector2( 480, 800 )
 [node name="TileMap" type="TileMap" parent="."]
 scale = Vector2( 0.5, 0.5 )
 tile_set = ExtResource( 2 )
-cell_tile_origin = 1
 format = 1
 tile_data = PoolIntArray( 0, 1610612745, 0, 1, 1610612745, 0, 2, 1610612745, 0, 3, 1610612745, 0, 4, 1610612745, 0, 5, 1610612745, 0, 6, 1610612745, 0, 7, 1610612745, 0, 8, 1610612745, 0, 9, 1610612745, 0, 10, 1610612745, 0 )
 
@@ -26,6 +25,7 @@ tile_data = PoolIntArray( 1, 1610612745, 0, 2, 1610612745, 0, 3, 1610612745, 0, 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2( 240, 400 )
 current = true
+zoom = Vector2( 2, 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
