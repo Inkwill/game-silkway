@@ -42,11 +42,12 @@ func cell_pos(w_pos:Vector2)->Vector2:
 	return Vector2(cell_origin.x + ceil(offset.x*(cell_size.x-1)), cell_origin.y - ceil(offset.y*(cell_size.y-1)))
 
 func cell_value(pos:Vector2):
-	return cells[str(pos)] if str(pos) in cells else 0
+	var id = "%s,%s"%[pos.x,pos.y]
+	return cells[id] if id in cells else 0
 
 func active_cell(pos,cell_id):
-	pos = str(pos)
-	if pos in cells:push_warning("Illegal operation : repeat active_cell![aero:%s,cell:%s] "%[pos,cell_id])
+	pos = "%s,%s"%[pos.x,pos.y]
+	if pos in cells:push_warning("Illegal operation : repeat active_cell![%s,cell:%s] "%[self,pos])
 	cells[pos] = cell_id
 	emit_signal("_s_gameobj_changed",self,"active_cell",{pos:cell_id})
 	

@@ -15,10 +15,15 @@ signal s_close
 func _ready():
 	window_scale = get_viewport().size/win_size
 	var err = get_viewport().connect("size_changed", self, "_on_root_size_changed")
-	if err : push_warning("Connect err : _on_root_size_changed")
+	if err : push_warning("ViewPort connect err[%s] from UIWindow" % err)
+	err = host.account.date.connect("timer_step_over",self,"_timer_refresh")
+	if err : push_warning("GameDate connect err[%s] from UIWindow" % err)
 	show_open()
 	
 func _on_opened():
+	pass
+	
+func _timer_refresh(_delta):
 	pass
 
 func show_open():

@@ -1,96 +1,104 @@
 extends Node
+class_name MapTile
 
-class Tile:
-	var pos:Vector2
-	
-	func _init(_pos):
-		pos = _pos
+const cell_scale = Vector2(1,1) # (long,lat)
+const cell_size := Vector2(15,15) # pixel
 
 var _aero
 var _pressed
 var _selected
 var player
+
 export(Vector2) var map_size
 onready var tilemap = $TileMap
 onready var tilemark = $TileMap/TileMark
 onready var ui_player = $Player
 onready var camera = $Camera2D
 
-func _ready():	
-	var dater = host.account.date
-	var err = dater.connect("timer_step",self,"_on_timer_step")
-	if err : push_warning("GameDate connect err[%s] from maptile.gd" % err)
+class Tile:
+	var aero
+	var aero_pos:Vector2
+	var tile_pos:Vector2
 	
+	func _init(_aero,_pos):
+		tile_pos = _pos
+		aero_pos = Vector2(precise_pos(_pos.x,cell_size.x),precise_pos(-1*_pos.y,cell_size.y))
+		aero = host.account.aeroer.get_aero(_aero.pos + Vector2(precise(_pos.x/(cell_size.x)),precise(-1*_pos.y/(cell_size.y))))
+	
+	func precise(num):
+		if num >= 0 : return floor(num)
+		else : return -1*ceil(abs(num))
+		
+	func precise_pos(pos_num,size_num):
+		if pos_num >= 0 : return int(pos_num)%int(size_num)
+		else:
+			var scale = int(abs(pos_num))%int(size_num)
+			return scale if scale==0 else size_num - scale
+		
+	func active_cell(tilemap,id):
+		aero.active_cell(aero_pos,id)
+		tilemap.set_cell(tile_pos.x,tile_pos.y,id)
+	
+func _ready():	
 	_refresh_map(host.account.aeroer.get_aero())
 	_refresh_actor()
 
-func _refresh_map(aero,scope=Vector2(0,0)):
-	if _aero == aero : return
+func focus_player():
+	GUITools.tween_postion(camera,camera.position,ui_player.position)
+
+func _refresh_map(aero,scope=Vector2(1,0)):
 	_aero = aero
 	for i in range(-scope.x,scope.x+1):
 		for j in range(-scope.y,scope.y+1):
-			_draw_map(Vector2(i*host.account.aeroer.cell_size.x,j*host.account.aeroer.cell_size.y),_aero)
+			var draw_aero = host.account.aeroer.get_aero(aero.pos + Vector2(i,j))
+			_draw_map(Vector2(i*cell_size.x,j*cell_size.y),draw_aero)
+			printerr("draw %s->%s"%[Vector2(i*cell_size.x,j*cell_size.y),draw_aero])
 
 func _draw_map(center,aero):
-	for i in range(center.x,center.x + host.account.aeroer.cell_size.x):
-		for j in range(center.y,center.y + host.account.aeroer.cell_size.y):
-			tilemap.set_cell(i,j,aero.cell_value(Vector2(i,j)))
+	for i in range(center.x,center.x + cell_size.x):
+		for j in range(center.y,center.y + cell_size.y):
+			var aero_pos = Vector2(i% int(cell_size.x),j%int(cell_size.y))
+			tilemap.set_cell(i,-j,aero.cell_value(aero_pos))
+			if aero_pos == Vector2(0,0):
+				printerr("set %s cell[%s] value: %s"%[aero,aero_pos,aero.cell_value(aero_pos)])
 
 func _refresh_actor():
 	player = host.account.player
-	ui_player.position = _pos_to_map(player.pos)
+	ui_player.position = _mappos_from_world(player.pos)
 	print("player position: %s -> %s"% [player.pos,ui_player.position])
-#	var old_cell = actormap.get_used_cells_by_id(actormap.tile_set.find_tile_by_name("player"))
-#	for old in old_cell:
-#		actormap.set_cell(old.x,old.y,-1)
-#	var cell_pos_player = _aero.cell_pos(player.pos)
-##	print("cell_pos_player%s->%s" %[player.pos,cell_pos_player])
-#	actormap.set_cell(cell_pos_player.x,cell_pos_player.y,actormap.tile_set.find_tile_by_name("player"))
 
 func _input(event):
 	if event is InputEventScreenDrag:
 		if _pressed != null : _pressed = null
 		camera.position -= event.relative
 	elif event is InputEventScreenTouch:
-		if event.pressed : _pressed = Tile.new(tilemap.world_to_map(_pos_from_gui(event.position)/tilemap.scale))
+		if event.pressed : _pressed = Tile.new(_aero,_tilepos_from_map(event.position))
 		elif _pressed != null : 
 			_selected = _pressed
 			_pressed = null
-			print("gui postion:%s"%(event.position))
-			printerr(str(_selected.pos))
-#			var pos = Vector2(event.position.x/tilemap.scale.x,event.position.y/tilemap.scale.y)
-#			pos = tilemap.world_to_map(pos)
-#			var cell_id = randi() % 4
-#			tilemap.set_cell(pos.x,pos.y,cell_id)
-#			_aero.active_cell(pos,cell_id)
+			printerr("aero:%s,tile_pos:%s, aero_pos:%s" %[_selected.aero,_selected.tile_pos,_selected.aero_pos])
+			var cell_id = randi() % 4
+			_selected.active_cell(tilemap,cell_id)
 
 func _on_gui_input(event):
-	if event is InputEventScreenTouch and not event.pressed: 
-		print("gui postion:%s"%event.position)
-		event.position += Vector2(0,120)
-		print("gui postion:%s"%event.position)
-	_input(event)
+	if event is InputEventScreenTouch or event is InputEventScreenDrag: 
+		event.position += (host.root.size - get_parent().size)/2.0
+		_input(event)
 	
-func _pos_from_gui(pos):
-#	var quadrant = pos - map_size/2.0
-	var offset = (map_size - map_size/camera.zoom)/2.0
-	var camera_offset = camera.position/camera.zoom-offset
-#	if quadrant == Vector2(0,0) : return pos
-#	elif quadrant.x >= 0 and quadrant.y <= 0: return pos+offset*Vector2(1,-1)
-#	elif quadrant.x >= 0 and quadrant.y >= 0: return pos+offset*Vector2(1,1)
-#	elif quadrant.x <= 0 and quadrant.y >= 0: return pos+offset*Vector2(-1,1)
-#	elif quadrant.x <= 0 and quadrant.y <= 0: return pos+offset*Vector2(-1,-1)
-	return (pos+camera_offset)*camera.zoom
+func _tilepos_from_map(pos)->Vector2: #from map position
+	var offset = (host.root.size - host.root.size/camera.zoom)/2.0  # zoom导致坐标系偏移
+	var camera_offset = camera.position/camera.zoom-offset # camera偏移
+	var _pos = (pos+camera_offset)*camera.zoom-host.root.size/2.0 # maptile坐标系偏移
+	return tilemap.world_to_map(_pos/tilemap.scale)
 
-	
-func _pos_to_map(pos):
-	var aeroer = host.account.aeroer
-	var offset = pos-_aero.pos
-	var center = map_size *0.5
-#	return  center + Vector2(map_size.x * offset.x * aeroer.cell_scale.x, -1* map_size.y * offset.y * aeroer.cell_scale.y)
-	return center + map_size * offset * aeroer.cell_scale * Vector2(1,-1)
-	
-func _on_timer_step(_delta):
-	_refresh_map(host.account.aeroer.get_aero())
-	_refresh_actor()
+func _mappos_from_world(pos)->Vector2: # from world position (lang,lat)
+	var map_pos = (pos-_aero.pos) * map_size * Vector2(1,-1)
+	return map_pos
 
+static func dis_per_cell(pos) -> Vector2:   # km per cell
+#	return Vector2(global_unit(pos).x * pos_per_cell().x, global_unit(pos).y * pos_per_cell().y)
+	return Aeroer.global_unit(pos) * pos_per_cell()
+
+static func pos_per_cell() -> Vector2: # (long,lat) per cell 
+#	return Vector2(cell_scale.x/cell_size.x, cell_scale.y/cell_size.y)
+	return cell_scale/cell_size

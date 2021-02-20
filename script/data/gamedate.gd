@@ -11,6 +11,7 @@ var is_running := false
 var _duration := 0.0
 
 signal timer_step
+signal timer_step_over
 signal day_step
 signal moon_step
 signal big_hour_step
@@ -35,7 +36,7 @@ func run_timer(delta):
 	step_timer(delta)
 
 func step_timer(delta):
-	yield(host.get_tree().create_timer(timer_unit*delta),"timeout")
+	yield(host.tree.create_timer(timer_unit*delta),"timeout")
 	var last_day = host.account.curday
 	_duration += delta
 	host.account.curday += delta/12.0
@@ -44,7 +45,8 @@ func step_timer(delta):
 	if is_cross_big_hour(last_day,host.account.curday) : emit_signal("big_hour_step",delta)
 	if is_cross_day(last_day,host.account.curday) : emit_signal("day_step",delta)
 	if is_cross_moon(last_day,host.account.curday) : emit_signal("moon_step",delta)
-	
+	yield(host.tree,"idle_frame")
+	emit_signal("timer_step_over",delta)
 	if action_list.size() > 0 and is_running: step_timer(delta)
 	else : 	
 		print("Stop timer,duration = %s" % _duration)

@@ -1,14 +1,11 @@
 extends Manager
 class_name Aeroer
 
-const cell_scale = Vector2(1,1) # (long,lat)
-const cell_size := Vector2(15,15) # pixel
-
 func _init(form = "aero",type = "aero").(form,type):
 	pass
 	
 func _init_data(_id=null):
-	return Mtools.combine_dic(._init_data(_id),{"population":Population.new()._init_data(_id),"cells":JSON.print({"(0,0)":0})})
+	return Mtools.combine_dic(._init_data(_id),{"population":Population.new()._init_data(_id),"cells":JSON.print({"0,0":0})})
 	
 func _new_member(_data):
 	return Aero.new(_data)
@@ -29,7 +26,7 @@ func get_aero(key = null): #null:cur   Vector2:pos   String:id
 #	return "increase population in %s aero"% result.size()
 
 static func aero_id(pos:Vector2):
-	return int(str(round(pos.y))+str(round(pos.x)))
+	return int(str(int(pos.y))+str(int(pos.x)))
 
 # get distance by (longitude,latitude)
 static func global_distance(from:Vector2,to:Vector2)-> float: 
@@ -48,12 +45,3 @@ static func global_pos_moved(pos:Vector2,dis:Vector2)-> Vector2:
 	var x_moved = dis.x/unit.x
 	var y_moved = dis.y/unit.y
 	return Vector2(pos.x+x_moved, pos.y+y_moved)
-
-	
-static func dis_per_cell(pos) -> Vector2:   # km per cell
-#	return Vector2(global_unit(pos).x * pos_per_cell().x, global_unit(pos).y * pos_per_cell().y)
-	return global_unit(pos) * pos_per_cell()
-
-static func pos_per_cell() -> Vector2: # (long,lat) per cell 
-#	return Vector2(cell_scale.x/cell_size.x, cell_scale.y/cell_size.y)
-	return cell_scale/cell_size

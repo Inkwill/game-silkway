@@ -1,7 +1,7 @@
 extends Node2D
 
-onready var label = $Label1
-onready var label2 = $Label2
+onready var label = $lb1
+onready var label2 = $lb2
 
 func _input(event):
 	if (event is InputEventMultiScreenDrag or

@@ -6,6 +6,24 @@
 [node name="Control" type="Node2D"]
 script = ExtResource( 2 )
 
+[node name="lb1" type="Label" parent="."]
+margin_right = 54.0
+margin_bottom = 22.0
+text = "label1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="lb2" type="Label" parent="."]
+margin_left = 2.00226
+margin_top = 22.0248
+margin_right = 56.0023
+margin_bottom = 44.0248
+text = "label2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Popup" type="WindowDialog" parent="."]
 margin_left = 179.0
 margin_top = 112.0
@@ -30,16 +48,4 @@ text = "pop!"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Label1" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 22.0
-text = "label1"
-
-[node name="Label2" type="Label" parent="."]
-margin_left = 2.00226
-margin_top = 22.0248
-margin_right = 42.0023
-margin_bottom = 44.0248
-text = "label2"
 [connection signal="pressed" from="ToolButton" to="Popup" method="_on_ToolButton_pressed"]
