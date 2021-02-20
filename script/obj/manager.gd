@@ -71,7 +71,6 @@ func store_member() :
 	if savers.size() == 0 :return 0
 	var num := 0
 	for id in savers:
-		printerr("save:%s"%_storedata(id))
 		if gamedb.update_rows(type, "id = %s"%id,_storedata(id)):	
 			num +=1
 	return num

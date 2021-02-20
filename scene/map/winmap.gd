@@ -4,10 +4,10 @@ class_name WinMap
 onready var map = $Viewport/maptile
 onready var view_texture = $ViewTexture
 
+
 func _on_opened():
 	$Label.text = "cur_aero:%s, player_pos:%s" % [map._aero,host.account.player.pos]
 	
-
 func _move(dir,dis):
 	var move = null
 	for action in host.account.player.action_list:

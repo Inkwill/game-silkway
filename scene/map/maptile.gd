@@ -39,7 +39,8 @@ class Tile:
 		aero.active_cell(aero_pos,id)
 		tilemap.set_cell(tile_pos.x,tile_pos.y,id)
 	
-func _ready():	
+func _ready():
+	printerr("Refresh")
 	_refresh_map(host.account.aeroer.get_aero())
 	_refresh_actor()
 
@@ -52,15 +53,19 @@ func _refresh_map(aero,scope=Vector2(1,0)):
 		for j in range(-scope.y,scope.y+1):
 			var draw_aero = host.account.aeroer.get_aero(aero.pos + Vector2(i,j))
 			_draw_map(Vector2(i*cell_size.x,j*cell_size.y),draw_aero)
-			printerr("draw %s->%s"%[Vector2(i*cell_size.x,j*cell_size.y),draw_aero])
+#			printerr("draw %s->%s"%[Vector2(i*cell_size.x,j*cell_size.y),draw_aero])
 
 func _draw_map(center,aero):
-	for i in range(center.x,center.x + cell_size.x):
-		for j in range(center.y,center.y + cell_size.y):
-			var aero_pos = Vector2(i% int(cell_size.x),j%int(cell_size.y))
-			tilemap.set_cell(i,-j,aero.cell_value(aero_pos))
-			if aero_pos == Vector2(0,0):
-				printerr("set %s cell[%s] value: %s"%[aero,aero_pos,aero.cell_value(aero_pos)])
+	for i in cell_size.x:
+		for j in cell_size.y:
+			tilemap.set_cell(center.x+i,-1*(center.y+j),aero.cell_value(Vector2(i,j)))
+			
+#	for i in range(center.x,center.x + cell_size.x):
+#		for j in range(center.y,center.y + cell_size.y):
+#			var aero_pos = Vector2(i% int(cell_size.x),j%int(cell_size.y))
+#			tilemap.set_cell(i,-j,aero.cell_value(aero_pos))
+#			if aero.id == 34109:
+#				printerr("set %s cell[%s] value: %s"%[aero,aero_pos,aero.cell_value(aero_pos)])
 
 func _refresh_actor():
 	player = host.account.player
