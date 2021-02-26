@@ -37,6 +37,10 @@ func show_close():
 	tween = GUITools.tween_postion(self,tw_to*window_scale, tw_from*window_scale, tw_duration,"queue_free")
 	emit_signal("s_close")
 
+func connect_tween(target,disconnect=false):
+	if disconnect: Mtools.disconnect_signals(tween,target,["tween_step","tween_completed"])
+	else:Mtools.connect_signals(tween,target,["tween_step","tween_completed"])
+
 static func open_window(_root,_path,_duration=1):
 	var win = load(_path).instance()
 	if _root.has_node(win.name) : return _root.get_node(win.name)

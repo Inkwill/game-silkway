@@ -6,13 +6,16 @@ var population
 var cells setget _private_setter
 
 func _init(_data,_type="aero").(_data,_type):
-	feature = host.aero_data.value(id)
+	feature = host.aero_data.value(id) if id in host.aero_data.keys() else {"altitude":0,"population":0}
 	pos = Vector2(int(str(id).right(2)),int(str(id).left(2)))
 	if "population" in _data :population = Population.new(self,_data.population)
 	cells = JSON.parse(_data.cells).result
 
-func increase_population():
-	return population.increase()
+func update():
+	var population_update = host.account.curday - population.date
+	if population_update < 0 : push_warning("population(%s) date err:date=%s,curday=%s"%[self,population.date,host.account.curday])
+	elif population_update >= 1:	population.update()
+	return self
 
 func sunshine_time(): # quarter
 	var day = GameDate.day_in_year(host.account.curday)
@@ -35,21 +38,34 @@ func sunrise():  # quarter
 func sunset():
 	return sunshine_time()/2
 
-func cell_pos(w_pos:Vector2)->Vector2:
-	var offset = w_pos - pos
-	var cell_size = host.account.aeroer.cell_size
-	var cell_origin = (cell_size - Vector2(1,1))/2.0
-	return Vector2(cell_origin.x + ceil(offset.x*(cell_size.x-1)), cell_origin.y - ceil(offset.y*(cell_size.y-1)))
+func cell_id(pos:Vector2)->String:
+	return "%s,%s"%[pos.x,pos.y]
 
 func cell_value(pos:Vector2):
-	var id = "%s,%s"%[pos.x,pos.y]
+	var id = cell_id(pos)
 	return cells[id] if id in cells else 0
 
-func active_cell(pos,cell_id):
-	pos = "%s,%s"%[pos.x,pos.y]
-	if pos in cells:push_warning("Illegal operation : repeat active_cell![%s,cell:%s] "%[self,pos])
-	cells[pos] = cell_id
-	emit_signal("_s_gameobj_changed",self,"active_cell",{pos:cell_id})
+func is_actived_cell(pos) -> bool:
+	if not cell_id(pos) in cells : return false
+	else : return cell_value(pos)>0
+	
+func active_cell(pos,value):
+	var id = cell_id(pos)
+	if is_actived_cell(pos):push_warning("Illegal operation : repeat active cell![%s,cell:%s] "%[self,id])
+	else : 
+		cells[id] = value
+		emit_signal("_s_gameobj_changed",self,"cell","",{id:value})
+		
+func elevation(pos):
+	var loaded = host.storager.load_json("res://resouce/data/elevation/%s.json"%id)
+	if loaded is Dictionary and "data" in loaded:
+		if loaded.data is Array and loaded.data.size()>pos.x:
+			if loaded.data[pos.x].size()>pos.y: return loaded.data[pos.x][pos.y]
+	return feature.altitude
+#	var data_file = File.new()
+#	var err = data_file.open("res://resouce/%s.txt"%id,File.READ)
+#	if err : push_error("elevation data open erro[%s] of %s" % [err,id])
+#	else : return 
 	
 func _private_setter(_value):
 	._private_setter(_value)

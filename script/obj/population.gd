@@ -24,16 +24,12 @@ func _init_data(id):
 	return _store_data()
 
 func update(): #by year
-	if date > host.account.curday : 
-		push_warning("population(%s) date err:date=%s,curday=%s"%[owner,date,host.account.curday])
-		date = host.account.curday
-	if date == host.account.curday : return
-	var year = int((host.account.curday - date)/365)
-	number = int(number * pow(1 + birth_rate - mortality,year))
-#	printerr("number:%s,increase:%s"%[number,pow(1 + birth_rate - mortality,year)])
+	var year = (host.account.curday - date)/365.0
+	var old_number = number
+	number = int(old_number * pow(1 + birth_rate - mortality,year))
 	date = host.account.curday
-	owner.emit_signal("_s_gameobj_changed",owner,"population_increase",self)
-	return number
+	owner.emit_signal("_s_gameobj_changed",owner,"population",old_number,number)
+	
 	
 func _to_string():
 	return "Population:%s"% [number]

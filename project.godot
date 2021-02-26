@@ -54,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://script/obj/asseter.gd"
 }, {
+"base": "",
+"class": "DijkstraMap",
+"language": "NativeScript",
+"path": "res://addons/dijkstra-map/Dijkstra_map_library/nativescript.gdns"
+}, {
 "base": "Actor",
 "class": "Dynasty",
 "language": "GDScript",
@@ -239,6 +244,7 @@ _global_script_class_icons={
 "Aeroer": "",
 "Asset": "",
 "Asseter": "",
+"DijkstraMap": "",
 "Dynasty": "",
 "Dynastyer": "",
 "Effect": "",

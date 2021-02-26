@@ -1,7 +1,7 @@
 extends Object
 class_name GameObj
 
-signal _s_gameobj_changed
+signal _s_gameobj_changed(gameobj,key,old,new)
 
 var ownerid
 var id:int
@@ -20,8 +20,9 @@ func _to_string() -> String:
 	return "gobj_%s[%s]"%[type,id]
 
 func _set_pos(value:Vector2):
+	var old_pos = pos
 	pos = value
-	emit_signal("_s_gameobj_changed",self,"set_pos",value)
+	emit_signal("_s_gameobj_changed",self,"pos",old_pos,pos)
 
 func _init_properties(names):
 	for name in names:

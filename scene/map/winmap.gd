@@ -6,7 +6,8 @@ onready var view_texture = $ViewTexture
 
 
 func _on_opened():
-	$Label.text = "cur_aero:%s, player_pos:%s" % [map._aero,host.account.player.pos]
+	map.connect("select_tile",self,"on_tile_selected")
+	$Label.text = "%s, player_tile:%s" % [map._aero,map._player_tile.aero_pos]
 	
 func _move(dir,dis):
 	var move = null
@@ -20,8 +21,15 @@ func _move(dir,dis):
 #	$maptile/TileMap.scale = tilemap_scale*window_scale
 
 func _timer_refresh(_delta):
-	$Label.text = "cur_aero:%s, player_pos:%s" % [map._aero,host.account.player.pos]
-	map._refresh_actor()
+	$Label.text = "%s, player_pos:%s" % [map._aero,host.account.player.pos]
+	map.refresh_actor()
+	if map._draw_center_aero != host.account.aeroer.get_aero():
+		map.refresh_map(host.account.aeroer.get_aero())
+	
+func on_tile_selected(tile):
+	$Label.text = "%s[%s],tile_pos:%s" % [tile.aero,tile.aero_pos,tile.tile_pos]
+	printerr(map._tiles.size())
+#	GUITools.message(Aeroer.global_distance(Vector2(0,0),Vector2(0,1)))
 	
 func _on_bt_close_pressed():
 	show_close()

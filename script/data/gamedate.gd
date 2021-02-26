@@ -21,14 +21,16 @@ func _init(p_file = _path,indexs :=["first","last"]).(p_file,indexs):
 
 func add_action(_action):
 	if _action in action_list : push_warning("Add a existed action : %s" % _action)
-	else : action_list.append(_action)
-	_connect_signals(_action,["timer_step","day_step","moon_step","big_hour_step"])
-	if not is_running : run_timer(timer_interval)
+	else : 
+		action_list.append(_action)
+		Mtools.connect_signals(self,_action,["timer_step","day_step","moon_step","big_hour_step"])
+		if not is_running : run_timer(timer_interval)
 
 func remove_action(_action):
 	if not _action in action_list : return
-	else : action_list.erase(_action)
-	_disconnect_signals(_action,["timer_step","day_step","moon_step","big_hour_step"])
+	else : 
+		action_list.erase(_action)
+		Mtools.disconnect_signals(self,_action,["timer_step","day_step","moon_step","big_hour_step"])
 
 func run_timer(delta):
 	is_running = true
@@ -41,12 +43,13 @@ func step_timer(delta):
 	_duration += delta
 	host.account.curday += delta/12.0
 	emit_signal("timer_step",delta)
+	yield(host.tree,"idle_frame")
+	emit_signal("timer_step_over",delta)
 	
 	if is_cross_big_hour(last_day,host.account.curday) : emit_signal("big_hour_step",delta)
 	if is_cross_day(last_day,host.account.curday) : emit_signal("day_step",delta)
 	if is_cross_moon(last_day,host.account.curday) : emit_signal("moon_step",delta)
-	yield(host.tree,"idle_frame")
-	emit_signal("timer_step_over",delta)
+	
 	if action_list.size() > 0 and is_running: step_timer(delta)
 	else : 	
 		print("Stop timer,duration = %s" % _duration)
@@ -69,16 +72,6 @@ func _confirm_key(_key):
 #			print("%s is in (%s,%s,%s)" %  [_key,content["keys"][i],content["first"][i],content["last"][i]])
 			return content["keys"][i]
 	return _key
-
-func _connect_signals(obj,signals):
-	for s in signals :
-		var err = connect(s,obj,"_on_%s"%s)
-		if err : push_error("Connect %s err[%s] to %s" % [s,err,obj])
-		
-func _disconnect_signals(obj,signals=null):
-	if signals == null : signals = get_signal_list()
-	for s in signals :
-		if is_connected(s,obj,"_on_%s"%s): disconnect(s,obj,"_on_%s"%s)
 
 static func get_time_name(jdate): # jdate - 12:00   - 午時三刻
 	var big_hour_name = ["午","未","申","酉","戌","亥","子","丑","寅","卯","辰","巳"]

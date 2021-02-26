@@ -1,9 +1,9 @@
 [gd_resource type="TileSet" load_steps=2 format=2]
 
-[ext_resource path="res://art/kenney_medievalrtspack/PNG/Default size/Unit/medievalUnit_01.png" type="Texture" id=1]
+[ext_resource path="res://art/kenney_medievalrtspack/selected_yellow.bmp.png" type="Texture" id=1]
 
 [resource]
-0/name = "player"
+0/name = "selected_yellow"
 0/texture = ExtResource( 1 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )

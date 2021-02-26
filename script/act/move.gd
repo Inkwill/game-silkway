@@ -49,7 +49,7 @@ func _act_move(dis):
 	var pos = Aeroer.global_pos_moved(actor.pos,Vector2(dis*cos(get(dir.keys()[0])),dis*sin(get(dir.keys()[0]))))
 	actor.pos = pos
 	moved_dis += dis
-	print("moved : %s" % moved_dis)
+#	print("moved : %s" % moved_dis)
 	
 func _storage_data():
 	var data = ._storage_data()

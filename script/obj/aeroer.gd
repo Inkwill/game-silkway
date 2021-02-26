@@ -18,17 +18,12 @@ func get_aero(key = null): #null:cur   Vector2:pos   String:id
 	var id  = aero_id(key) if key is Vector2 else int(key)
 #	printerr("get aero:%s,?in:%s"%[id,id in db_list])
 	var aero = get_member({"id":id}) if id in db_list else create_member(id)
-	aero.population.update()
-	return aero
+	return aero.update()
 	
-#func increase_population():
-#	var result = Mtools.map_call(members.values(),"increase_population")
-#	return "increase population in %s aero"% result.size()
-
 static func aero_id(pos:Vector2):
 	return int(str(int(pos.y))+str(int(pos.x)))
 
-# get distance by (longitude,latitude)
+# get km distance by (longitude,latitude)
 static func global_distance(from:Vector2,to:Vector2)-> float: 
 	var R = 6378.137 
 	return acos(cos(deg2rad(from.y))*cos(deg2rad(to.y))*cos(deg2rad(to.x)-deg2rad(from.x)) + sin(deg2rad(from.y))*sin(deg2rad(to.y)))*R

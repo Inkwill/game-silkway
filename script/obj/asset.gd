@@ -13,5 +13,5 @@ func add(dic):
 		if key in data.keys() :
 			data[key] += int(dic[key])
 			num += 1
-	if num : emit_signal("_s_gameobj_changed",self,"add",dic)
+	if num : emit_signal("_s_gameobj_changed",self,"add","",dic)
 	return num == dic.size()

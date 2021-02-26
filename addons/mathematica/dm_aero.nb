@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     10690,        269]
-NotebookOptionsPosition[      9309,        244]
-NotebookOutlinePosition[      9710,        260]
-CellTagsIndexPosition[      9667,        257]
+NotebookDataLength[      5265,        142]
+NotebookOptionsPosition[      4496,        122]
+NotebookOutlinePosition[      4899,        138]
+CellTagsIndexPosition[      4856,        135]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -44,7 +44,8 @@ Cell[BoxData[{
   3.819512015625079*^9}, {3.8195121940624943`*^9, 3.819512335353516*^9}, {
   3.8195124255062566`*^9, 3.819512504992711*^9}, {3.8195194334544277`*^9, 
   3.8195194397263803`*^9}},
- CellLabel->"In[38]:=",ExpressionUUID->"a024748f-849b-4c77-afbe-b5ea8632d7d3"],
+ CellLabel->
+  "In[122]:=",ExpressionUUID->"a024748f-849b-4c77-afbe-b5ea8632d7d3"],
 
 Cell[BoxData[
  RowBox[{"(*", 
@@ -63,187 +64,64 @@ Cell[BoxData[
 097b37fd5293"],
 
 Cell[BoxData[
- RowBox[{"Export", "[", 
-  RowBox[{
-  "\"\<F:\\\\Godot\\\\silkway\\\\resouce\\\\data\\\\aero.res\>\"", ",", 
-   RowBox[{"Prepend", "[", 
-    RowBox[{
-     RowBox[{"Transpose", "[", 
+ RowBox[{"(*", 
+  RowBox[{"Export", "[", 
+   RowBox[{
+   "\"\<F:\\\\Godot\\\\silkway\\\\resouce\\\\data\\\\aero.res\>\"", ",", 
+    RowBox[{"Prepend", "[", 
+     RowBox[{
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{"aeroid", ",", 
+         RowBox[{"First", "/@", "altitude"}]}], "}"}], "]"}], ",", 
       RowBox[{"{", 
-       RowBox[{"aeroid", ",", 
-        RowBox[{"First", "/@", "altitude"}]}], "}"}], "]"}], ",", 
-     RowBox[{"{", 
-      RowBox[{"\"\<id\>\"", ",", "\"\<altitude\>\""}], "}"}]}], "]"}], ",", 
-   "\"\<Table\>\""}], "]"}]], "Input",
+       RowBox[{"\"\<id\>\"", ",", "\"\<altitude\>\""}], "}"}]}], "]"}], ",", 
+    "\"\<Table\>\""}], "]"}], "*)"}]], "Input",
  CellChangeTimes->{{3.81951924549289*^9, 3.8195192835088444`*^9}, {
-  3.8195193154829674`*^9, 3.81951934639106*^9}, {3.819519402723793*^9, 
-  3.8195194074288177`*^9}, {3.8195196469081893`*^9, 3.819519650846046*^9}, {
-  3.819519691312859*^9, 3.8195197389367228`*^9}, {3.819519874970708*^9, 
-  3.819519922499748*^9}, {3.81952012483082*^9, 3.819520177126548*^9}, {
-  3.819520255779747*^9, 3.8195202571153717`*^9}, {3.8195203998690395`*^9, 
-  3.819520471739849*^9}, {3.8196086463043365`*^9, 
-  3.819608668295679*^9}},ExpressionUUID->"4eec18f4-f6f5-4c0f-b6ae-\
+   3.8195193154829674`*^9, 3.81951934639106*^9}, {3.819519402723793*^9, 
+   3.8195194074288177`*^9}, {3.8195196469081893`*^9, 3.819519650846046*^9}, {
+   3.819519691312859*^9, 3.8195197389367228`*^9}, {3.819519874970708*^9, 
+   3.819519922499748*^9}, {3.81952012483082*^9, 3.819520177126548*^9}, {
+   3.819520255779747*^9, 3.8195202571153717`*^9}, {3.8195203998690395`*^9, 
+   3.819520471739849*^9}, {3.8196086463043365`*^9, 3.819608668295679*^9}, {
+   3.823222286667864*^9, 3.8232223065276794`*^9}, 
+   3.823222371388488*^9},ExpressionUUID->"4eec18f4-f6f5-4c0f-b6ae-\
 33b0ba738d11"],
 
-Cell[BoxData[
- RowBox[{"SystemOpen", "@", "%"}]], "Input",
- CellChangeTimes->{{3.8195201802309127`*^9, 3.8195201837465224`*^9}},
- CellLabel->"In[46]:=",ExpressionUUID->"a8a3d119-1b6c-452c-97d1-e0a1432f258d"],
+Cell[CellGroupData[{
 
-Cell[BoxData[""], "Input",
- CellChangeTimes->{{3.8195202322151194`*^9, 
-  3.8195202499869833`*^9}},ExpressionUUID->"407239ce-1a52-40b5-b335-\
-343344031536"],
+Cell["\:9ad8\:5ea6\:5716", "Subsubsection",
+ CellChangeTimes->{{3.8232274191310234`*^9, 
+  3.8232274218806696`*^9}},ExpressionUUID->"6e686de6-2aed-4b30-a11c-\
+aab1fc6397ca"],
 
 Cell[BoxData[
  RowBox[{
-  RowBox[{"sunrises", " ", "=", " ", 
-   RowBox[{"Sunrise", "[", 
-    RowBox[{
-     RowBox[{"GeoPosition", "[", 
-      RowBox[{"{", 
-       RowBox[{"50", ",", "115"}], "}"}], "]"}], ",", 
-     RowBox[{"DateRange", "[", 
-      RowBox[{
-       RowBox[{"DateObject", "[", 
-        RowBox[{"{", 
-         RowBox[{
-          RowBox[{"-", "140"}], ",", "12", ",", "22"}], "}"}], "]"}], ",", 
-       RowBox[{"DateObject", "[", 
-        RowBox[{"{", 
-         RowBox[{
-          RowBox[{"-", "139"}], ",", "12", ",", "22"}], "}"}], "]"}], ",", 
-       RowBox[{"{", 
-        RowBox[{"5", ",", "\"\<Day\>\""}], "}"}]}], "]"}]}], "]"}]}], 
-  ";"}]], "Input",
- CellChangeTimes->{{3.8195210910202246`*^9, 3.819521091021221*^9}, {
-   3.819581563693569*^9, 3.8195815660508275`*^9}, {3.819582258788501*^9, 
-   3.819582269935158*^9}, {3.819582310173553*^9, 3.819582351029699*^9}, {
-   3.8195823841524324`*^9, 3.8195824465733604`*^9}, {3.819582496094467*^9, 
-   3.819582512877018*^9}, {3.819582755531149*^9, 3.819582790975542*^9}, {
-   3.8195828470783377`*^9, 3.819582848717723*^9}, {3.8195832351359053`*^9, 
-   3.819583253175212*^9}, {3.819583301041877*^9, 3.8195833249238114`*^9}, {
-   3.81958344565394*^9, 3.819583513388622*^9}, {3.819583624628522*^9, 
-   3.8195836538848515`*^9}, 3.819583766146401*^9, {3.819583799254928*^9, 
-   3.8195838021330123`*^9}, {3.819584314682439*^9, 3.8195843981570168`*^9}, {
-   3.8195847302468214`*^9, 3.819584730529066*^9}, {3.8195847804499197`*^9, 
-   3.8195847939818153`*^9}, {3.8195849954154415`*^9, 
-   3.8195850088234253`*^9}, {3.8195850415919514`*^9, 3.819585041713624*^9}},
- CellLabel->
-  "In[100]:=",ExpressionUUID->"ac671eb8-21df-42f2-8d89-15e8aaab5665"],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"sunsets", " ", "=", " ", 
-   RowBox[{"Sunset", "[", 
-    RowBox[{
-     RowBox[{"GeoPosition", "[", 
-      RowBox[{"{", 
-       RowBox[{"50", ",", "115"}], "}"}], "]"}], ",", 
-     RowBox[{"DateRange", "[", 
-      RowBox[{
-       RowBox[{"DateObject", "[", 
-        RowBox[{"{", 
-         RowBox[{
-          RowBox[{"-", "140"}], ",", "12", ",", "22"}], "}"}], "]"}], ",", 
-       RowBox[{"DateObject", "[", 
-        RowBox[{"{", 
-         RowBox[{
-          RowBox[{"-", "139"}], ",", "12", ",", "22"}], "}"}], "]"}], ",", 
-       RowBox[{"{", 
-        RowBox[{"5", ",", "\"\<Day\>\""}], "}"}]}], "]"}]}], "]"}]}], 
-  ";"}]], "Input",
- CellChangeTimes->{{3.8195844032242537`*^9, 3.819584426905923*^9}, {
-  3.8195847376165004`*^9, 3.819584737882967*^9}, {3.8195848006901894`*^9, 
-  3.819584806238872*^9}, {3.8195850185608473`*^9, 3.819585046848452*^9}},
- CellLabel->
-  "In[101]:=",ExpressionUUID->"33e97c22-8b28-4d76-863c-1286f359dccc"],
-
-Cell[BoxData[
- RowBox[{"TimeSeriesThread", "[", 
   RowBox[{
-   RowBox[{
-    RowBox[{"UnitConvert", "[", 
-     RowBox[{
-      RowBox[{"Plus", "[", 
+   RowBox[{"reliefMap", "[", 
+    RowBox[{"lat_", ",", "long_"}], "]"}], ":=", " ", 
+   RowBox[{"GeoGraphics", "[", 
+    RowBox[{
+     RowBox[{"GeoPosition", "[", 
+      RowBox[{"{", 
        RowBox[{
-        RowBox[{"First", "[", "#", "]"}], ",", 
-        RowBox[{"-", 
-         RowBox[{"Last", "[", "#", "]"}]}]}], "]"}], ",", "\"\<Hour\>\""}], 
-     "]"}], "&"}], ",", 
-   RowBox[{"{", 
-    RowBox[{"sunsets", ",", "sunrises"}], "}"}]}], "]"}]], "Input",
- CellChangeTimes->{{3.819582574335845*^9, 3.819582580431904*^9}, {
-  3.8195828510773473`*^9, 3.8195828981821766`*^9}, {3.819583550313298*^9, 
-  3.819583609251544*^9}, {3.819584432897746*^9, 3.81958454909967*^9}},
+        RowBox[{"lat", "+", "0.5"}], ",", 
+        RowBox[{"long", "+", "0.5"}]}], "}"}], "]"}], ",", 
+     RowBox[{"GeoRange", "\[Rule]", 
+      RowBox[{"Quantity", "[", 
+       RowBox[{"55.5", ",", "\"\<Kilometers\>\""}], "]"}]}], ",", 
+     RowBox[{"GeoBackground", "\[Rule]", 
+      RowBox[{"GeoStyling", "[", "\"\<ReliefMap\>\"", "]"}]}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.823227424457675*^9, 3.8232274263260355`*^9}, {
+  3.8232274591768246`*^9, 3.823227577967716*^9}, {3.8232276197068505`*^9, 
+  3.823227639432289*^9}, {3.8232277582796364`*^9, 3.8232277633947124`*^9}},
  CellLabel->
-  "In[102]:=",ExpressionUUID->"3f899ea8-1581-4096-ba09-e153746ca86f"],
-
-Cell[BoxData[
- RowBox[{"DateListPlot", "[", 
-  RowBox[{"%102", ",", 
-   RowBox[{"FrameLabel", "\[Rule]", "Automatic"}]}], "]"}]], "Input",
- CellChangeTimes->{{3.8195845706015315`*^9, 3.819584573023988*^9}, 
-   3.8195847136013165`*^9, {3.8195847468309603`*^9, 3.81958476162387*^9}, 
-   3.8195848162490587`*^9, {3.81958505964295*^9, 3.819585059992426*^9}},
- CellLabel->
-  "In[104]:=",ExpressionUUID->"a2e64b67-750e-4bee-b95e-ce394eff6fa1"],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"Sunset", "[", 
-   RowBox[{
-    RowBox[{"GeoPosition", "[", 
-     RowBox[{"{", 
-      RowBox[{"30", ",", "115"}], "}"}], "]"}], ",", 
-    RowBox[{"DateObject", "[", 
-     RowBox[{"{", 
-      RowBox[{
-       RowBox[{"-", "140"}], ",", "12", ",", "22"}], "}"}], "]"}]}], "]"}], 
-  "-", 
-  RowBox[{"Sunrise", "[", 
-   RowBox[{
-    RowBox[{"GeoPosition", "[", 
-     RowBox[{"{", 
-      RowBox[{"30", ",", "115"}], "}"}], "]"}], ",", 
-    RowBox[{"DateObject", "[", 
-     RowBox[{"{", 
-      RowBox[{
-       RowBox[{"-", "140"}], ",", "12", ",", "22"}], "}"}], "]"}]}], 
-   "]"}]}]], "Input",
- CellChangeTimes->{{3.8195858199667735`*^9, 3.819585824343957*^9}, {
-  3.819585863417347*^9, 3.8195858678555317`*^9}, {3.8195860003571634`*^9, 
-  3.8195860010713377`*^9}, {3.819586066830154*^9, 3.8195860693433275`*^9}, {
-  3.8195862963306866`*^9, 3.8195862985177326`*^9}},
- CellLabel->
-  "In[116]:=",ExpressionUUID->"1e050834-2ee7-4643-ac93-0672cef6ba4b"],
-
-Cell[BoxData[
- RowBox[{"UnitConvert", "[", 
-  RowBox[{
-   RowBox[{"%116", "*", "1.0"}], ",", "\"\<Hours\>\""}], "]"}]], "Input",
- CellChangeTimes->{{3.8195858803106213`*^9, 3.819585902126709*^9}, {
-   3.8195859322348194`*^9, 3.8195859518464007`*^9}, {3.819585982640061*^9, 
-   3.819586007758237*^9}, 3.8195860761824384`*^9, 3.819586310208717*^9},
- CellLabel->
-  "In[117]:=",ExpressionUUID->"fc3645ed-57fd-4bf3-a87f-8ac88be558af"],
-
-Cell[BoxData[
- RowBox[{
-  RowBox[{"DateObject", "[", 
-   RowBox[{"{", 
-    RowBox[{
-     RowBox[{"-", "139"}], ",", "10", ",", "16"}], "}"}], "]"}], "-", 
-  RowBox[{"DateObject", "[", 
-   RowBox[{"{", 
-    RowBox[{
-     RowBox[{"-", "139"}], ",", "1", ",", "1"}], "}"}], "]"}]}]], "Input",
- CellChangeTimes->{{3.819597965146596*^9, 3.819598030007629*^9}},
- CellLabel->
-  "In[120]:=",ExpressionUUID->"4e56946b-0117-4c96-ad86-08e2f449d4e6"]
+  "In[130]:=",ExpressionUUID->"d0f2420d-29ad-48c5-8116-7da7d2f02c80"]
+}, Open  ]]
 },
-WindowSize->{760, 813},
-WindowMargins->{{-982, Automatic}, {36, Automatic}},
+WindowSize->{1350, 813},
+WindowMargins->{{-1524, Automatic}, {77, Automatic}},
 FrontEndVersion->"12.1 for Microsoft Windows (64-bit) (March 14, 2020)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"572a681a-913c-4c24-8d12-c1a1e66a772e"
@@ -259,18 +137,13 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 1102, 26, 119, "Input",ExpressionUUID->"a024748f-849b-4c77-afbe-b5ea8632d7d3"],
-Cell[1663, 48, 561, 14, 28, "Input",ExpressionUUID->"39ae853b-1d06-4f9e-83cc-097b37fd5293"],
-Cell[2227, 64, 1019, 21, 82, "Input",ExpressionUUID->"4eec18f4-f6f5-4c0f-b6ae-33b0ba738d11"],
-Cell[3249, 87, 207, 3, 45, "Input",ExpressionUUID->"a8a3d119-1b6c-452c-97d1-e0a1432f258d"],
-Cell[3459, 92, 156, 3, 28, "Input",ExpressionUUID->"407239ce-1a52-40b5-b335-343344031536"],
-Cell[3618, 97, 1703, 35, 82, "Input",ExpressionUUID->"ac671eb8-21df-42f2-8d89-15e8aaab5665"],
-Cell[5324, 134, 970, 25, 82, "Input",ExpressionUUID->"33e97c22-8b28-4d76-863c-1286f359dccc"],
-Cell[6297, 161, 715, 18, 45, "Input",ExpressionUUID->"3f899ea8-1581-4096-ba09-e153746ca86f"],
-Cell[7015, 181, 437, 8, 45, "Input",ExpressionUUID->"a2e64b67-750e-4bee-b95e-ce394eff6fa1"],
-Cell[7455, 191, 977, 27, 82, "Input",ExpressionUUID->"1e050834-2ee7-4643-ac93-0672cef6ba4b"],
-Cell[8435, 220, 429, 8, 45, "Input",ExpressionUUID->"fc3645ed-57fd-4bf3-a87f-8ac88be558af"],
-Cell[8867, 230, 438, 12, 45, "Input",ExpressionUUID->"4e56946b-0117-4c96-ad86-08e2f449d4e6"]
+Cell[558, 20, 1106, 27, 119, "Input",ExpressionUUID->"a024748f-849b-4c77-afbe-b5ea8632d7d3"],
+Cell[1667, 49, 561, 14, 28, "Input",ExpressionUUID->"39ae853b-1d06-4f9e-83cc-097b37fd5293"],
+Cell[2231, 65, 1136, 23, 28, "Input",ExpressionUUID->"4eec18f4-f6f5-4c0f-b6ae-33b0ba738d11"],
+Cell[CellGroupData[{
+Cell[3392, 92, 173, 3, 44, "Subsubsection",ExpressionUUID->"6e686de6-2aed-4b30-a11c-aab1fc6397ca"],
+Cell[3568, 97, 912, 22, 45, "Input",ExpressionUUID->"d0f2420d-29ad-48c5-8116-7da7d2f02c80"]
+}, Open  ]]
 }
 ]
 *)

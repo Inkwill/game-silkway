@@ -19,11 +19,11 @@ func _init(_actor,_args,active=false,_type="action"):
 	create_date = host.account.curday
 	last_date = create_date
 	actor.action_list.append(self)
-	actor.emit_signal("_s_gameobj_changed",actor,"new_action",self)
+	actor.emit_signal("_s_gameobj_changed",actor,"new_action","",self)
 	 
 func act():
-	print("Action act! %s" % self)
-	actor.emit_signal("_s_gameobj_changed",actor,"act_action",self)
+#	print("Action act! %s" % self)
+	actor.emit_signal("_s_gameobj_changed",actor,"act_action","",self)
 	if last_date > 0 and (host.account.curday-last_date)*12 > host.account.date.timer_interval : _trace_back(12 * (host.account.curday - last_date))
 	if is_active : 	host.account.date.add_action(self)
 

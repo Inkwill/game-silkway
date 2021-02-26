@@ -19,8 +19,7 @@ func _ready():
 
 	date.connect("timer_step",self,"refresh")
 #	$bt_move.connect("pressed",self,"open_move")
-	account.curday = 1670231
-	player.pos = Vector2(109.5,34.5)
+	player.pos = Vector2(109.1,34.1)
 #	var move = Move.new(host.account.player,{"east":500},true)
 #	move.act()
 	print(date.full_name(account.curday))

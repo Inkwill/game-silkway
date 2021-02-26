@@ -42,7 +42,7 @@ func gain(sth):
 			asset = sth
 			assetid = sth.id
 			sth.ownerid = self.id
-			self.emit_signal("_s_gameobj_changed",self,"gain",sth)
+			self.emit_signal("_s_gameobj_changed",self,"gain","",sth)
 		else : Effect.new("add",sth.data).at(asset)
 	else : push_warning("Gain something that is not Asset:(%s->%s)"% [sth,self])
 
@@ -50,5 +50,6 @@ func _to_string() -> String:
 	return "actor_%s[%s]"%[form,name]
 	
 func _set_name(value:String):
+	var old_name = name
 	name = value
-	emit_signal("_s_gameobj_changed",self,"set_name",value)
+	emit_signal("_s_gameobj_changed",self,"name",old_name,name)

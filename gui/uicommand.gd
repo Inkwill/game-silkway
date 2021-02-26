@@ -24,14 +24,13 @@ func open_window(path):
 	hide()
 	var win = UIWindow.open_window(ui_root,path)
 	win.connect("s_close",self,"show")
-	win.tween.connect("tween_step",self,"_on_window_tween")
-	win.tween.connect("tween_completed",self,"_on_window_tween_completed")
+	win.connect_tween(self)
 
-func _on_window_tween(_caller,_key, _elapsed, _value):
+func _on_tween_step(_caller,_key, _elapsed, _value):
 	if _caller.is_open and (_value - ground_size - ui_content.position).y <= 0:
 		ui_content.position.y = floor(_value.y - ground_size.y)
 	elif not _caller.is_open and (ui_content.position-content_origin).y < 0:
 		ui_content.position.y = floor(_value.y - ground_size.y)
 		
-func _on_window_tween_completed(_caller,_key):
+func _on_tween_completed(_caller,_key):
 	if not _caller.is_open :GUITools.tween_postion(ui_content,ui_content.position,content_origin)

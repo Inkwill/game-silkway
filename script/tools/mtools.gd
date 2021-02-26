@@ -21,19 +21,20 @@ static func dics_from_string(text): #k1:v1,k2:v2 ; kk1:vv1,kk2:vv2
 		result.append(dic_from_string(a))
 	return result
 
-static func map_call(obj_list,fuc) -> Array:
+static func map_call(obj_list,fuc,para=null):
 	var array := []
 	for obj in obj_list :
-		array.append(obj.call(fuc))
+		if para != null :array.append(obj.call(fuc,para))
+		else : array.append(obj.call(fuc))
 	return array
 
-static func map(obj,fuc,para_list)->Array:
+static func map(obj,fuc,para_list):
 	var array := []
 	for para in para_list:
 		array.append(obj.call(fuc,para))
 	return array
 	
-static func erase_list(list,para_list)->Array:
+static func erase_list(list,para_list):
 	var array = list.duplicate()
 	for para in para_list:
 		if para in list: array.erase(para)
@@ -93,3 +94,16 @@ static func str_split_between(text,left,right):
 	result.append(text.rsplit(left)[0])
 	result.append(text.rsplit(left)[-1].rsplit(right)[0])
 	return result
+
+static func connect_signals(obj,target,signals):
+	for s in signals :
+		var fuc = "_on_%s"%s
+		if not obj.is_connected(s,target,fuc):
+			var err = obj.connect(s,target,fuc)
+			if err : push_error("%s connect %s err[%s] to %s" % [obj,s,err,target])
+		
+static func disconnect_signals(obj,target,signals=null):
+	if signals == null : signals = obj.get_signal_list()
+	for s in signals :
+		var fuc = "_on_%s"%s
+		if obj.is_connected(s,target,fuc): obj.disconnect(s,target,fuc)
