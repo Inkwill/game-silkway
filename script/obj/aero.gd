@@ -6,7 +6,7 @@ var population
 var cells setget _private_setter
 
 func _init(_data,_type="aero").(_data,_type):
-	feature = host.aero_data.value(id) if id in host.aero_data.keys() else {"altitude":0,"population":0}
+	feature = host.aero_data.value(id) if str(id) in host.aero_data.keys() else {"altitude":0,"population":0}
 	pos = Vector2(int(str(id).right(2)),int(str(id).left(2)))
 	if "population" in _data :population = Population.new(self,_data.population)
 	cells = JSON.parse(_data.cells).result
@@ -61,6 +61,7 @@ func elevation(pos):
 	if loaded is Dictionary and "data" in loaded:
 		if loaded.data is Array and loaded.data.size()>pos.x:
 			if loaded.data[pos.x].size()>pos.y: return loaded.data[pos.x][pos.y]
+	printerr(feature)
 	return feature.altitude
 #	var data_file = File.new()
 #	var err = data_file.open("res://resouce/%s.txt"%id,File.READ)

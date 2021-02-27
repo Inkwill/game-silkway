@@ -27,8 +27,13 @@ func _timer_refresh(_delta):
 		map.refresh_map(host.account.aeroer.get_aero())
 	
 func on_tile_selected(tile):
-	$Label.text = "%s[%s],tile_pos:%s" % [tile.aero,tile.aero_pos,tile.tile_pos]
-	printerr(map._tiles.size())
+	$Label.text = "%s[%s],path_id:%s" % [tile.aero,tile.aero_pos,tile.id]
+	var start_tile = map.get_closest_tile(map._player_tile,tile)
+	map.dijkstramap.recalculate(start_tile.id,{"terrain_weights": {1:1.0}})
+#	printerr("path :%s"%map.dijkstramap.get_shortest_path_from_point(tile.id))
+	map.show_path(map.dijkstramap.get_shortest_path_from_point(tile.id))
+#	for id in tile.around_tile():
+#		printerr("%s->%s:%s"%[tile.id,id,map.dijkstramap.has_connection(tile.id,id)])
 #	GUITools.message(Aeroer.global_distance(Vector2(0,0),Vector2(0,1)))
 	
 func _on_bt_close_pressed():
