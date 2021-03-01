@@ -18,7 +18,7 @@ func get_aero(key = null): #null:cur   Vector2:pos   String:id
 	var id  = aero_id(key) if key is Vector2 else int(key)
 #	printerr("get aero:%s,?in:%s"%[id,id in db_list])
 	var aero = get_member({"id":id}) if id in db_list else create_member(id)
-	return aero.update()
+	return aero
 	
 static func aero_id(pos:Vector2):
 	return int(str(int(pos.y))+str(int(pos.x)))
@@ -33,10 +33,3 @@ static func global_unit(pos:Vector2)-> Vector2:
 	var x = global_distance(pos,Vector2(pos.x+1,pos.y))
 	var y = global_distance(pos,Vector2(pos.x,pos.y+1))
 	return Vector2(x,y)
-
-# get (long, lat) of destination
-static func global_pos_moved(pos:Vector2,dis:Vector2)-> Vector2:
-	var unit = global_unit(pos)
-	var x_moved = dis.x/unit.x
-	var y_moved = dis.y/unit.y
-	return Vector2(pos.x+x_moved, pos.y+y_moved)

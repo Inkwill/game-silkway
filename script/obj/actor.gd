@@ -23,8 +23,8 @@ func _load_action(actions_data):
 	if not js.error :
 		for dic in js.result :
 			match dic["type"] :
-				"move" : Move.new(self,dic["args"])._load(dic)
-				_: Action.new(self,dic["args"])._load(dic)
+				"move" : Move.new(self)._load(dic)
+				_: Action.new(self)._load(dic)
 	else :push_error("Load action by invaild text: %s(%s)" % [actions_data,js.error])
 
 func act():

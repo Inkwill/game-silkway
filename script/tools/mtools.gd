@@ -21,6 +21,10 @@ static func dics_from_string(text): #k1:v1,k2:v2 ; kk1:vv1,kk2:vv2
 		result.append(dic_from_string(a))
 	return result
 
+static func vec2_from_string(text): #(x,y) 
+	var array = str_split_between(text,"(",")")[1].split(",")
+	return Vector2(array[0],array[1])
+
 static func map_call(obj_list,fuc,para=null):
 	var array := []
 	for obj in obj_list :
@@ -33,7 +37,7 @@ static func map(obj,fuc,para_list):
 	for para in para_list:
 		array.append(obj.call(fuc,para))
 	return array
-	
+		
 static func erase_list(list,para_list):
 	var array = list.duplicate()
 	for para in para_list:
@@ -89,7 +93,7 @@ static func combine_dic(dic1:Dictionary,dic2:Dictionary)->Dictionary:
 			result[key].append(dic1[key]).append(dic2[key])
 	return result
 
-static func str_split_between(text,left,right):
+static func str_split_between(text,left,right)->Array:
 	var result :=[]
 	result.append(text.rsplit(left)[0])
 	result.append(text.rsplit(left)[-1].rsplit(right)[0])

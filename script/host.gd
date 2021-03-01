@@ -14,7 +14,7 @@ var aero_data = GameTable.new("res://resouce/data/aero.res")
 
 var res_loader
 
-func _enter_tree():
+func _ready():
 	creat_account()
 
 func creat_account():

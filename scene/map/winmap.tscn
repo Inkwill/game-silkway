@@ -59,59 +59,58 @@ horizontal_margin = 5.0
 vertical_margin = 5.0
 
 [node name="bt_move_west" type="Button" parent="Panel/HBoxContainer"]
-margin_right = 102.0
+margin_right = 75.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
-text = "Go to west"
+text = "Go west"
 
 [node name="bt_move_east" type="Button" parent="Panel/HBoxContainer"]
-margin_left = 107.0
-margin_right = 209.0
+margin_left = 80.0
+margin_right = 155.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
-text = "Go to east"
+text = "Go east"
 
 [node name="bt_move_north" type="Button" parent="Panel/HBoxContainer"]
-margin_left = 214.0
-margin_right = 325.0
+margin_left = 160.0
+margin_right = 244.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
-text = "Go to north"
+text = "Go north"
 
 [node name="bt_move_south" type="Button" parent="Panel/HBoxContainer"]
-margin_left = 330.0
-margin_right = 441.0
+margin_left = 249.0
+margin_right = 333.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
-text = "Go to south"
+text = "Go south"
 
-[node name="bt_focus_player" type="Button" parent="Panel/HBoxContainer"]
-margin_top = 65.0
-margin_right = 120.0
-margin_bottom = 125.0
+[node name="bt_move_to" type="Button" parent="Panel/HBoxContainer"]
+margin_left = 338.0
+margin_right = 404.0
+margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
-text = "focus_player"
+text = "MoveTo"
 
 [node name="bt_zoom_out" type="Button" parent="Panel/HBoxContainer"]
-margin_left = 125.0
 margin_top = 65.0
-margin_right = 200.0
+margin_right = 75.0
 margin_bottom = 125.0
 rect_min_size = Vector2( 60, 60 )
 text = "ZoomOut"
 
 [node name="bt_zoom_in" type="Button" parent="Panel/HBoxContainer"]
-margin_left = 205.0
+margin_left = 80.0
 margin_top = 65.0
-margin_right = 271.0
+margin_right = 146.0
 margin_bottom = 125.0
 rect_min_size = Vector2( 60, 60 )
 text = "ZoomIn"
 
 [node name="bt_close" type="Button" parent="Panel/HBoxContainer"]
-margin_left = 276.0
+margin_left = 151.0
 margin_top = 65.0
-margin_right = 336.0
+margin_right = 211.0
 margin_bottom = 125.0
 rect_min_size = Vector2( 60, 60 )
 text = "Close"
@@ -127,7 +126,7 @@ text = "Aero"
 [connection signal="pressed" from="Panel/HBoxContainer/bt_move_east" to="." method="_on_bt_move_east_pressed"]
 [connection signal="pressed" from="Panel/HBoxContainer/bt_move_north" to="." method="_on_bt_move_north_pressed"]
 [connection signal="pressed" from="Panel/HBoxContainer/bt_move_south" to="." method="_on_bt_move_south_pressed"]
-[connection signal="pressed" from="Panel/HBoxContainer/bt_focus_player" to="." method="_on_bt_focus_player_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/bt_move_to" to="." method="_on_bt_move_to_pressed"]
 [connection signal="pressed" from="Panel/HBoxContainer/bt_zoom_out" to="." method="_on_bt_zoom_out_pressed"]
 [connection signal="pressed" from="Panel/HBoxContainer/bt_zoom_in" to="." method="_on_bt_zoom_in_pressed"]
 [connection signal="pressed" from="Panel/HBoxContainer/bt_close" to="." method="_on_bt_close_pressed"]

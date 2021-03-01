@@ -10,6 +10,7 @@ var _selected
 var _player_tile
 var _aero_list := []
 var _path_tiles := {}
+var path_find := [] # world_pos
 var dijkstramap
 
 export(Vector2) var map_size
@@ -69,12 +70,6 @@ class Tile:
 		var y = 1 if aero_pos.y/cell_scale.y >0.5 else -1
 		return Vector2(x,y) 
 	
-	func active(tilemap):
-		if not is_actived():
-			var cell_id = randi() % 4 +1
-			aero.active_cell(aero_pos,cell_id)
-			tilemap.set_cell(tile_pos.x,tile_pos.y,cell_id)
-	
 	func precise(num):
 		if num >= 0 : return floor(num)
 		else : return -1*ceil(abs(num))
@@ -90,7 +85,7 @@ func _ready():
 	_aero = host.account.aeroer.get_aero()
 	refresh_map(_aero)
 	refresh_actor()
-	printerr("%s==%s"%[_player_tile.tile_pos,Tile.id_to_pos(_player_tile.id)])
+#	printerr("%s==%s"%[_player_tile.tile_pos,Tile.id_to_pos(_player_tile.id)])
 #	var bmp: Rect2 = Rect2(0, 0, 9, 9)
 #	var pos_to_id = dijkstramap.add_square_grid(bmp)
 #	printerr(pos_to_id.size())
@@ -104,7 +99,7 @@ func refresh_actor():
 	for p in tilemark.get_used_cells_by_id(2):
 		tilemark.set_cell(p.x,p.y,-1)
 	tilemark.set_cell(_player_tile.tile_pos.x,_player_tile.tile_pos.y,2)
-	Mtools.map_call(explore_tiles(pos,host.account.player.explore),"active",tilemap)
+	_explore(pos,host.account.player.explore)
 	focus_player()
 	
 func focus_player():
@@ -150,16 +145,34 @@ func _input(event):
 			if _selected != null : tilemark.set_cell(_selected.tile_pos.x,_selected.tile_pos.y,-1)
 			_selected = _pressed
 			_pressed = null
-			tilemark.set_cell(_selected.tile_pos.x,_selected.tile_pos.y,0)
 			emit_signal("select_tile",_selected)
 #			printerr(tiles.size())
+func show_path(target):
+	_show_path(_get_path(_player_tile,target))
+
+func _get_path(from,to)->Array: #[tile_id]
+	var start_tile = _get_closest_tile(from,to)
+	if start_tile.id == to.id : return [to.id]
+	dijkstramap.recalculate(start_tile.id,{"terrain_weights": {1:1.0}})
+	var path = dijkstramap.get_shortest_path_from_point(to.id) as Array
+	path.invert()
+	path.append(to.id)
+	return path
 
 func _on_gui_input(event):
 	if event is InputEventScreenTouch or event is InputEventScreenDrag: 
 		event.position += (host.root.size - get_parent().size)/2.0
 		_input(event)
 	
-func explore_tiles(pos,explore): # round(x^0.478/2) f:[0,5]
+func _explore(pos,explore):
+	for tile in _explore_tiles(pos,explore):
+		if not tile.is_actived():
+			var cell_id = randi() % 4 +1
+			tile.aero.active_cell(tile.aero_pos,cell_id)
+			tilemap.set_cell(tile.tile_pos.x,tile.tile_pos.y,cell_id)
+			_add_pathmap_point(tile)
+	
+func _explore_tiles(pos,explore): # round(x^0.478/2) f:[0,5]
 	var tiles := []
 	var size = round(pow(explore,0.478)*0.5)
 	var tile_center = tilemap.world_to_map(_mappos_from_world(pos))
@@ -184,14 +197,17 @@ func _mappos_from_world(pos)->Vector2: # from world position (long,lat)
 func _mappos_to_world(pos)->Vector2: # to world position (long,lat)
 	return _aero.pos + (pos/tilemap.cell_size/cell_scale)* Vector2(1,-1)
 
-func show_path(path):
+func _show_path(path):
+	path_find.clear()
 	for pos in tilemark.get_used_cells_by_id(1):
 		tilemark.set_cell(pos.x,pos.y,-1)
 	for tile_id in path:
 		var tile = _path_tiles[tile_id]
+		path_find.append(tile.center_world_pos)
 		tilemark.set_cell(tile.tile_pos.x,tile.tile_pos.y,1)
+	printerr(path_find)
 
-func get_closest_tile(origin,target):
+func _get_closest_tile(origin,target):
 	if origin.id == target.id : return origin
 	var result
 	var dis_short
@@ -199,11 +215,11 @@ func get_closest_tile(origin,target):
 		var tile = Tile.new(_aero,t)
 		var dis = target.world_pos.distance_squared_to(tile.world_pos) *100
 		if  dis_short == null or dis -dis_short<0:
-			print("update:dis=%s"%dis)
+#			print("update:dis=%s"%dis)
 			dis_short = dis
 			result = tile
 		if dis_short == 0 : break
-	printerr("result:%s"%[result.id])
+#	printerr("result:%s"%[result.id])
 	return result
 
 #static func dis_per_cell(pos) -> Vector2:   # km per cell

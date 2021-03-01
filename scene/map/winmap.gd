@@ -10,11 +10,7 @@ func _on_opened():
 	$Label.text = "%s, player_tile:%s" % [map._aero,map._player_tile.aero_pos]
 	
 func _move(dir,dis):
-	var move = null
-	for action in host.account.player.action_list:
-		if action.type == "move" : move = action
-	if move == null : move = Move.new(host.account.player,{dir:dis},true)
-	move.act()
+	 Move.new(host.account.player,{dir:dis},true).act()
 
 #func _on_root_size_changed():
 #	._on_root_size_changed()
@@ -27,11 +23,11 @@ func _timer_refresh(_delta):
 		map.refresh_map(host.account.aeroer.get_aero())
 	
 func on_tile_selected(tile):
-	$Label.text = "%s[%s],path_id:%s" % [tile.aero,tile.aero_pos,tile.id]
-	var start_tile = map.get_closest_tile(map._player_tile,tile)
-	map.dijkstramap.recalculate(start_tile.id,{"terrain_weights": {1:1.0}})
+	$Label.text = "%s[%s],world_pos:%s" % [tile.aero,tile.aero_pos,tile.world_pos]
+	map.tilemark.set_cell(tile.tile_pos.x,tile.tile_pos.y,0)
+	if tile.is_actived(): map.show_path(tile)
 #	printerr("path :%s"%map.dijkstramap.get_shortest_path_from_point(tile.id))
-	map.show_path(map.dijkstramap.get_shortest_path_from_point(tile.id))
+	
 #	for id in tile.around_tile():
 #		printerr("%s->%s:%s"%[tile.id,id,map.dijkstramap.has_connection(tile.id,id)])
 #	GUITools.message(Aeroer.global_distance(Vector2(0,0),Vector2(0,1)))
@@ -59,3 +55,10 @@ func _on_bt_move_south_pressed():
 
 func _on_bt_focus_player_pressed():
 	map.focus_player()
+
+func _on_bt_move_to_pressed():
+	var move = null
+	for action in host.account.player.action_list:
+		if action.type == "move" : move = action
+	if move == null and map.path_find != null : move = Move.new(host.account.player,map.path_find,true)
+	if move != null : move.act()

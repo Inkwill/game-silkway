@@ -11,7 +11,7 @@ var last_date := 0.0 setget _last_date_setter
 var is_active := false
 var duration := 0.0
 
-func _init(_actor,_args,active=false,_type="action"):
+func _init(_actor,_args=null,active=false,_type="action"):
 	actor = _actor
 	args = _args
 	type = _type
@@ -36,7 +36,7 @@ func _is_finished():
 	else: return true
 
 func _finish():
-	print("Action finish : %s(%s->%s)" % [self,create_date,last_date])
+	print("Action finished : %s(%s->%s)" % [self,create_date,last_date])
 	_terminate()
 
 func _terminate():
@@ -85,7 +85,7 @@ func _last_date_setter(_value):
 	last_date = _value
 
 func _to_string() -> String:
-	return "%s[%s]"%[type,args]
+	return "%s(%s)"%[type,args]
 
 func _init_properties(names,_dic):
 	for name in names:
