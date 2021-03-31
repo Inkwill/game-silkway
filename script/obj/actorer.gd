@@ -12,7 +12,7 @@ func _new_member(_data):
 	
 func _storedata(id):
 	var data = {"name":members[id].name,"assetid":members[id].assetid,
-	"posx":members[id].pos.x,"posy":members[id].pos.y,"ownerid":members[id].ownerid}
+	"posx":members[id].pos.x,"posy":members[id].pos.y,"ownerid":members[id].ownerid,"createdate":members[id].createdate,"perishdate":members[id].perishdate}
 	if members[id].action_list.size()>0: 
 		data["actions"] = JSON.print(Mtools.map_call(members[id].action_list,"_storage_data"))
 		print("Store action %s" % members[id])

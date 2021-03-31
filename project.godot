@@ -85,6 +85,11 @@ _global_script_classes=[ {
 "path": "res://script/obj/figure.gd"
 }, {
 "base": "Object",
+"class": "GMtools",
+"language": "GDScript",
+"path": "res://script/tools/gmtools.gd"
+}, {
+"base": "Object",
 "class": "GUITools",
 "language": "GDScript",
 "path": "res://script/tools/guitools.gd"
@@ -204,6 +209,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/storage-manager/storager.gd"
 }, {
+"base": "JSONRes",
+"class": "Town",
+"language": "GDScript",
+"path": "res://script/obj/town.gd"
+}, {
 "base": "Actor",
 "class": "Troop",
 "language": "GDScript",
@@ -250,6 +260,7 @@ _global_script_class_icons={
 "Effect": "",
 "Event": "",
 "Figure": "",
+"GMtools": "",
 "GUITools": "",
 "GameDB": "",
 "GameDate": "",
@@ -274,6 +285,7 @@ _global_script_class_icons={
 "RNGTools": "",
 "Storage": "",
 "Storager": "",
+"Town": "",
 "Troop": "",
 "Trooper": "",
 "UIActOption": "",
@@ -300,7 +312,7 @@ window/size/height=800
 
 [editor_plugins]
 
-enabled=PoolStringArray( "ImportCleaner" )
+enabled=PoolStringArray( "ImportCleaner", "repl" )
 
 [gui]
 

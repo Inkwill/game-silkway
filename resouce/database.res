@@ -1,12 +1,11 @@
 {
     "event": {
 
-        "id" : {"data_type":"int", "primary_key": true, "not_null": true, "AUTOINCREMENT":true},
-        "pattern":{"data_type":"text","not_null": true},
-        "subject": {"data_type":"text", "not_null": true},
-        "predicate": {"data_type":"text", "not_null": true},
-        "object":{"data_type":"text"},
-        "date":{"data_type":"int","not_null": true}
+        "id" : {"data_type":"int", "primary_key": true, "not_null": true,"AUTOINCREMENT":true},
+        "incidentid" : {"data_type":"int"},
+        "date":{"data_type":"int","not_null": true},
+        "content":{"data_type":"text"},
+        "completed":{"data_type":"int"}
     },
      "actor": {
 
@@ -43,6 +42,7 @@
          "createdate" : {"data_type":"int","not_null": true},
          "perishdate" : {"data_type":"int"},
          "population" : {"data_type":"text"},
-         "cells" : { "data_type":"text"}
+         "cells" : { "data_type":"text"},
+         "towns" : { "data_type":"text"}
     }
 }

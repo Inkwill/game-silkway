@@ -12,7 +12,7 @@ var satiety:int #飽食度 0~100
 
 var date:int
 
-func _init(_owner=null,_data=null).(_owner,_data):
+func _init(_ignore=[]).(_ignore):
 	pass
 
 func _init_data(id):

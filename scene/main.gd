@@ -16,10 +16,13 @@ func _ready():
 	
 	if player.assetid == -1:
 		player.gain(account.asseter.create_member())
+	
+	var capital = aeroer.get_town("ChangAn")
+	if capital== null :capital= Town.new("ChangAn").build()
 
 	date.connect("timer_step",self,"refresh")
+	date.start_timer()
 #	$bt_move.connect("pressed",self,"open_move")
-	player.pos = Vector2(109.1,34.1)
 #	var move = Move.new(host.account.player,{"east":500},true)
 #	move.act()
 	print(date.full_name(account.curday))
@@ -29,24 +32,13 @@ func _ready():
 
 
 func refresh(_delta=null):
-	$Button.text = account.curday as String
 	$bt_Date.text = date.full_name(account.curday)
 	$lb_gold.text = GameDate.get_time_name(account.curday)
-
-	
-func _on_Button_pressed():
-#	var eff = Effect.new("add",{"gold":1})
-#	eff.at(account.asseter.members.values())
-#	$bg2.move_content( (randi()%5+2)*100)
-	var tex = randi()%7+1
-	$Popup/icon.texture = load("res://resouce/icon/icon_00%s.jpg"%tex)
-	$Popup/text.text = str(host.account.aeroer.get_aero().population)#random_text()
-	$Popup.popup()
-	refresh()
-	
-#	var uiaction = load(_path_ui_action).instance()
-#	uiaction.action = Action.new(1)
-#	host.root.add_child(uiaction)
+#	if randi()%10 == 1 :
+#		var tex = randi()%7+1
+#		$Popup/icon.texture = load("res://resouce/icon/icon_00%s.jpg"%tex)
+#		$Popup/text.text = str(host.account.aeroer.get_aero().population)#random_text()
+#		$Popup.popup()
 
 func _on_bt_Date_pressed():
 	var d = GameDate.date_from_juliandate(account.curday)
@@ -62,9 +54,3 @@ func random_text():
 	"曹公以江陵有軍實，恐先主據之，乃釋輜重，輕軍到襄陽。聞先主已過，曹公將精騎五千急追之，一日一夜行三百餘里，及於當陽之長坂。先主棄妻子，與諸葛亮、張飛、趙雲等數十騎走，曹公大獲其人衆輜重。",
 	"諸葛亮字孔明，琅邪陽都人也。漢司隷校尉諸葛豐後也。父珪，字君貢，漢末為太山郡丞。亮早孤，從父玄為袁術所署豫章太守，玄將亮及亮弟均之官。會漢朝更選朱皓代玄。玄素與荊州牧劉表有舊，往依之。"]
 	return dic[randi()%dic.size()]
-
-
-
-func _exit_tree():
-	pass
-

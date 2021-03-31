@@ -23,19 +23,23 @@ func _load_action(actions_data):
 	if not js.error :
 		for dic in js.result :
 			match dic["type"] :
-				"move" : Move.new(self)._load(dic)
-				_: Action.new(self)._load(dic)
+				"move" : add_action(Move.new().load_data(dic))
+				_: add_action(Action.new().load_data(dic))
 	else :push_error("Load action by invaild text: %s(%s)" % [actions_data,js.error])
 
-func act():
-	for action in action_list:
-		if action.is_active : 
-			action.act()
-			
+func add_action(_action):
+	_action.active(self)
+	action_list.append(_action)
+	emit_signal("_s_gameobj_changed",self,"new_action","",_action)
+
 func remove_action(_action):
 	if _action in action_list : action_list.erase(_action)
 	else : push_warning("Missing a action when remove:%s of %s"% [_action,self])
 	
+func perish(date):
+	perishdate = int(date)
+	emit_signal("_s_gameobj_changed",self,"perish","",date)
+
 func gain(sth):
 	if sth is Asset:
 		if asset == null : 

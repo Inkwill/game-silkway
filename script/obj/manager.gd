@@ -12,7 +12,7 @@ func _init(_form,_type):
 	type = _type
 	form = _form
 	gamedb = GameDB.new().gb
-	gamedb.query("SELECT id from %s WHERE perishdate == -1 AND form == '%s';" % [type,form])
+	gamedb.query("SELECT id from %s WHERE form == '%s';" % [type,form])
 #	var datas = gamedb.select_rows(type, "form = %s"%form, ["id"])
 	for data in gamedb.query_result:
 		db_list.append(data["id"])
@@ -47,26 +47,35 @@ func create_member(id=null):
 	else :
 		_data["id"]=id
 		gamedb.insert_rows(type, [_data])
+#		if type == "aero" : printerr("create aero:%s"%[_data])
 	var member = _new_member(_data)
 	_register(member)
 	db_list.append(_data["id"])
 	return member
 	
 func get_member(dic:Dictionary):
-	if "id" in dic and dic.id in members: return members[dic.id]
+	var member = select_member(dic)
+	if member != null :return member
 	var select_condition = "form == '%s'"%form
 	for key in dic:
-		select_condition = select_condition + " AND " + "%s == '%s'"%[key,dic[key]] if dic[key] is String else "%s == %s"%[key,dic[key]]
-#	printerr("select_condition:%s"%[select_condition])
+		select_condition += "AND %s == '%s'"%[key,dic[key]] if dic[key] is String else "AND %s == %s"%[key,dic[key]]
+#	if "perishdate" in dic :printerr("select_condition:%s"%[select_condition])
 	var selected_array = gamedb.select_rows(type, select_condition,["*"]) #GameDB.get_columns(type))
 	if selected_array.size() > 0 :
 		if selected_array.size() > 1 : push_warning("get_member selected more than one result:%s"%[dic])
-		var member = _new_member(selected_array[0])
+		member = _new_member(selected_array[0])
 		_register(member)
 		return member
 	else: push_warning("Try to get a invalid gameobj: %s"% [dic])
 	return null
 
+func select_member(dic:Dictionary):
+	if "id" in dic and dic.id in members: return members[dic.id]
+	if "name" in dic :
+		for member in members.values():
+			if member.name == dic.name : return member
+	return null
+		
 func store_member() :
 	if savers.size() == 0 :return 0
 	var num := 0

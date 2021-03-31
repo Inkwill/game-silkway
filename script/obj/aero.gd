@@ -4,12 +4,19 @@ class_name Aero
 var feature
 var population
 var cells setget _private_setter
+var towns:={}
 
 func _init(_data,_type="aero").(_data,_type):
 	feature = host.aero_data.value(id) if str(id) in host.aero_data.keys() else {"altitude":0,"population":0}
 	pos = Vector2(int(str(id).right(2)),int(str(id).left(2)))
-	if "population" in _data :population = Population.new(self,_data.population)
 	cells = JSON.parse(_data.cells).result
+	if "population" in _data : 
+		population = Population.new()._parse_data(_data.population)
+		population.owner = self
+	var towns_data = JSON.parse(_data.towns).result
+	for town_id in towns_data:
+		towns[town_id] = Town.new(town_id)._parse_data(towns_data[town_id])
+		towns[town_id].owner = self
 
 func update():
 	var population_update = host.account.curday - population.date
@@ -38,8 +45,8 @@ func sunrise():  # quarter
 func sunset():
 	return sunshine_time()/2
 
-func cell_id(pos:Vector2)->String:
-	return "%s,%s"%[pos.x,pos.y]
+func cell_id(pos:Vector2)->String: #local pos
+	return "%s,%s"%[int(pos.x),int(pos.y)]
 
 func cell_value(pos:Vector2):
 	var id = cell_id(pos)

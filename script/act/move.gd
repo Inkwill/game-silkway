@@ -16,16 +16,16 @@ var find_road := false
 var moved_dis := 0.0
 var speed
 
-func _init(_actor,_args=null,_active=false,_type="move").(_actor,_args,_active,_type):
+func _init(_args=null,_type="move").(_args,_type):
 	if _args is Array : move_path = _args
 	elif _args is Dictionary : dir = _args
 
-func _load(dic):
-	._load(dic)
+func load_data(dic):
 	_init_properties(["dir","moved_dis","speed"],dic)
 	for pos in dic["move_path"]:
 		move_path.append(Mtools.vec2_from_string(pos))
 	find_road = dic["find_road"] as bool 
+	return .load_data(dic)
 
 func _do_action(_delta):
 	_act_move(actor.move_speed *_delta)
@@ -34,10 +34,9 @@ func _consume(_duration) -> bool:
 	return true
 
 func _is_finished():
-	var remain
+	var remain = 0
 	if move_path.size() >0: 
 		remain = Aeroer.global_distance(actor.pos,move_path[0])
-		printerr("is_finished:%s"%remain)
 		if abs(remain) <= 0.5 : move_path.remove(0)
 	elif dir.size() >0: remain = dir.values()[0] - moved_dis 
 	return move_path.size() == 0 and abs(remain) <= 0.5 # km
@@ -61,7 +60,7 @@ func _get_next_pos(dis):
 	if move_path.size() > 0:
 		var next_pos = move_path[0]
 		dis = min(dis,Aeroer.global_distance(actor.pos,move_path[0]))
-		printerr("%s->%s,dir:%s"%[actor.pos,next_pos,actor.pos.direction_to(next_pos)])
+#		printerr("%s->%s,dir:%s"%[actor.pos,next_pos,actor.pos.direction_to(next_pos)])
 		return global_pos_moved(actor.pos,actor.pos.direction_to(next_pos) * dis)
 	elif dir.size() > 0:
 		dis = min(dis,dir.values()[0] - moved_dis)

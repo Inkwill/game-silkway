@@ -4,12 +4,10 @@ class_name JSONRes
 var property_list
 var owner
 
-func _init(_owner=null,_data=null):
+func _init(_ignore=[]):
 	property_list = Mtools.dic_values(get_property_list(),"name")
-	property_list = Mtools.erase_list(property_list,["listener","property_list","Script","script","Script Variables"])
-	if _data != "" and _data != null: _parse_data(_data)
-	if _owner != null : owner=_owner
-
+	property_list = Mtools.erase_list(property_list,["owner","listener","property_list","Script","script","Script Variables"])
+	if _ignore.size()>0 :property_list = Mtools.erase_list(property_list,_ignore)
 
 func _parse_data(_data):
 	var js = JSON.parse(_data)
@@ -19,6 +17,7 @@ func _parse_data(_data):
 				set(key,js.result[key])
 #				printerr("_parse_data key:%s->%s"%[key,js.result[key]])
 	else :push_error("Load JSONRes by invaild text: %s(%s)" % [_data,js.error])
+	return self
 
 func _store_data():
 	var data = {}

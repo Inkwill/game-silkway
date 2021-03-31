@@ -11,28 +11,25 @@ var last_date := 0.0 setget _last_date_setter
 var is_active := false
 var duration := 0.0
 
-func _init(_actor,_args=null,active=false,_type="action"):
-	actor = _actor
+func _init(_args=null,_type="action"):
 	args = _args
 	type = _type
-	is_active = active
 	create_date = host.account.curday
 	last_date = create_date
-	actor.action_list.append(self)
-	actor.emit_signal("_s_gameobj_changed",actor,"new_action","",self)
-	 
-func act():
-#	print("Action act! %s" % self)
-	actor.emit_signal("_s_gameobj_changed",actor,"act_action","",self)
+
+func active(_actor):
+	actor = _actor
+	is_active = true
 	if last_date > 0 and (host.account.curday-last_date)*12 > host.account.date.timer_interval : _trace_back(12 * (host.account.curday - last_date))
 	if is_active : 	host.account.date.add_action(self)
 
 func _trace_back(_delta): # trace back
 	print("_trace_back action:%s->%s" % [self,_delta])
+	actor.emit_signal("_s_gameobj_changed",actor,"act_action","",self)
 
 func _is_finished():
 #	print("Action is finish ? %s(%s>=%s)" % [ args["timer"]-duration <= 0.01,duration,args["timer"]])
-	if "timer" in args : return  args["timer"]-duration <= 0.01
+	if args != null and "timer" in args : return  args["timer"]-duration <= 0.01
 	else: return true
 
 func _finish():
@@ -45,13 +42,15 @@ func _terminate():
 	actor.remove_action(self)
 	call_deferred("free")
 
-func _load(_dic):
+func load_data(_dic):
+	if args == null : args = _dic
 	_init_properties(["create_date","last_date","duration"],_dic)
 	is_active = _dic["active"] as bool
-	print("load action: %s-%s" %[self,_dic])
+#	print("load %s" %self)
+	return self
 
 func _do_action(_delta):
-	pass
+	actor.emit_signal("_s_gameobj_changed",actor,"do_action",self,_delta)
 
 func _on_timer_step(_delta):
 	duration += _delta
@@ -85,7 +84,7 @@ func _last_date_setter(_value):
 	last_date = _value
 
 func _to_string() -> String:
-	return "%s(%s)"%[type,args]
+	return "%s(args:%s)"%[type,args]
 
 func _init_properties(names,_dic):
 	for name in names:

@@ -34,3 +34,7 @@ func _on_tween_step(_caller,_key, _elapsed, _value):
 		
 func _on_tween_completed(_caller,_key):
 	if not _caller.is_open :GUITools.tween_postion(ui_content,ui_content.position,content_origin)
+
+
+func _on_bt_observe_pressed():
+	open_window("res://addons/repl/repl_control.tscn")

@@ -47,7 +47,7 @@ func produce_history():
 #			elif key in processed_list and $list_root.has_node(key):
 #				$list_root.get_node(key).queue_free()
 
-func _on_incident_progress(event,progress,total):
+func _on_incident_progress(_event,progress,total):
 	$ProgressBar.max_value = total
 	$ProgressBar.value = progress
 #	print("event completed:%s, progress=%s" % [event,1.0*progress/total])

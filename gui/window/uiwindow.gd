@@ -32,7 +32,7 @@ func show_open():
 	yield(host.tree.create_timer(tw_duration), "timeout")
 	_on_opened()
 
-func show_close():
+func close():
 	is_open = false
 	tween = GUITools.tween_postion(self,tw_to*window_scale, tw_from*window_scale, tw_duration,"queue_free")
 	emit_signal("s_close")

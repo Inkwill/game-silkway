@@ -19,13 +19,14 @@ func init_events():
 		if str(date) in host.account.incidenter.incidents: events += host.account.incidenter.get_incident(date)
 #	events += [{"event":"population_increase","obj":"host:aeroer"}]
 	for i in range(5-events.size()):
-		events += [{"event":"nothing","obj":"name:測試⌚️事件","param":"%s"%i}]
+		events += [{"event":"test","obj":"name:測試⌚️事件","param":"%s"%i}]
 	printerr("%s年:%s"%[year,Mtools.dic_values(events,"event")])
 	
 func process():
 	for i in range(events.size()):
 		var event = Event.new(events[i]).handle()
 		yield(host.tree,"idle_frame")
+		host.account.incidenter.db_save(events[i])
 		emit_signal("progress",event,(i+1.0),events.size())
 	yield(host.tree,"idle_frame")
 	emit_signal("processed",year)

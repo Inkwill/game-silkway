@@ -4,7 +4,7 @@ class_name GameDate
 const _path := "res://resouce/data/chinese_calendar.res"
 const state_transition_duration := 1.0 
 const timer_interval := 0.12 # (大時) 1刻=15min 96刻
-const timer_unit := 1 # 秒/大時
+const timer_unit := 10 # 秒/大時
 
 var action_list := []
 var is_running := false
@@ -19,23 +19,28 @@ signal big_hour_step
 func _init(p_file = _path,indexs :=["first","last"]).(p_file,indexs):
 	pass
 
+func start_timer(restart=false):
+	if not is_running : 
+		if restart : _duration = 0.0
+		is_running = true
+		step_timer(timer_interval)
+	
+func pause_timer():
+	if is_running:
+		print("Pause timer,duration = %s" % _duration)
+		is_running = false
+
 func add_action(_action):
 	if _action in action_list : push_warning("Add a existed action : %s" % _action)
 	else : 
 		action_list.append(_action)
 		Mtools.connect_signals(self,_action,["timer_step","day_step","moon_step","big_hour_step"])
-		if not is_running : run_timer(timer_interval)
 
 func remove_action(_action):
 	if not _action in action_list : return
 	else : 
 		action_list.erase(_action)
 		Mtools.disconnect_signals(self,_action,["timer_step","day_step","moon_step","big_hour_step"])
-
-func run_timer(delta):
-	is_running = true
-	_duration = 0.0
-	step_timer(delta)
 
 func step_timer(delta):
 	yield(host.tree.create_timer(timer_unit*delta),"timeout")
@@ -50,10 +55,7 @@ func step_timer(delta):
 	if is_cross_day(last_day,host.account.curday) : emit_signal("day_step",delta)
 	if is_cross_moon(last_day,host.account.curday) : emit_signal("moon_step",delta)
 	
-	if action_list.size() > 0 and is_running: step_timer(delta)
-	else : 	
-		print("Stop timer,duration = %s" % _duration)
-		is_running = false
+	if is_running: step_timer(delta)
 
 func get_day(jdate) -> float:
 	var datename = value(round(jdate))

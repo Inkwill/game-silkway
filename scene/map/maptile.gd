@@ -3,7 +3,7 @@ class_name MapTile
 
 const cell_scale = Vector2(10,10) # cell num per (long,lat)
 
-var _aero
+var _base_aero
 var _draw_center_aero
 var _pressed
 var _selected
@@ -12,6 +12,8 @@ var _aero_list := []
 var _path_tiles := {}
 var path_find := [] # world_pos
 var dijkstramap
+
+var camera_follow := true
 
 export(Vector2) var map_size
 onready var tilemap = $TileMap
@@ -29,12 +31,12 @@ class Tile:
 	var world_pos:Vector2
 	var center_world_pos:Vector2
 	
-	func _init(_aero,_tilepos):
-		tile_pos = _tilepos
+	func _init(map,pos):
+		tile_pos = pos
 		id = pos_to_id(tile_pos)
 		aero_pos = Vector2(precise_pos(tile_pos.x,cell_scale.x),precise_pos(-1*(tile_pos.y+1),cell_scale.y))
-		aero = host.account.aeroer.get_aero(_aero.pos + Vector2(precise(tile_pos.x/(cell_scale.x)),precise(-1*(tile_pos.y+1)/(cell_scale.y))))
-		world_pos = aero.pos + aero_pos/cell_scale 
+		aero = host.account.aeroer.get_aero(map._base_aero.pos + Vector2(precise(tile_pos.x/(cell_scale.x)),precise(-1*(tile_pos.y+1)/(cell_scale.y))))
+		world_pos = aero.pos + aero_pos/cell_scale
 		center_world_pos = world_pos + Vector2(0.5,0.5)/cell_scale
 
 	static func pos_to_id(tilepos)->int: #saaasbbb,s=1 if negative else 0
@@ -62,8 +64,8 @@ class Tile:
 	func cell_value():
 		return aero.cell_value(aero_pos)
 	
-	func aero_offset(base_aero):
-		return aero.pos - base_aero.pos
+	func aero_offset(center):
+		return aero.pos - center.pos
 	
 	func quadrant():
 		var x = 1 if aero_pos.x/cell_scale.x >0.5 else -1
@@ -82,8 +84,8 @@ class Tile:
 
 func _ready():
 	dijkstramap = DijkstraMap.new()
-	_aero = host.account.aeroer.get_aero()
-	refresh_map(_aero)
+	_base_aero = host.account.aeroer.get_aero()
+	refresh_map(_base_aero)
 	refresh_actor()
 #	printerr("%s==%s"%[_player_tile.tile_pos,Tile.id_to_pos(_player_tile.id)])
 #	var bmp: Rect2 = Rect2(0, 0, 9, 9)
@@ -95,19 +97,19 @@ func _ready():
 func refresh_actor():
 	var pos = host.account.player.pos
 	ui_player.position = _mappos_from_world(pos)
-	_player_tile = Tile.new(_aero,tilemap.world_to_map(_mappos_from_world(pos)))
+	_player_tile = Tile.new(self,tilemap.world_to_map(_mappos_from_world(pos)))
 	for p in tilemark.get_used_cells_by_id(2):
 		tilemark.set_cell(p.x,p.y,-1)
 	tilemark.set_cell(_player_tile.tile_pos.x,_player_tile.tile_pos.y,2)
 	_explore(pos,host.account.player.explore)
-	focus_player()
+	if camera_follow : focus_player()
 	
 func focus_player():
 	GUITools.tween_postion(camera,camera.position,ui_player.position)
 
-func refresh_map(aero,scope=Vector2(0,0)):
+func refresh_map(aero,scope=Vector2(1,1)):
 	_draw_center_aero = aero
-	var offset = aero.pos - _aero.pos
+	var offset = aero.pos - _base_aero.pos
 #	printerr("refresh map :%s"%[aero])
 	for i in range(-scope.x,scope.x+1):
 		for j in range(-scope.y,scope.y+1):
@@ -121,10 +123,11 @@ func _draw(center,aero):
 	for i in cell_scale.x:
 		for j in cell_scale.y:
 			tilemap.set_cell(center.x+i,-1*(center.y+j+1),aero.cell_value(Vector2(i,j)))
-			_add_pathmap_point(Tile.new(aero,Vector2(center.x+i,-1*(center.y+j+1))))
+			_add_pathmap_point(Tile.new(self,Vector2(center.x+i,-1*(center.y+j+1))))
+#			if Vector2(center.x+i,-1*(center.y+j+1)) == Vector2(0,0):printerr("aero:%s,center:%s"%[aero,center])
 			
-	
 func _add_pathmap_point(tile): 
+#	if tile.id == 0:printerr("aero:%s,_add_pathmap_point:%s,actived:%s"%[tile.aero,tile.tile_pos,tile.is_actived()])
 	if tile.is_actived() :
 		_path_tiles[tile.id] = tile
 #		printerr("add point:id=%s,cost=%s"%[tile.id,tile.aero.elevation(tile.aero_pos)])
@@ -138,9 +141,10 @@ func _add_pathmap_point(tile):
 func _input(event):
 	if event is InputEventScreenDrag:
 		if _pressed != null : _pressed = null
+		camera_follow = false
 		camera.position -= event.relative
 	elif event is InputEventScreenTouch:
-		if event.pressed : _pressed = Tile.new(_aero,tilemap.world_to_map(_mappos_from_ui(event.position)))
+		if event.pressed : _pressed = Tile.new(self,tilemap.world_to_map(_mappos_from_ui(event.position)))
 		elif _pressed != null : 
 			if _selected != null : tilemark.set_cell(_selected.tile_pos.x,_selected.tile_pos.y,-1)
 			_selected = _pressed
@@ -178,7 +182,7 @@ func _explore_tiles(pos,explore): # round(x^0.478/2) f:[0,5]
 	var tile_center = tilemap.world_to_map(_mappos_from_world(pos))
 	for i in range(-size+1,size):
 		for j in range(-size+1,size):
-			var tile = Tile.new(_aero,tile_center + Vector2(i,j))
+			var tile = Tile.new(self,tile_center + Vector2(i,j))
 			var offset = (tile.center_world_pos-pos).length_squared()*cell_scale.x*cell_scale.y
 			if size*0.5-offset >= 0 :
 				tiles.append(tile)
@@ -191,11 +195,11 @@ func _mappos_from_ui(pos)->Vector2: # from ui pos
 	return _pos
 
 func _mappos_from_world(pos)->Vector2: # from world position (long,lat)
-	var map_pos = (pos-_aero.pos) * tilemap.cell_size * cell_scale* Vector2(1,-1)
+	var map_pos = (pos-_base_aero.pos) * tilemap.cell_size * cell_scale* Vector2(1,-1)
 	return map_pos
 	
 func _mappos_to_world(pos)->Vector2: # to world position (long,lat)
-	return _aero.pos + (pos/tilemap.cell_size/cell_scale)* Vector2(1,-1)
+	return _base_aero.pos + (pos/tilemap.cell_size/cell_scale)* Vector2(1,-1)
 
 func _show_path(path):
 	path_find.clear()
@@ -205,14 +209,14 @@ func _show_path(path):
 		var tile = _path_tiles[tile_id]
 		path_find.append(tile.center_world_pos)
 		tilemark.set_cell(tile.tile_pos.x,tile.tile_pos.y,1)
-	printerr(path_find)
+#	printerr(path_find)
 
 func _get_closest_tile(origin,target):
 	if origin.id == target.id : return origin
 	var result
 	var dis_short
 	for t in origin.around_tile_pos():
-		var tile = Tile.new(_aero,t)
+		var tile = Tile.new(self,t)
 		var dis = target.world_pos.distance_squared_to(tile.world_pos) *100
 		if  dis_short == null or dis -dis_short<0:
 #			print("update:dis=%s"%dis)

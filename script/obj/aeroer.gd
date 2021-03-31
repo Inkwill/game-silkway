@@ -5,21 +5,23 @@ func _init(form = "aero",type = "aero").(form,type):
 	pass
 	
 func _init_data(_id=null):
-	return Mtools.combine_dic(._init_data(_id),{"population":Population.new()._init_data(_id),"cells":JSON.print({"0,0":0})})
+	var base_data = ._init_data(_id)
+	base_data.posx = int(str(_id).right(2))
+	base_data.posy = int(str(_id).left(2))
+	return Mtools.combine_dic(base_data,{"population":Population.new()._init_data(_id),"cells":JSON.print({"0,0":0}),"towns":JSON.print({})})
 	
 func _new_member(_data):
 	return Aero.new(_data)
 
 func _storedata(id):
-	return {"ownerid":members[id].ownerid,"population":members[id].population._store_data(),"posx":members[id].pos.x,"posy":members[id].pos.y,"cells":JSON.print(members[id].cells)}
+	return {"ownerid":members[id].ownerid,"population":members[id].population._store_data(),"posx":members[id].pos.x,"posy":members[id].pos.y,"cells":JSON.print(members[id].cells),"towns":JSON.print(members[id].towns)}
 
 func get_aero(key = null): #null:cur   Vector2:pos   String:id
 	if key == null : key = host.account.player.pos
 	var id  = aero_id(key) if key is Vector2 else int(key)
-#	printerr("get aero:%s,?in:%s"%[id,id in db_list])
 	var aero = get_member({"id":id}) if id in db_list else create_member(id)
 	return aero
-	
+		
 static func aero_id(pos:Vector2):
 	return int(str(int(pos.y))+str(int(pos.x)))
 
@@ -33,3 +35,16 @@ static func global_unit(pos:Vector2)-> Vector2:
 	var x = global_distance(pos,Vector2(pos.x+1,pos.y))
 	var y = global_distance(pos,Vector2(pos.x,pos.y+1))
 	return Vector2(x,y)
+
+func get_town(id):
+	var town = Town.new(id)
+	var aero = get_aero(Vector2(town.feature.long,town.feature.lat))
+	if id in aero.towns : return aero.towns[id]
+	else : return null
+
+func active_cell(pos:Vector2,value): # world pos
+	var aero = get_aero(pos)
+	var cell_pos = (pos - aero.pos)*10
+	cell_pos = Vector2(round(cell_pos.x),round(cell_pos.y))
+	printerr("active cell:%s->%s"%[aero,cell_pos])
+	aero.active_cell(cell_pos,value)

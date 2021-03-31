@@ -160,3 +160,4 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="pressed" from="pan/container/bt_move" to="." method="_on_bt_move_pressed"]
+[connection signal="pressed" from="pan/container/bt_observe" to="." method="_on_bt_observe_pressed"]

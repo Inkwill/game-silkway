@@ -95,8 +95,9 @@ static func combine_dic(dic1:Dictionary,dic2:Dictionary)->Dictionary:
 
 static func str_split_between(text,left,right)->Array:
 	var result :=[]
-	result.append(text.rsplit(left)[0])
-	result.append(text.rsplit(left)[-1].rsplit(right)[0])
+	if left in text : 
+		result.append(text.rsplit(left)[0])
+		if right in text :result.append(text.rsplit(left)[-1].rsplit(right)[0])
 	return result
 
 static func connect_signals(obj,target,signals):
@@ -111,3 +112,8 @@ static func disconnect_signals(obj,target,signals=null):
 	for s in signals :
 		var fuc = "_on_%s"%s
 		if obj.is_connected(s,target,fuc): obj.disconnect(s,target,fuc)
+
+static func stepify_vec2(vec:Vector2,step:float)->Vector2:
+	var x = stepify(vec.x,step)
+	var y = stepify(vec.y,step)
+	return Vector2(x,y)

@@ -31,7 +31,6 @@ func start():
 		player = trooper.create_member()
 		player_list.append(player.id)
 	print("*** Player start : name = %s, action_num = %s" % [player.name,player.action_list.size()])
-	if player.action_list.size() > 0 : player.act()
 	
 
 func quit_game():

@@ -41,21 +41,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -64.0
-margin_top = -24.0
-margin_right = 64.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 64, 24 )
-custom_fonts/font = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Popup" type="PopupMenu" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -94,4 +79,3 @@ __meta__ = {
 anchor_top = 1.0
 margin_top = -64.0
 [connection signal="pressed" from="bt_Date" to="." method="_on_bt_Date_pressed"]
-[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
