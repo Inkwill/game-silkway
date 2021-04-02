@@ -12,11 +12,11 @@ func _init(_data,_type="aero").(_data,_type):
 	cells = JSON.parse(_data.cells).result
 	if "population" in _data : 
 		population = Population.new()._parse_data(_data.population)
-		population.owner = self
+		population.baser = self
 	var towns_data = JSON.parse(_data.towns).result
 	for town_id in towns_data:
 		towns[town_id] = Town.new(town_id)._parse_data(towns_data[town_id])
-		towns[town_id].owner = self
+		towns[town_id].baser = self
 
 func update():
 	var population_update = host.account.curday - population.date

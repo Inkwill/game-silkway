@@ -18,7 +18,7 @@
         "createdate" : {"data_type":"int","not_null": true},
         "perishdate" : {"data_type":"int"},
         "history" : {"data_type":"text"},
-        "assetid":  {"data_type":"int","foreign_key":"asset.id"},
+        "asset":  {"data_type":"text"},
 	    "actions": {"data_type":"text"}
     },
     "asset": {

@@ -6,11 +6,13 @@ var name:String
 func _init(_name):
 	name = _name
 	
-func establish(dynasty_name,city_name,date):
+func establish(dynasty_name,capital_name,date):
 	var dynasty = host.account.dynastyer.create_member()
 	dynasty.name = dynasty_name
 	dynasty.createdate = date
-	return "%s establish dynasty:%s at %s"%[name,dynasty_name,city_name]
+	var capital = host.account.aeroer.get_town({"name":capital_name})
+	if capital != null : capital.dynasty = dynasty.id
+	return "%s establish dynasty:%s at %s"%[name,dynasty_name,capital_name]
 	
 func inherit(inheriter):
 	return "%s inherit %s" %[self,inheriter]

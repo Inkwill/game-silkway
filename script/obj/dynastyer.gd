@@ -9,7 +9,7 @@ func _init(form = "dynasty").(form):
 
 func _new_member(_data):
 	return Dynasty.new(_data)
-	
+	 
 func launch(_duration): #大時
 	for dynasty in members.values():
 		printerr("Dynasty:%s operation for %s big hours" %[dynasty.name, _duration])

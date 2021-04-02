@@ -39,6 +39,19 @@ func values(keys,column=null):
 		result.append(value(key,column))
 	return result
 
+func get_keys(dic):
+	var results = []
+	for element in content.data:
+		if has_values(element,dic) : results.append(element[0])
+	return results
+
+func has_values(element,dic):
+	for col in dic :
+		var c = content.columns.find(col)
+		if c == -1 : return false
+		elif element[c] != str(dic[col]) : return false
+	return true
+
 static func load_data(filepath,indexs,delim: String = "\t"):
 	var file = File.new()
 	var err = file.open(filepath,File.READ)

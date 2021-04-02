@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scene/map/maptile.tres" type="TileSet" id=1]
 [ext_resource path="res://scene/map/maptile_mark.tres" type="TileSet" id=2]
 [ext_resource path="res://scene/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scene/map/maptile.gd" type="Script" id=4]
+[ext_resource path="res://scene/map/maptile_obj.tres" type="TileSet" id=5]
 
 [node name="maptile" type="Node2D"]
 script = ExtResource( 4 )
@@ -15,6 +16,10 @@ format = 1
 
 [node name="TileMark" type="TileMap" parent="TileMap"]
 tile_set = ExtResource( 2 )
+format = 1
+
+[node name="TileObj" type="TileMap" parent="TileMap"]
+tile_set = ExtResource( 5 )
 format = 1
 
 [node name="Player" parent="." instance=ExtResource( 3 )]

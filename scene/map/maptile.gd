@@ -18,6 +18,7 @@ var camera_follow := true
 export(Vector2) var map_size
 onready var tilemap = $TileMap
 onready var tilemark = $TileMap/TileMark
+onready var tileobj = $TileMap/TileObj
 onready var ui_player = $Player
 onready var camera = $Camera2D
 
@@ -30,14 +31,16 @@ class Tile:
 	var tile_pos:Vector2
 	var world_pos:Vector2
 	var center_world_pos:Vector2
+	var obj
 	
 	func _init(map,pos):
 		tile_pos = pos
 		id = pos_to_id(tile_pos)
-		aero_pos = Vector2(precise_pos(tile_pos.x,cell_scale.x),precise_pos(-1*(tile_pos.y+1),cell_scale.y))
-		aero = host.account.aeroer.get_aero(map._base_aero.pos + Vector2(precise(tile_pos.x/(cell_scale.x)),precise(-1*(tile_pos.y+1)/(cell_scale.y))))
+		aero_pos = Vector2(precise_pos(tile_pos.x,cell_scale.x),precise_pos(-1*(tile_pos.y),cell_scale.y))
+		aero = host.account.aeroer.get_aero(map._base_aero.pos + Vector2(precise(tile_pos.x/(cell_scale.x)),precise(-1*(tile_pos.y)/(cell_scale.y))))
 		world_pos = aero.pos + aero_pos/cell_scale
 		center_world_pos = world_pos + Vector2(0.5,0.5)/cell_scale
+		obj = map.tileobj.get_cell(tile_pos.x,tile_pos.y)
 
 	static func pos_to_id(tilepos)->int: #saaasbbb,s=1 if negative else 0
 		var a = tilepos.x if tilepos.x>=0 else abs(tilepos.x) + 1000
@@ -87,6 +90,7 @@ func _ready():
 	_base_aero = host.account.aeroer.get_aero()
 	refresh_map(_base_aero)
 	refresh_actor()
+	draw_obj(Vector2(109,34),0)
 #	printerr("%s==%s"%[_player_tile.tile_pos,Tile.id_to_pos(_player_tile.id)])
 #	var bmp: Rect2 = Rect2(0, 0, 9, 9)
 #	var pos_to_id = dijkstramap.add_square_grid(bmp)
@@ -106,6 +110,10 @@ func refresh_actor():
 	
 func focus_player():
 	GUITools.tween_postion(camera,camera.position,ui_player.position)
+
+func draw_obj(w_pos,id):
+	var pos = tileobj.world_to_map(_mappos_from_world(w_pos))
+	tileobj.set_cell(pos.x,pos.y,id)
 
 func refresh_map(aero,scope=Vector2(1,1)):
 	_draw_center_aero = aero

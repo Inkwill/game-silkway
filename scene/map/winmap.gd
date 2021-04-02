@@ -33,6 +33,7 @@ func on_tile_selected(tile):
 	$pop_tile/text.add_text("tile_pos:%s\n"%tile.tile_pos)
 	$pop_tile/text.add_text("aero_pos:%s\n"%tile.aero_pos)
 	$pop_tile/text.add_text("world_pos:%s\n"%tile.world_pos)
+	$pop_tile/text.add_text("obj:%s\n"%tile.obj)
 	$pop_tile.popup()
 	$pop_tile/bt_move.disabled = !tile.is_actived()
 	

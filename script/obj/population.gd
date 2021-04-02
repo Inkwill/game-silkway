@@ -28,7 +28,7 @@ func update(): #by year
 	var old_number = number
 	number = int(old_number * pow(1 + birth_rate - mortality,year))
 	date = host.account.curday
-	owner.emit_signal("_s_gameobj_changed",owner,"population",old_number,number)
+	baser.emit_signal("_s_gameobj_changed",baser,"population",old_number,number)
 	
 	
 func _to_string():

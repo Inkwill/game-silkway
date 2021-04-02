@@ -12,6 +12,7 @@ const startDate := {"year":-140,"month":11,"day":01,"hour":12} # 西漢武帝 �
 
 var aero_data = GameTable.new("res://resouce/data/aero.res")
 
+
 var res_loader
 
 func _ready():
