@@ -36,7 +36,7 @@ func on_tile_selected(tile):
 	$pop_tile/text.add_text("obj:%s\n"%tile.obj)
 	$pop_tile.popup()
 	$pop_tile/bt_move.disabled = !tile.is_actived()
-	
+#	printerr("w_pos:%s,aero_pos:%s"%[tile.world_pos,tile.aero.pos_from_world(tile.world_pos)])
 #	text_win.add_text("id:%s\n"%tile.id)
 #	text_win.add_text("aero:%s\n"%tile.aero) 
 #	text_win.add_text("tile_pos:%s\n"%tile.tile_pos)

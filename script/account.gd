@@ -18,7 +18,7 @@ func _init(p_name = "",p_curday = 0.0,p_players = []):
 	player_list = p_players
 	curday = p_curday
 
-func start():
+func start(_begin=false):
 	date = GameDate.new()
 	aeroer = Aeroer.new()
 	asseter = Asseter.new()
@@ -31,7 +31,7 @@ func start():
 		player = trooper.create_member()
 		player_list.append(player.id)
 	print("*** Player start : name = %s, action_num = %s" % [player.name,player.action_list.size()])
-	
+	if _begin : incidenter.process_date(curday)
 
 func quit_game():
 	date.is_running = false

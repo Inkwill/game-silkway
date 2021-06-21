@@ -30,7 +30,6 @@ class Tile:
 	var aero_pos:Vector2
 	var tile_pos:Vector2
 	var world_pos:Vector2
-	var center_world_pos:Vector2
 	var obj
 	
 	func _init(map,pos):
@@ -39,7 +38,6 @@ class Tile:
 		aero_pos = Vector2(precise_pos(tile_pos.x,cell_scale.x),precise_pos(-1*(tile_pos.y),cell_scale.y))
 		aero = host.account.aeroer.get_aero(map._base_aero.pos + Vector2(precise(tile_pos.x/(cell_scale.x)),precise(-1*(tile_pos.y)/(cell_scale.y))))
 		world_pos = aero.pos + aero_pos/cell_scale
-		center_world_pos = world_pos + Vector2(0.5,0.5)/cell_scale
 		obj = map.tileobj.get_cell(tile_pos.x,tile_pos.y)
 
 	static func pos_to_id(tilepos)->int: #saaasbbb,s=1 if negative else 0
@@ -90,7 +88,7 @@ func _ready():
 	_base_aero = host.account.aeroer.get_aero()
 	refresh_map(_base_aero)
 	refresh_actor()
-	draw_obj(Vector2(109,34),0)
+	refresh_obj()
 #	printerr("%s==%s"%[_player_tile.tile_pos,Tile.id_to_pos(_player_tile.id)])
 #	var bmp: Rect2 = Rect2(0, 0, 9, 9)
 #	var pos_to_id = dijkstramap.add_square_grid(bmp)
@@ -113,7 +111,7 @@ func focus_player():
 
 func draw_obj(w_pos,id):
 	var pos = tileobj.world_to_map(_mappos_from_world(w_pos))
-	tileobj.set_cell(pos.x,pos.y,id)
+	tileobj.set_cell(pos.x,pos.y,tileobj.tile_set.find_tile_by_name(str(id)))
 
 func refresh_map(aero,scope=Vector2(1,1)):
 	_draw_center_aero = aero
@@ -126,11 +124,15 @@ func refresh_map(aero,scope=Vector2(1,1)):
 				_draw(Vector2((i+offset.x)*cell_scale.x,(j+offset.y)*cell_scale.y),aero_draw)
 				_aero_list.append(aero_draw)
 
+func refresh_obj():
+	for aero in _aero_list:
+		for townid in aero.towns:
+			draw_obj(aero.towns[townid].pos,aero.towns[townid].type)
+
 func _draw(center,aero):
-#	printerr("_draw map :%s"%[center])
 	for i in cell_scale.x:
 		for j in cell_scale.y:
-			tilemap.set_cell(center.x+i,-1*(center.y+j+1),aero.cell_value(Vector2(i,j)))
+			tilemap.set_cell(center.x+i,-1*(center.y+j),aero.cell_value(Vector2(i,j)))
 			_add_pathmap_point(Tile.new(self,Vector2(center.x+i,-1*(center.y+j+1))))
 #			if Vector2(center.x+i,-1*(center.y+j+1)) == Vector2(0,0):printerr("aero:%s,center:%s"%[aero,center])
 			
@@ -177,7 +179,9 @@ func _on_gui_input(event):
 		_input(event)
 	
 func _explore(pos,explore):
+#	printerr("explore pos:%s of %s"%[pos,explore])
 	for tile in _explore_tiles(pos,explore):
+#		printerr("tile:%s"%[tile.world_pos])
 		if not tile.is_actived():
 			var cell_id = randi() % 4 +1
 			tile.aero.active_cell(tile.aero_pos,cell_id)
@@ -186,14 +190,17 @@ func _explore(pos,explore):
 	
 func _explore_tiles(pos,explore): # round(x^0.478/2) f:[0,5]
 	var tiles := []
-	var size = round(pow(explore,0.478)*0.5)
-	var tile_center = tilemap.world_to_map(_mappos_from_world(pos))
-	for i in range(-size+1,size):
-		for j in range(-size+1,size):
-			var tile = Tile.new(self,tile_center + Vector2(i,j))
-			var offset = (tile.center_world_pos-pos).length_squared()*cell_scale.x*cell_scale.y
-			if size*0.5-offset >= 0 :
-				tiles.append(tile)
+	var x_size = Mtools.array_multiply(range(cell_scale.x*(pos.x-explore),cell_scale.x*(pos.x+explore)+1),1/cell_scale.x)
+	var y_size = Mtools.array_multiply(range(cell_scale.y*(pos.y-explore),cell_scale.y*(pos.y+explore)+1),1/cell_scale.y)
+	for i in x_size:
+		for j in y_size:
+#			printerr("find:%s"%Vector2(i,j))
+			var tile_pos = tilemap.world_to_map(_mappos_from_world(Mtools.stepify_vec2(Vector2(i,j),0.1)))
+#			printerr("tile_pos:%s"%tile_pos)
+			var tile = Tile.new(self,tile_pos)
+			var offset = (tile.world_pos-pos).length()
+#			printerr("offset:%s"%offset)
+			if explore-offset >= 0 :tiles.append(tile)
 	return tiles	
 
 func _mappos_from_ui(pos)->Vector2: # from ui pos
@@ -203,7 +210,7 @@ func _mappos_from_ui(pos)->Vector2: # from ui pos
 	return _pos
 
 func _mappos_from_world(pos)->Vector2: # from world position (long,lat)
-	var map_pos = (pos-_base_aero.pos) * tilemap.cell_size * cell_scale* Vector2(1,-1)
+	var map_pos = (pos-_base_aero.pos) * tilemap.cell_size * cell_scale* Vector2(1,-1) + tilemap.cell_size*Vector2(0.5,0.5)
 	return map_pos
 	
 func _mappos_to_world(pos)->Vector2: # to world position (long,lat)
@@ -215,7 +222,7 @@ func _show_path(path):
 		tilemark.set_cell(pos.x,pos.y,-1)
 	for tile_id in path:
 		var tile = _path_tiles[tile_id]
-		path_find.append(tile.center_world_pos)
+		path_find.append(tile.world_pos)
 		tilemark.set_cell(tile.tile_pos.x,tile.tile_pos.y,1)
 #	printerr(path_find)
 

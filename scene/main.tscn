@@ -78,4 +78,5 @@ __meta__ = {
 [node name="uicommand" parent="." instance=ExtResource( 1 )]
 anchor_top = 1.0
 margin_top = -64.0
+
 [connection signal="pressed" from="bt_Date" to="." method="_on_bt_Date_pressed"]

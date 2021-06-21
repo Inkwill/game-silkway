@@ -16,3 +16,4 @@ id	date	event	obj	param
 15	1689735	dynasty_inherit	name:武帝;name:昭帝	
 16	1694551	dynasty_inherit	name:昭帝;name:宣帝	
 17	1703902	dynasty_inherit	name:宣帝;name:元帝	
+18	1670231	town_build	name:長安	capital	

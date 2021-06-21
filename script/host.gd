@@ -16,19 +16,21 @@ var aero_data = GameTable.new("res://resouce/data/aero.res")
 var res_loader
 
 func _ready():
-	creat_account()
-
-func creat_account():
-	if storager.bind(account) == OK: storager.load_storage()
+	if storager.bind(account) == OK: 
+		storager.load_storage()
+		account.start()
 	else : 
-		print("****Create account****")
-		storager.creat_storage()
-		print("creat storage completed!")
-		GameDB.new().create_db(db_file)
-		print("creat db completed!")
-		account.curday = GameDate.get_juliandate(startDate)
-		print("****Create account completed****")
-	account.start()
+		creat_account()
+		account.start(true)
+	
+func creat_account():
+	print("****Create account****")
+	storager.creat_storage()
+	print("creat storage completed!")
+	GameDB.new().create_db(db_file)
+	print("creat db completed!")
+	account.curday = GameDate.get_juliandate(startDate)
+	print("****Create account completed****")
 
 func goto_scene(path):
 	res_loader = load("res://gui/ui_res_loader/res_loader.tscn").instance()

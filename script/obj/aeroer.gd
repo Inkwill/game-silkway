@@ -38,15 +38,15 @@ static func global_unit(pos:Vector2)-> Vector2:
 	var y = global_distance(pos,Vector2(pos.x,pos.y+1))
 	return Vector2(x,y)
 
-func get_town(dic): #id or name
+func get_town(dic): #{key:value}
 	var id = dic.id if "id" in dic else null
 	if id == null:
 		var keys = town_data.get_keys(dic)
 		id = keys[0] if keys.size() > 0 else null
-	if id != null:
-		var pos = Vector2(town_data.value(id).long,town_data.value(id).lat)
-		var aero = get_aero(pos)
-		return aero.towns[id] if id in aero.towns else null
+	if id != null and id in town_data.keys():
+		var town = Town.new(id)
+		var aero = get_aero(town.pos)
+		return aero.towns[id] if id in aero.towns else town
 	else : return null
 
 func active_cell(pos:Vector2,value): # world pos

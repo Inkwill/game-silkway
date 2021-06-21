@@ -45,6 +45,9 @@ func sunrise():  # quarter
 func sunset():
 	return sunshine_time()/2
 
+func pos_from_world(w_pos:Vector2)->Vector2: #(long,lat) -> aero_pos
+	return Mtools.stepify_vec2((w_pos - pos),0.1)*MapTile.cell_scale
+	
 func cell_id(pos:Vector2)->String: #local pos
 	return "%s,%s"%[int(pos.x),int(pos.y)]
 
@@ -55,14 +58,14 @@ func cell_value(pos:Vector2):
 func is_actived_cell(pos) -> bool:
 	if not cell_id(pos) in cells : return false
 	else : return cell_value(pos)>0
-	
-func active_cell(pos,value):
+
+func active_cell(pos,value): #local pos
 	var id = cell_id(pos)
 	if is_actived_cell(pos):push_warning("Illegal operation : repeat active cell![%s,cell:%s] "%[self,id])
 	else : 
 		cells[id] = value
 		emit_signal("_s_gameobj_changed",self,"cell","",{id:value})
-		
+
 func elevation(pos):
 	var loaded = host.storager.load_json("res://resouce/data/elevation/%s.json"%id)
 	if loaded is Dictionary and "data" in loaded:

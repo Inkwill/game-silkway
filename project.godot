@@ -54,7 +54,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://script/obj/asseter.gd"
 }, {
-"base": "",
+"base": "Reference",
 "class": "DijkstraMap",
 "language": "NativeScript",
 "path": "res://addons/dijkstra-map/Dijkstra_map_library/nativescript.gdns"
@@ -123,11 +123,6 @@ _global_script_classes=[ {
 "class": "History",
 "language": "GDScript",
 "path": "res://script/data/history.gd"
-}, {
-"base": "Object",
-"class": "Incident",
-"language": "GDScript",
-"path": "res://script/data/incident.gd"
 }, {
 "base": "GameTable",
 "class": "Incidenter",
@@ -268,7 +263,6 @@ _global_script_class_icons={
 "GameTable": "",
 "HFlowContainer": "res://gui/control/h_flow_container.svg",
 "History": "",
-"Incident": "",
 "Incidenter": "",
 "InputEventMultiScreenDrag": "",
 "InputEventScreenPinch": "",

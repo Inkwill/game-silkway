@@ -11,7 +11,9 @@ func establish(dynasty_name,capital_name,date):
 	dynasty.name = dynasty_name
 	dynasty.createdate = date
 	var capital = host.account.aeroer.get_town({"name":capital_name})
-	if capital != null : capital.dynasty = dynasty.id
+	if capital != null:
+		if capital.baser == null : capital.build("capital")
+		capital.occupy(dynasty.name)
 	return "%s establish dynasty:%s at %s"%[name,dynasty_name,capital_name]
 	
 func inherit(inheriter):

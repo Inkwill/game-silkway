@@ -17,9 +17,11 @@ func _ready():
 	if player.assetid == -1:
 		player.gain(account.asseter.create_member())
 	
-	var capital = aeroer.get_town({"long":108.8835,"lat":35})
-#	if capital== null :capital= Town.new("ChangAn").build(Town.TYPE.BIGCITY)
-	if capital != null :printerr(capital.name)
+#	var capital = aeroer.get_town({"long":108.8835,"lat":34.3194})
+#	if capital== null :
+#		capital= Town.new("ChangAn")
+#		capital.baser.build(capital,Town.TYPE.VILLAGE)
+#	if capital != null :printerr(capital.name)
 
 	date.connect("timer_step",self,"refresh")
 	date.start_timer()

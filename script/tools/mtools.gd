@@ -117,3 +117,9 @@ static func stepify_vec2(vec:Vector2,step:float)->Vector2:
 	var x = stepify(vec.x,step)
 	var y = stepify(vec.y,step)
 	return Vector2(x,y)
+
+static func array_multiply(arr:Array,scalor)->Array:
+	var result := []
+	for e in arr:
+		result.append(e*scalor)
+	return result
