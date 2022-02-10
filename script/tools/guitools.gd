@@ -26,15 +26,17 @@ static func	tween_color(target,from,to,duration =1,callback=null):
 	else: 
 		tw = Tween.new()
 		tw.name = "tween"
-		target.add_child(tw)
 	var cr = ColorRect.new()
+	target.add_child(cr)
 	cr.add_child(tw)
 	set_rect_full(cr)
 	
 	tw.interpolate_property(cr,"color",from,to,duration,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	if callback != null : tw.interpolate_deferred_callback(target,duration,callback)
+	#if callback != null : tw.interpolate_deferred_callback(target,duration,callback)
 	if not tw.is_active():tw.start()
-	return tw
+	yield(host.tree.create_timer(duration),"timeout")
+	if callback != null : target.call_deferred(callback)
+	cr.queue_free()
 
 
 static func message(message,duration=1,wide=480):

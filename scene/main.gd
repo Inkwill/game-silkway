@@ -24,7 +24,7 @@ func _ready():
 #	if capital != null :printerr(capital.name)
 
 	date.connect("timer_step",self,"refresh")
-	date.start_timer()
+	#date.start_timer()
 #	$bt_move.connect("pressed",self,"open_move")
 #	var move = Move.new(host.account.player,{"east":500},true)
 #	move.act()

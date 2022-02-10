@@ -74,11 +74,12 @@ __meta__ = {
 [node name="import_filedialog" type="FileDialog" parent="."]
 margin_right = 538.0
 margin_bottom = 302.0
-window_title = "Open a File"
+window_title = "打开文件"
 mode = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="text_entered" from="VBoxContainer/HBoxContainer/input" to="." method="_on_input_text_entered"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/import" to="." method="_on_import_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/eval" to="." method="_on_eval_pressed"]

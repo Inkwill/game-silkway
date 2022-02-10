@@ -34,7 +34,7 @@ func creat_account():
 
 func goto_scene(path):
 	res_loader = load("res://gui/ui_res_loader/res_loader.tscn").instance()
-	GUITools.tween_color(root,Color(0,0,0,0),Color(0,0,0,1),1)
+	GUITools.tween_color(root,Color(0,0,0,0),Color(0,0,0,1),5)
 	root.add_child(res_loader)
 	res_loader.connect("_load_finished",self,"_on_loader_finished")
 	res_loader.call_deferred("load_res",path)
@@ -51,7 +51,7 @@ func _on_loader_finished(resource):
 	# Set as current scene.
 	tree.current_scene = new_scene
 	res_loader.queue_free()
-	GUITools.tween_color(root,Color(0,0,0,1),Color(0,0,0,0),1)
+	GUITools.tween_color(root,Color(0,0,0,1),Color(0,0,0,0),5)
 
 func _exit_tree():
 	account.quit_game()
