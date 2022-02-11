@@ -306,7 +306,7 @@ window/size/height=800
 
 [editor_plugins]
 
-enabled=PoolStringArray( "ImportCleaner", "repl" )
+enabled=PoolStringArray( "res://addons/ImportCleaner/plugin.cfg", "res://addons/repl/plugin.cfg", "res://addons/vnen.tiled_importer/plugin.cfg" )
 
 [gui]
 
@@ -319,3 +319,7 @@ pointing/emulate_touch_from_mouse=true
 [rendering]
 
 environment/default_environment="res://default_env.tres"
+
+[tiled_importer]
+
+enable_json_format=false

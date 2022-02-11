@@ -21,7 +21,7 @@ func active(_actor):
 	actor = _actor
 	is_active = true
 	if last_date > 0 and (host.account.curday-last_date)*12 > host.account.date.timer_interval : _trace_back(12 * (host.account.curday - last_date))
-	if is_active : 	host.account.date.add_action(self)
+	if is_active : 	Mtools.connect_signals(host.account.date,self,["timer_step","day_step","moon_step","big_hour_step"])
 
 func _trace_back(_delta): # trace back
 	print("_trace_back action:%s->%s" % [self,_delta])
@@ -38,7 +38,7 @@ func _finish():
 
 func _terminate():
 	is_active = false
-	host.account.date.remove_action(self)
+	Mtools.disconnect_signals(host.account.date,self,["timer_step","day_step","moon_step","big_hour_step"])
 	actor.remove_action(self)
 	call_deferred("free")
 

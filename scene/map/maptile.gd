@@ -183,9 +183,8 @@ func _explore(pos,explore):
 	for tile in _explore_tiles(pos,explore):
 #		printerr("tile:%s"%[tile.world_pos])
 		if not tile.is_actived():
-			var cell_id = randi() % 4 +1
-			tile.aero.active_cell(tile.aero_pos,cell_id)
-			tilemap.set_cell(tile.tile_pos.x,tile.tile_pos.y,cell_id)
+			tile.aero.active_cell(tile.aero_pos)
+			tilemap.set_cell(tile.tile_pos.x,tile.tile_pos.y,tile.cell_value())
 			_add_pathmap_point(tile)
 	
 func _explore_tiles(pos,explore): # round(x^0.478/2) f:[0,5]

@@ -59,12 +59,13 @@ func is_actived_cell(pos) -> bool:
 	if not cell_id(pos) in cells : return false
 	else : return cell_value(pos)>0
 
-func active_cell(pos,value): #local pos
+func active_cell(pos): #local pos
 	var id = cell_id(pos)
+	var value = randi() % 4 +1
 	if is_actived_cell(pos):push_warning("Illegal operation : repeat active cell![%s,cell:%s] "%[self,id])
 	else : 
 		cells[id] = value
-		emit_signal("_s_gameobj_changed",self,"cell","",{id:value})
+		emit_signal("_s_gameobj_changed",self,"cell","",{id:cells[id]})
 
 func elevation(pos):
 	var loaded = host.storager.load_json("res://resouce/data/elevation/%s.json"%id)

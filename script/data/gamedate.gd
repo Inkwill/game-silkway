@@ -6,7 +6,6 @@ const state_transition_duration := 1.0
 const timer_interval := 0.12 # (大時) 1刻=15min 96刻
 const timer_unit := 10 # 秒/大時
 
-var action_list := []
 var is_running := false
 var _duration := 0.0
 
@@ -29,18 +28,6 @@ func pause_timer():
 	if is_running:
 		print("Pause timer,duration = %s" % _duration)
 		is_running = false
-
-func add_action(_action):
-	if _action in action_list : push_warning("Add a existed action : %s" % _action)
-	else : 
-		action_list.append(_action)
-		Mtools.connect_signals(self,_action,["timer_step","day_step","moon_step","big_hour_step"])
-
-func remove_action(_action):
-	if not _action in action_list : return
-	else : 
-		action_list.erase(_action)
-		Mtools.disconnect_signals(self,_action,["timer_step","day_step","moon_step","big_hour_step"])
 
 func step_timer(delta):
 	yield(host.tree.create_timer(timer_unit*delta),"timeout")
